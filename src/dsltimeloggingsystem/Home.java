@@ -2,6 +2,8 @@ package dsltimeloggingsystem;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenuBar;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,27 +26,19 @@ public class Home extends javax.swing.JFrame {
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
-        List<User> employees = new ArrayList<User>();
-        employees = DB.getUsers();
+        List<Attendance> attendanceList = new ArrayList<Attendance>();
+        attendanceList = DB.getAttendance();
         
         model.addColumn("Employee ID");
         model.addColumn("Name");
+        model.addColumn("Log Date");
         model.addColumn("Time In");
         model.addColumn("Time Out");
-        model.addColumn("Rate");
-        model.addColumn("Address");
-        model.addColumn("Mobile Number");
-        model.addColumn("SSS Number");
-        model.addColumn("PhilHealth Number");
-        model.addColumn("Pagibig Number");
-        model.addColumn("Tin Number");
-        model.addColumn("Role");
+        model.addColumn("Duration");
         
-        for(int i = 0; i < employees.size(); i++){
-            System.out.println(employees.get(i).getTinNumber());
-            Object [] rowData = {employees.get(i).getEmployeeID(), employees.get(i).getFirstName() +" " + employees.get(i).getLastName(), employees.get(i).getTimeIn(), employees.get(i).getTimeOut(), 
-                employees.get(i).getRate(), employees.get(i).getAddress(), employees.get(i).getMobileNumber(), employees.get(i).getSSSNumber(), employees.get(i).getPhilHealthNumber()
-                ,employees.get(i).getPagibigNumber(), employees.get(i).getTinNumber(), employees.get(i).getRole()};
+        for(int i = 0; i < attendanceList.size(); i++){
+            Object [] rowData = {attendanceList.get(i).getEmployeeID(), attendanceList.get(i).getFirstName() +" " + attendanceList.get(i).getLastName(), attendanceList.get(i).getLogDate(), attendanceList.get(i).getTimeIn(), attendanceList.get(i).getTimeOut(), 
+                attendanceList.get(i).getDuration()};
             model.addRow(rowData);
         }
        
@@ -201,7 +195,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
                 .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -217,7 +211,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -235,13 +229,21 @@ public class Home extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu menu = new Menu(this.sessionEmployeeID);
-        menu.setTitle("DSL Time Logging | Menu");
-        menu.pack();
-        menu.setLocationRelativeTo(null);
-        menu.setDefaultCloseOperation(0);
-        menu.setDefaultCloseOperation(0);
-        menu.setVisible(true);
+        Menu menu;
+        try {
+            menu = new Menu(this.sessionEmployeeID);
+            menu.setTitle("DSL Time Logging | Menu");
+            menu.pack();
+            menu.setLocationRelativeTo(null);
+            menu.setDefaultCloseOperation(0);
+            menu.setDefaultCloseOperation(0);
+            menu.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

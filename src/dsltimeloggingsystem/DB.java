@@ -53,12 +53,40 @@ public class DB {
        return conn;
     }
     
+    public static PayrollClass getPayrollList(){
+        PayrollClass list = new PayrollClass();
+        //SELECT a.employeeID, firstName, lastName, (Select SUM(amount) from bonus where employeeID = 21231 and month(appliedDate) = 1) as 'BonusAmount', sssDeduction, philHealthDeduction, pagibigDeduction, (select count(case when TIMESTAMPDIFF(HOUR, b.timeIn, b.timeOut) > 8 then 1 else null end)) as 'NormalWorkingDay' FROM users a, logs b WHERE a.employeeID = 21231 and b.employeeID = a.employeeID;
+        return list;
+    }
     public static Timestamp getCurrentTimeStamp(){
         Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
         
         return timeStamp;
     }
     
+    public static List<Attendance> getAttendance() throws ClassNotFoundException, SQLException{
+        List<Attendance> attendanceList = new ArrayList<Attendance>();
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from logs a, users b where day(a.logDate) = 12 and a.employeeID = b.employeeID;");
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            Attendance attendance = new Attendance();
+            
+            attendance.setEmployeeID(rs.getInt(1));
+            attendance.setFirstName(rs.getString(2));
+            attendance.setLastName(rs.getString(3));
+            attendance.setLogDate(rs.getTimestamp(4));
+            attendance.setTimeIn(rs.getTimestamp(5));
+            attendance.setTimeOut(rs.getTimestamp(6));
+            attendance.setDuration(rs.getInt(7));
+            
+            attendanceList.add(attendance);
+        }
+        c.close();
+        return attendanceList;
+        
+    }
     public static int getCashAdvance(int employeeID) throws ClassNotFoundException, SQLException{
         int totalCashAdvance = 0;
         

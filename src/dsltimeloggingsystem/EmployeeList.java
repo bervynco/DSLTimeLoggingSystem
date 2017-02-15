@@ -183,12 +183,19 @@ public class EmployeeList extends javax.swing.JFrame {
     private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu menu = new Menu(this.sessionEmployeeID);
-        menu.setTitle("DSL Time Logging | Menu");
-        menu.pack();
-        menu.setLocationRelativeTo(null);
-        menu.setDefaultCloseOperation(0);
-        menu.setVisible(true);
+        try {
+            Menu menu = new Menu(this.sessionEmployeeID);
+            menu.setTitle("DSL Time Logging | Menu");
+            menu.pack();
+            menu.setLocationRelativeTo(null);
+            menu.setDefaultCloseOperation(0);
+            menu.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnMainMenuActionPerformed
 
     /**

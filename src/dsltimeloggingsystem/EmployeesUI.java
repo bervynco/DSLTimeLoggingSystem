@@ -220,12 +220,20 @@ public class EmployeesUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu menu = new Menu(employeeID);
-        menu.setTitle("DSL Time Logging | Menu");
-        menu.pack();
-        menu.setLocationRelativeTo(null);
-        menu.setDefaultCloseOperation(0);
-        menu.setVisible(true);
+        try {
+            Menu menu = new Menu(employeeID);
+            menu.setTitle("DSL Time Logging | Menu");
+            menu.pack();
+            menu.setLocationRelativeTo(null);
+            menu.setDefaultCloseOperation(0);
+            menu.setVisible(true);
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed

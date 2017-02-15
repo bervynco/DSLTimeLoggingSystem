@@ -89,6 +89,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btnReports.setText("Reports");
+        btnReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportsActionPerformed(evt);
+            }
+        });
 
         btnLogout.setText("Log Out");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +239,17 @@ public class Menu extends javax.swing.JFrame {
         condition.setDefaultCloseOperation(0);
         condition.setVisible(true);
     }//GEN-LAST:event_btnSalaryConditionActionPerformed
+
+    private void btnReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportsActionPerformed
+        // TODO add your handling code here:
+        Reports report = new Reports(this.sessionEmployeeID);
+        report.setTitle("DSL Time Logging | Generate Report");
+        report.pack();
+        report.setLocationRelativeTo(null);
+        report.setDefaultCloseOperation(0);
+        report.setVisible(true);
+        
+    }//GEN-LAST:event_btnReportsActionPerformed
 
     /**
      * @param args the command line arguments

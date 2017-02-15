@@ -1,2 +1,0 @@
-SalaryCondition$1
-SalaryCondition
