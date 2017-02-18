@@ -15,7 +15,8 @@ public class SalaryClaim extends javax.swing.JFrame {
     private static int totalCashAdvance = 0;
     private static int totalLoan = 0;
     private static int totalRegularWorkingHours = 0; // 8 and above working hours
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
+    
     public void fillFields(int employeeID) throws ClassNotFoundException, SQLException{
         User user = DB.getUserDetails(employeeID);
         totalBonus = DB.getBonus(employeeID);
@@ -42,9 +43,9 @@ public class SalaryClaim extends javax.swing.JFrame {
         Font boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
         lblSalary.setFont(boldFont);
     }
-    public SalaryClaim(int employeeID) {
+    public SalaryClaim(User user) {
         initComponents();
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
 
     /**
@@ -275,7 +276,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         EmployeeList list;
         try {
             this.setVisible(false);
-            list = new EmployeeList(this.sessionEmployeeID);
+            list = new EmployeeList(this.sessionUser);
             list.setTitle("DSL Time Logging | List of Emoloyees");
             list.pack();
             list.setLocationRelativeTo(null);

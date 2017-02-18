@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author bendrhick
  */
 public class EmployeeList extends javax.swing.JFrame {
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
@@ -40,11 +40,11 @@ public class EmployeeList extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    public EmployeeList(int employeeID) throws ClassNotFoundException, SQLException {
+    public EmployeeList(User user) throws ClassNotFoundException, SQLException {
         DefaultTableModel model = EmployeeList.FillTable();
         initComponents();
         jTable2.setModel(model);
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
 
     /**
@@ -90,6 +90,11 @@ public class EmployeeList extends javax.swing.JFrame {
         button1.setName(""); // NOI18N
 
         button2.setLabel("Cancel");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -165,7 +170,7 @@ public class EmployeeList extends javax.swing.JFrame {
         int row = jTable2.rowAtPoint(evt.getPoint());
         int employeeID = (int) jTable2.getValueAt(row, 0);
         this.setVisible(false);
-        SalaryClaim salary = new SalaryClaim(this.sessionEmployeeID);
+        SalaryClaim salary = new SalaryClaim(this.sessionUser);
         try {
             salary.fillFields(employeeID);
         } catch (ClassNotFoundException ex) {
@@ -184,7 +189,7 @@ public class EmployeeList extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
-            Menu menu = new Menu(this.sessionEmployeeID);
+            Menu menu = new Menu( this.sessionUser);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);
@@ -197,6 +202,25 @@ public class EmployeeList extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnMainMenuActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        // TODO add your handling code here:
+        EmployeeList list;
+        try {
+            this.setVisible(false);
+            list = new EmployeeList(this.sessionUser);
+            list.setTitle("DSL Time Logging | List of Emoloyees");
+            list.pack();
+            list.setLocationRelativeTo(null);
+            list.setDefaultCloseOperation(0);
+            list.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_button2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -9,9 +9,9 @@ public class Reports extends javax.swing.JFrame {
     /**
      * Creates new form Reports
      */
-    private static int sessionEmployeeID = 0;
-    public Reports(int employeeID) {
-        this.sessionEmployeeID = employeeID;
+    private static User sessionUser = null;
+    public Reports(User user) {
+        this.sessionUser = user;
         initComponents();
     }
 
@@ -138,7 +138,7 @@ public class Reports extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionEmployeeID);
+            menu = new Menu(this.sessionUser);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

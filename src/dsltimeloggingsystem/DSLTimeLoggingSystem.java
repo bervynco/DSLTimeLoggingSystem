@@ -5,12 +5,15 @@ import com.digitalpersona.uareu.Reader;
 import com.digitalpersona.uareu.ReaderCollection;
 import com.digitalpersona.uareu.UareUException;
 import com.digitalpersona.uareu.UareUGlobal;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -30,6 +33,9 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
     public DSLTimeLoggingSystem() {
         
         initComponents();
+        lblStatus.setFont(new Font("Serif", Font.PLAIN, 26));
+        lblStatus.setHorizontalAlignment(JLabel.CENTER);
+        
     }
     
     private ReaderCollection m_collection;
@@ -49,6 +55,7 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
         label2 = new java.awt.Label();
         btn_ScanReader = new javax.swing.JButton();
         btn_capture = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,6 +84,13 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_capture, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_ScanReader, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -85,14 +99,8 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(140, 140, 140)
                         .addComponent(jLabel1)))
-                .addContainerGap(140, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_capture, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_ScanReader, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,7 +110,9 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btn_ScanReader)
                 .addGap(43, 43, 43)
                 .addComponent(btn_capture)
@@ -135,18 +145,18 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
             User user = DB.loginFingerPrint(fingerPrintImage);
             if(user.getEmployeeID() != 0){
                 this.setVisible(false);
-                Menu menu = new Menu(user.getEmployeeID());
+                Menu menu = new Menu(user);
                 menu.setTitle("DSL Time Logging | Menu");
                 menu.pack();
                 menu.setLocationRelativeTo(null);
                 menu.setDefaultCloseOperation(0);
                 menu.setVisible(true);
             }
-            
-//            if(user.getRole() == "Administrator"){
-//                AddEmployee employee = new AddEmployee();
-//                employee.setVisible(true);
-//            }
+            else{
+                lblStatus.setForeground(Color.red);
+                lblStatus.setText("Unauthorized!");
+            }
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -205,5 +215,6 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private java.awt.Label label1;
     private java.awt.Label label2;
+    private javax.swing.JLabel lblStatus;
     // End of variables declaration//GEN-END:variables
 }

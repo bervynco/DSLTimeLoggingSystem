@@ -5,13 +5,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Payroll extends javax.swing.JFrame {
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     /**
      * Creates new form Payroll
      */
-    public Payroll(int employeeID) {
+    public Payroll(User user) {
         initComponents();
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
 
     /**
@@ -102,7 +102,7 @@ public class Payroll extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionEmployeeID);
+            menu = new Menu(this.sessionUser);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

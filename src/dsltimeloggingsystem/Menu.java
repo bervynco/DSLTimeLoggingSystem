@@ -6,20 +6,13 @@ import java.util.logging.Logger;
 
 public class Menu extends javax.swing.JFrame {
     
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     /**
      * Creates new form Menu
      */
 //    public Menu() {
 //        initComponents();
 //    }
-    
-    public Menu(int employeeID) throws ClassNotFoundException, SQLException{
-        initComponents();
-        this.sessionEmployeeID = employeeID;
-        System.out.println("Menu " + employeeID);
-        this.filterView(employeeID);
-    }
     public void filterView(int employeeID) throws ClassNotFoundException, SQLException{
         User user = DB.getUserDetails(employeeID);
         if(user.getRole().equals("Administrator")){
@@ -44,6 +37,14 @@ public class Menu extends javax.swing.JFrame {
             btnSalaryCondition.setVisible(true);
         }
     }
+    public Menu(User user) throws ClassNotFoundException, SQLException{
+        initComponents();
+        this.sessionUser = user;
+        //System.out.println("Menu " + employeeID);
+        this.filterView(user.getEmployeeID());
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -164,7 +165,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            EmployeesUI eUI = new EmployeesUI(this.sessionEmployeeID);
+            EmployeesUI eUI = new EmployeesUI(this.sessionUser);
             eUI.setTitle("DSL Time Logging | Employees");
             eUI.pack();
             eUI.setLocationRelativeTo(null);
@@ -181,7 +182,7 @@ public class Menu extends javax.swing.JFrame {
     private void btnPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayrollActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Payroll payroll = new Payroll(this.sessionEmployeeID);
+        Payroll payroll = new Payroll(this.sessionUser);
         payroll.setTitle("DSL Time Logging | Payroll");
         payroll.pack();
         payroll.setLocationRelativeTo(null);
@@ -194,7 +195,7 @@ public class Menu extends javax.swing.JFrame {
         this.setVisible(false);
         Home home;
         try {
-            home = new Home(this.sessionEmployeeID);
+            home = new Home(this.sessionUser);
             home.setTitle("DSL Time Logging | Home");
             home.pack();
             home.setLocationRelativeTo(null);
@@ -216,7 +217,7 @@ public class Menu extends javax.swing.JFrame {
     private void btnClaimSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaimSalaryActionPerformed
         try {
             // TODO add your handling code here:
-            EmployeeList list = new EmployeeList(this.sessionEmployeeID);
+            EmployeeList list = new EmployeeList(this.sessionUser);
             list.setTitle("DSL Time Logging | List of Emoloyees");
             list.pack();
             list.setLocationRelativeTo(null);
@@ -232,7 +233,7 @@ public class Menu extends javax.swing.JFrame {
     private void btnSalaryConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalaryConditionActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        SalaryCondition condition = new SalaryCondition(this.sessionEmployeeID);
+        SalaryCondition condition = new SalaryCondition(this.sessionUser);
         condition.setTitle("DSL Time Logging | Salary Condition");
         condition.pack();
         condition.setLocationRelativeTo(null);
@@ -242,7 +243,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportsActionPerformed
         // TODO add your handling code here:
-        Reports report = new Reports(this.sessionEmployeeID);
+        Reports report = new Reports(this.sessionUser);
         report.setTitle("DSL Time Logging | Generate Report");
         report.pack();
         report.setLocationRelativeTo(null);

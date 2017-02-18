@@ -19,7 +19,7 @@ public class EditEmployee extends javax.swing.JFrame {
     private ReaderCollection m_collection;
     private Reader m_reader;
     private Fmd fmd;
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     /**
      * Creates new form EditEmployee
      */
@@ -36,13 +36,13 @@ public class EditEmployee extends javax.swing.JFrame {
 //        
 //    }
     
-    public EditEmployee(int employeeID) {
+    public EditEmployee(User user) {
         
         initComponents();
         lblWarningMessage.setFont(new Font("Serif", Font.PLAIN, 30));
         lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
         lblWarningMessage.setForeground(Color.red);
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
     
     public void setEditableFields(int employeeID) throws ClassNotFoundException, SQLException{
@@ -521,7 +521,7 @@ public class EditEmployee extends javax.swing.JFrame {
                         this.setVisible(false);
                         EmployeesUI eUI;
                         try {
-                            eUI = new EmployeesUI(this.sessionEmployeeID);
+                            eUI = new EmployeesUI(this.sessionUser);
                             eUI.setTitle("DSL Time Logging | Employees");
                             eUI.pack();
                             eUI.setLocationRelativeTo(null);
@@ -554,7 +554,7 @@ public class EditEmployee extends javax.swing.JFrame {
         EmployeesUI eUI;
         try {
             this.setVisible(false);
-            eUI = new EmployeesUI(this.sessionEmployeeID);
+            eUI = new EmployeesUI(this.sessionUser);
             eUI.setTitle("DSL Time Logging | Employees");
             eUI.pack();
             eUI.setLocationRelativeTo(null);
@@ -587,7 +587,7 @@ public class EditEmployee extends javax.swing.JFrame {
                 this.setVisible(false);
                 EmployeesUI eUI;
                 try {
-                    eUI = new EmployeesUI(this.sessionEmployeeID);
+                    eUI = new EmployeesUI(this.sessionUser);
                     eUI.setTitle("DSL Time Logging | Employees");
                     eUI.pack();
                     eUI.setLocationRelativeTo(null);

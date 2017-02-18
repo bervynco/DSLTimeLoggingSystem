@@ -29,16 +29,16 @@ public class NewAddEmployee extends javax.swing.JFrame {
     private ReaderCollection m_collection;
     private Reader m_reader;
     private Fmd fmd;
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     /**
      * Creates new form NewAddEmployee
      */
-    public NewAddEmployee(int employeeID) {
+    public NewAddEmployee(User user) {
         this.setTitle("DSL Add Employee");
         initComponents();
         lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
         lblWarningMessage.setForeground(Color.red);
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
     public String determineAccess(){
         String role = "";
@@ -494,7 +494,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
         this.setVisible(false);
         EmployeesUI eUI;
         try {
-            eUI = new EmployeesUI(this.sessionEmployeeID);
+            eUI = new EmployeesUI(this.sessionUser);
             eUI.setTitle("DSL Time Logging | Employees");
             eUI.pack();
             eUI.setLocationRelativeTo(null);

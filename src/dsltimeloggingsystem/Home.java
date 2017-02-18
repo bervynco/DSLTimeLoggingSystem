@@ -1,10 +1,18 @@
 package dsltimeloggingsystem;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import static java.util.Calendar.DAY_OF_MONTH;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenuBar;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -18,14 +26,14 @@ import javax.swing.table.DefaultTableModel;
  * @author bendrhick
  */
 public class Home extends javax.swing.JFrame {
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     /**
      * Creates new form frame1
      */
     
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
-        
+        int day = 0;
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         attendanceList = DB.getAttendance();
         
@@ -36,6 +44,7 @@ public class Home extends javax.swing.JFrame {
         model.addColumn("Time Out");
         model.addColumn("Duration");
         
+        System.out.println(attendanceList.size());
         for(int i = 0; i < attendanceList.size(); i++){
             Object [] rowData = {attendanceList.get(i).getEmployeeID(), attendanceList.get(i).getFirstName() +" " + attendanceList.get(i).getLastName(), attendanceList.get(i).getLogDate(), attendanceList.get(i).getTimeIn(), attendanceList.get(i).getTimeOut(), 
                 attendanceList.get(i).getDuration()};
@@ -45,13 +54,19 @@ public class Home extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    public Home(int employeeID) throws ClassNotFoundException, SQLException {
+    public Home(User user) throws ClassNotFoundException, SQLException {
         DefaultTableModel model = this.FillTable();
+       
         initComponents();
         jTable1.setModel(model);
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
-
+    
+//    public static void CreateTableModel() throws ClassNotFoundException, SQLException{
+//        DefaultTableModel model = Home.FillTable();
+//        jTable1.setModel(model);
+//        
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,8 +81,9 @@ public class Home extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         textField1 = new java.awt.TextField();
         jLabel1 = new javax.swing.JLabel();
-        textField2 = new java.awt.TextField();
         jButton1 = new javax.swing.JButton();
+        txtInputDate = new javax.swing.JTextField();
+        btnFilter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,17 +183,23 @@ public class Home extends javax.swing.JFrame {
 
         jLabel1.setText("Date Today:");
 
-        textField2.setText("textField2");
-        textField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textField2ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Menu");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        txtInputDate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtInputDateMouseEntered(evt);
+            }
+        });
+
+        btnFilter.setText("Filter");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
             }
         });
 
@@ -194,8 +216,10 @@ public class Home extends javax.swing.JFrame {
                 .addGap(272, 272, 272)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                .addComponent(txtInputDate, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
                 .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -207,8 +231,9 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jToggleButton1)
                         .addComponent(jButton1)
-                        .addComponent(jLabel1))
-                    .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtInputDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFilter))
                     .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
@@ -222,16 +247,12 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textField1ActionPerformed
 
-    private void textField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textField2ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionEmployeeID);
+            menu = new Menu(this.sessionUser);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);
@@ -246,15 +267,45 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtInputDateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtInputDateMouseEntered
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtInputDateMouseEntered
+
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        // TODO add your handling code here:
+        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        Date date = null;
+        try {
+            date = formatter.parse(txtInputDate.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        
+        try {
+            DB.getAttendance();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnFilterActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFilter;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JToggleButton jToggleButton1;
     private java.awt.TextField textField1;
-    private java.awt.TextField textField2;
+    private javax.swing.JTextField txtInputDate;
     // End of variables declaration//GEN-END:variables
 
     private static class jMenuBar1 extends JMenuBar {

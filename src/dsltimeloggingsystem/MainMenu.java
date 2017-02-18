@@ -23,7 +23,7 @@ import javax.swing.table.TableModel;
  */
 public class MainMenu extends javax.swing.JFrame {
     
-    private static int sessionEmployeeID = 0;
+    private static User sessionUser = null;
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
@@ -64,7 +64,7 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
-    public MainMenu(int employeeID) throws ClassNotFoundException, SQLException {
+    public MainMenu(User user) throws ClassNotFoundException, SQLException {
         
         
         DefaultTableModel model = MainMenu.FillTable();
@@ -72,7 +72,7 @@ public class MainMenu extends javax.swing.JFrame {
         ;
         //jTable1.addColumn(aColumn);
         jTable1.setModel(model);
-        this.sessionEmployeeID = employeeID;
+        this.sessionUser = user;
     }
 
     /**
@@ -259,7 +259,7 @@ public class MainMenu extends javax.swing.JFrame {
         
         EmployeesUI ui;
         try {
-            ui = new EmployeesUI(this.sessionEmployeeID);
+            ui = new EmployeesUI(this.sessionUser);
             ui.setTitle("DSL Time Logging | View All Employees");
             ui.setDefaultCloseOperation(0);
             ui.setVisible(true);

@@ -6,9 +6,10 @@ import java.util.logging.Logger;
 
 public class SalaryCondition extends javax.swing.JFrame {
 
-    private static int sessionEmployeeID = 0;
-    public SalaryCondition(int employeeID) {
+    private static User sessionUser = null;
+    public SalaryCondition(User user) {
         initComponents();
+        this.sessionUser = user;
     }
 
     /**
@@ -82,7 +83,7 @@ public class SalaryCondition extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionEmployeeID);
+            menu = new Menu(this.sessionUser);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -64,10 +65,32 @@ public class DB {
         return timeStamp;
     }
     
+    public static Calendar getCurrentCalendar(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar cal = Calendar.getInstance();
+        return cal;
+    }
+    
+    public static void setCashAdvancePerEmployee(){
+        
+    }
+    
+    public static void setLoanPerEmployee(){
+        
+    }
     public static List<Attendance> getAttendance() throws ClassNotFoundException, SQLException{
+//        Calendar curr = DB.getCurrentCalendar();
+//        
+//        if(day == 0){
+//            day = curr.get(Calendar.DAY_OF_MONTH);
+//        }
+        Timestamp today = DB.getCurrentTimeStamp();
+        int day =  today.getDate();
+        System.out.println(day);
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from logs a, users b where day(a.logDate) = 12 and a.employeeID = b.employeeID;");
+        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from logs a, users b where day(a.logDate) = ? and a.employeeID = b.employeeID;");
+        ps.setInt(1, 12);
         ResultSet rs = ps.executeQuery();
         
         while(rs.next()){
@@ -359,7 +382,8 @@ public class DB {
         while (rs.next()) {
             byte[] fingerPrint  = rs.getBytes(11);
             Engine engine = UareUGlobal.GetEngine();
-        
+            
+            System.out.println(rs.getInt(1));
             Fmd fmd1 = UareUGlobal.GetImporter().ImportFmd(fingerPrint, Fmd.Format.ANSI_378_2004, Fmd.Format.ANSI_378_2004);
             Fmd fmd2 = UareUGlobal.GetImporter().ImportFmd(fingerPrintImage, Fmd.Format.ANSI_378_2004, Fmd.Format.ANSI_378_2004);
             
@@ -383,6 +407,7 @@ public class DB {
                 role = rs.getString(10);
                 user.setRole(role);
             }
+            
         }
         c.close();
         return user;

@@ -20,6 +20,7 @@ public class EmployeesUI extends javax.swing.JFrame {
     private static int userCount = 0;
     private static int employeeID = 0;
     
+    private static User sessionUser = null;
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
@@ -53,13 +54,13 @@ public class EmployeesUI extends javax.swing.JFrame {
 //        new jTable1.setModel(model);
     }
     
-    public EmployeesUI(int employeeID) throws ClassNotFoundException, SQLException {
+    public EmployeesUI(User user) throws ClassNotFoundException, SQLException {
         DefaultTableModel model = EmployeesUI.FillTable();
         
         initComponents();
         jTable1.setModel(model);
         lblUserCount.setText(Integer.toString(userCount));
-        this.employeeID = employeeID;
+        this.sessionUser = user;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -221,7 +222,7 @@ public class EmployeesUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
-            Menu menu = new Menu(employeeID);
+            Menu menu = new Menu(this.sessionUser);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);
@@ -239,7 +240,7 @@ public class EmployeesUI extends javax.swing.JFrame {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        NewAddEmployee add = new NewAddEmployee(this.employeeID);
+        NewAddEmployee add = new NewAddEmployee(this.sessionUser);
         add.setTitle("DSL Time Logging | Add Employees");
         add.pack();
         add.setLocationRelativeTo(null);
@@ -254,9 +255,9 @@ public class EmployeesUI extends javax.swing.JFrame {
        
         this.setVisible(false);
         try {
-            EditEmployee editEmployee = new EditEmployee(EmployeesUI.employeeID);
+            EditEmployee editEmployee = new EditEmployee(this.sessionUser);
             int employeeID = (int) jTable1.getValueAt(row, 0);
-            editEmployee.setEditableFields(employeeID);
+            editEmployee.setEditableFields(this.sessionUser.getEmployeeID());
             editEmployee.setTitle("DSL Time Logging | Edit Employee");
             editEmployee.pack();
             editEmployee.setLocationRelativeTo(null);
