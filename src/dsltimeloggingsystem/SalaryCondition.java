@@ -39,6 +39,11 @@ public class SalaryCondition extends javax.swing.JFrame {
         });
 
         jButton4.setText("Allowance");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Back To Main Menu");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +132,17 @@ public class SalaryCondition extends javax.swing.JFrame {
         rfa.setDefaultCloseOperation(0);
         rfa.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Allowance allowance = new Allowance(this.sessionUser);
+        allowance.setTitle("DSL Time Logging | Salary Merit");
+        allowance.pack();
+        allowance.setLocationRelativeTo(null);
+        allowance.setDefaultCloseOperation(0);
+        allowance.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

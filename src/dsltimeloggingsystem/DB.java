@@ -70,6 +70,25 @@ public class DB {
         Calendar cal = Calendar.getInstance();
         return cal.getTimeInMillis();
     }
+    public static String setExtraCashPerEmployee(int employeeID, float amount, String action) throws ClassNotFoundException, SQLException{
+  
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO salary_extra (employeeID, type, amount, appliedDate) VALUES (?,?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setString(2, action);
+        ps.setFloat(3, amount);
+        ps.setDate(4, new java.sql.Date(getCurrentCalendar()));
+        // execute insert SQL stetement
+        int rows = ps.executeUpdate();
+        c.close();
+       
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
+    }
     
     public static String setCashAdvancePerEmployee(int employeeID, float amount, String action) throws ClassNotFoundException, SQLException{
   
@@ -89,7 +108,6 @@ public class DB {
         else{
             return "Failed";
         }
-        
     }
     
     public static List<Attendance> getAttendance() throws ClassNotFoundException, SQLException{
