@@ -32,6 +32,11 @@ public class SalaryCondition extends javax.swing.JFrame {
         jButton1.setText("Add Holiday");
 
         jButton2.setText("Loan");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Allowance");
 
@@ -43,6 +48,11 @@ public class SalaryCondition extends javax.swing.JFrame {
         });
 
         jButton3.setText("Reason For Absent");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,6 +105,28 @@ public class SalaryCondition extends javax.swing.JFrame {
             Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Loan loan = new Loan(this.sessionUser);
+        loan.setTitle("DSL Time Logging | Menu");
+        loan.pack();
+        loan.setLocationRelativeTo(null);
+        loan.setDefaultCloseOperation(0);
+        loan.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ReasonforAbsent rfa = new ReasonforAbsent(this.sessionUser);
+        rfa.setTitle("DSL Time Logging | Reason for Absent");
+        rfa.pack();
+        rfa.setLocationRelativeTo(null);
+        rfa.setDefaultCloseOperation(0);
+        rfa.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

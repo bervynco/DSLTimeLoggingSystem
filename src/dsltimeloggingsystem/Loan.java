@@ -1,11 +1,24 @@
 package dsltimeloggingsystem;
+
+import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+
 public class Loan extends javax.swing.JFrame {
 
     /**
      * Creates new form Loan
      */
-    public Loan() {
+    private static User sessionUser = null;
+    
+    public Loan(User user) {
         initComponents();
+        this.sessionUser = user;
+        lblName.setText(this.sessionUser.getFirstName() + " " + this.sessionUser.getLastName());
+        lblStatus.setHorizontalAlignment(JLabel.CENTER);
+        lblStatus.setForeground(Color.red);
     }
 
     /**
@@ -24,6 +37,8 @@ public class Loan extends javax.swing.JFrame {
         btnGo = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         txtAmount = new javax.swing.JTextField();
+        lblName = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,7 +74,10 @@ public class Loan extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,14 +93,19 @@ public class Loan extends javax.swing.JFrame {
                         .addGap(117, 117, 117)
                         .addComponent(btnGo)
                         .addGap(52, 52, 52)
-                        .addComponent(btnCancel)))
+                        .addComponent(btnCancel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -91,7 +114,9 @@ public class Loan extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGo)
                     .addComponent(btnCancel))
@@ -104,55 +129,45 @@ public class Loan extends javax.swing.JFrame {
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         // TODO add your handling code here:
         String action = null;
+        float amount = 0;
         action = (String) jComboBox1.getSelectedItem();
-        
-        if(action.equals("Loan")){
-            DB.setLoanPerEmployee();
+        amount = Float.parseFloat(txtAmount.getText());
+        try {
+            String status = DB.setCashAdvancePerEmployee(this.sessionUser.getEmployeeID(), amount, action);
+            
+            if(status.equals("Successful")){
+                System.out.println("Successful");
+                this.setVisible(false);
+                SalaryCondition condition = new SalaryCondition(this.sessionUser);
+                condition.setTitle("DSL Time Logging | Salary Condition");
+                condition.pack();
+                condition.setLocationRelativeTo(null);
+                condition.setDefaultCloseOperation(0);
+                condition.setVisible(true);
+            }
+            else{
+                System.out.println("ERROR");
+                lblStatus.setText("Error. Please contact system administrator");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else if(action.equals("Cash Advance")){
-            DB.setCashAdvancePerEmployee();
-        }
+
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        //SalaryCondition salaryCondition = new SalaryCondition();
+        this.setVisible(false);
+        SalaryCondition condition = new SalaryCondition(this.sessionUser);
+        condition.setTitle("DSL Time Logging | Salary Condition");
+        condition.pack();
+        condition.setLocationRelativeTo(null);
+        condition.setDefaultCloseOperation(0);
+        condition.setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Loan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Loan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Loan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Loan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Loan().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -161,6 +176,8 @@ public class Loan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private java.awt.Label label1;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
 }

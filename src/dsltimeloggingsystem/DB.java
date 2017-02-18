@@ -65,19 +65,33 @@ public class DB {
         return timeStamp;
     }
     
-    public static Calendar getCurrentCalendar(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    public static long getCurrentCalendar(){
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Calendar cal = Calendar.getInstance();
-        return cal;
+        return cal.getTimeInMillis();
     }
     
-    public static void setCashAdvancePerEmployee(){
+    public static String setCashAdvancePerEmployee(int employeeID, float amount, String action) throws ClassNotFoundException, SQLException{
+  
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO salary_condition (employeeID, type, amount, appliedDate) VALUES (?,?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setString(2, action);
+        ps.setFloat(3, amount);
+        ps.setDate(4, new java.sql.Date(getCurrentCalendar()));
+        // execute insert SQL stetement
+        int rows = ps.executeUpdate();
+        c.close();
+       
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
         
     }
     
-    public static void setLoanPerEmployee(){
-        
-    }
     public static List<Attendance> getAttendance() throws ClassNotFoundException, SQLException{
 //        Calendar curr = DB.getCurrentCalendar();
 //        
