@@ -218,21 +218,40 @@ public class DB {
         return attendanceList;
         
     }
-    public static int getCashAdvance(int employeeID) throws ClassNotFoundException, SQLException{
+    public static int getAllowance(int employeeID) throws ClassNotFoundException, SQLException{
         int totalCashAdvance = 0;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
         
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DATE);
+        int year = cal.get(Calendar.YEAR);
+        int startDay = 0;
+        int endDay = 0;
         Timestamp today = DB.getCurrentTimeStamp();
-        int month = today.getMonth();
         if(month == 0){
             month = 12;
         }
+        if(day <=14){
+            startDay = 1;
+            endDay = 14;
+        }
+        else if(day > 14){
+            startDay = 14;
+            endDay = 31;
+        }
+        else;
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from salary_extra where month(appliedDate) = ? and employeeID = ?");
+        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from salary_extra where month(appliedDate) = ? and day(appliedDate) > ? and day(appliedDate) <= ? and year(appliedDate) = ? and employeeID = ? and type='Allowance'");
         ps.setInt(1, month);
-        ps.setInt(2, employeeID);
+        ps.setInt(2, startDay);
+        ps.setInt(3, endDay);
+        ps.setInt(4, year);
+        ps.setInt(5, employeeID);
         ResultSet rs = ps.executeQuery();
+
         while(rs.next()){
-            totalCashAdvance =  totalCashAdvance + rs.getInt(2);
+            totalCashAdvance = totalCashAdvance + rs.getInt(2);
         }
         c.close();
         return totalCashAdvance;
@@ -259,19 +278,36 @@ public class DB {
     }
     public static int getBonus(int employeeID) throws ClassNotFoundException, SQLException{
         int totalBonus = 0;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
         
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DATE);
+        int year = cal.get(Calendar.YEAR);
+        int startDay = 0;
+        int endDay = 0;
         Timestamp today = DB.getCurrentTimeStamp();
-        int month = today.getMonth();
         if(month == 0){
             month = 12;
         }
+        if(day <=14){
+            startDay = 1;
+            endDay = 14;
+        }
+        else if(day > 14){
+            startDay = 14;
+            endDay = 31;
+        }
+        else;
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from salary_extra where month(appliedDate) = ? and employeeID = ?");
+        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from salary_extra where month(appliedDate) = ? and day(appliedDate) > ? and day(appliedDate) <= ? and year(appliedDate) = ? and employeeID = ? and type='Bonus'");
         ps.setInt(1, month);
-        ps.setInt(2, employeeID);
+        ps.setInt(2, startDay);
+        ps.setInt(3, endDay);
+        ps.setInt(4, year);
+        ps.setInt(5, employeeID);
         ResultSet rs = ps.executeQuery();
-        
-        
+
         while(rs.next()){
             totalBonus = totalBonus + rs.getInt(2);
         }

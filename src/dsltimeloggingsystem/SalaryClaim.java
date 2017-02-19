@@ -20,7 +20,7 @@ public class SalaryClaim extends javax.swing.JFrame {
     public void fillFields(int employeeID) throws ClassNotFoundException, SQLException{
         User user = DB.getUserDetails(employeeID);
         totalBonus = DB.getBonus(employeeID);
-        totalCashAdvance = DB.getCashAdvance(employeeID);
+        totalCashAdvance = DB.getAllowance(employeeID);
         totalLoan = DB.getLoan(employeeID);
         totalRegularWorkingHours = DB.getLogs(employeeID);
         txtRate.setText(Float.toString(user.getRate()));
@@ -31,8 +31,8 @@ public class SalaryClaim extends javax.swing.JFrame {
         txtCashAdvance.setText(Integer.toString(totalCashAdvance));
         txtLoan.setText(Integer.toString(totalLoan));
         txtDays.setText(Integer.toString(totalRegularWorkingHours));
-        lblDeductables.setText(Float.toString(user.getSSSDeduction() + user.getPagibigDeduction() + user.getPhilHealthDeduction() + (float)totalCashAdvance));
-        lblGross.setText((Float.toString(user.getRate() * (float)totalRegularWorkingHours + totalBonus)));
+        lblDeductables.setText(Float.toString(user.getSSSDeduction() + user.getPagibigDeduction() + user.getPhilHealthDeduction()));
+        lblGross.setText((Float.toString(user.getRate() * (float)totalRegularWorkingHours + totalBonus + totalCashAdvance)));
         float deductables = Float.parseFloat(lblDeductables.getText());
         float gross = Float.parseFloat(lblGross.getText());
         lblSalary.setText(Float.toString(gross - deductables));
