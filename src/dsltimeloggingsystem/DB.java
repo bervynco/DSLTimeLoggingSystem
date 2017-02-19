@@ -70,6 +70,32 @@ public class DB {
         Calendar cal = Calendar.getInstance();
         return cal.getTimeInMillis();
     }
+    
+    public static long convertDate(Date holiday){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(holiday);
+        return cal.getTimeInMillis();
+    }
+    public static String setHoliday(int employeeID, Date holiday) throws ClassNotFoundException, SQLException{
+        //Calendar date = convertDate(holiday);
+        Calendar calendar = Calendar.getInstance();
+
+        
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO holiday (employeeID, holidayDate, appliedDate) VALUES (?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setDate(2, new java.sql.Date(convertDate(holiday)));
+        ps.setDate(3, new java.sql.Date(getCurrentCalendar()));
+        int rows = ps.executeUpdate();
+        c.close();
+       
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
+    }
     public static String setExtraCashPerEmployee(int employeeID, float amount, String action) throws ClassNotFoundException, SQLException{
   
         Connection c = connect();

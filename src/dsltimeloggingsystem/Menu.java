@@ -7,12 +7,7 @@ import java.util.logging.Logger;
 public class Menu extends javax.swing.JFrame {
     
     private static User sessionUser = null;
-    /**
-     * Creates new form Menu
-     */
-//    public Menu() {
-//        initComponents();
-//    }
+
     public void filterView(int employeeID) throws ClassNotFoundException, SQLException{
         User user = DB.getUserDetails(employeeID);
         if(user.getRole().equals("Administrator")){

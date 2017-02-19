@@ -30,6 +30,11 @@ public class SalaryCondition extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Add Holiday");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Loan");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +148,16 @@ public class SalaryCondition extends javax.swing.JFrame {
         allowance.setDefaultCloseOperation(0);
         allowance.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Holiday holiday = new Holiday(this.sessionUser);
+        holiday.setTitle("DSL Time Logging | Add Holiday");
+        holiday.pack();
+        holiday.setLocationRelativeTo(null);
+        holiday.setDefaultCloseOperation(0);
+        holiday.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
