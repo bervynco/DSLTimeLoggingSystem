@@ -157,23 +157,20 @@ public class DB {
     }
     
     public static List<Attendance> getAttendance() throws ClassNotFoundException, SQLException{
-//        Calendar curr = DB.getCurrentCalendar();
-//        
-//        if(day == 0){
-//            day = curr.get(Calendar.DAY_OF_MONTH);
-//        }
-        Timestamp today = DB.getCurrentTimeStamp();
-        int day =  today.getDate();
-        System.out.println(day);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
+        //Date cal = new java.sql.Date();
+        //cal.setTime()
+        int month = cal.get(Calendar.MONTH) + 1;
+        System.out.println(month);
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from logs a, users b where day(a.logDate) = ? and a.employeeID = b.employeeID;");
-        ps.setInt(1, 12);
+        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from logs a, users b where month(a.logDate) = ? and a.employeeID = b.employeeID;");
+        ps.setInt(1, month);
         ResultSet rs = ps.executeQuery();
         
         while(rs.next()){
             Attendance attendance = new Attendance();
-            
             attendance.setEmployeeID(rs.getInt(1));
             attendance.setFirstName(rs.getString(2));
             attendance.setLastName(rs.getString(3));
@@ -455,23 +452,22 @@ public class DB {
                 " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint from users");
         
         ResultSet rs = ps.executeQuery();
-        //Fmd.SerializeXml(fmd); 
         while (rs.next()) {
             byte[] fingerPrint  = rs.getBytes(11);
             Engine engine = UareUGlobal.GetEngine();
             
-            System.out.println(rs.getInt(1));
+            
             Fmd fmd1 = UareUGlobal.GetImporter().ImportFmd(fingerPrint, Fmd.Format.ANSI_378_2004, Fmd.Format.ANSI_378_2004);
             Fmd fmd2 = UareUGlobal.GetImporter().ImportFmd(fingerPrintImage, Fmd.Format.ANSI_378_2004, Fmd.Format.ANSI_378_2004);
             
             int falsematch_rate = engine.Compare(fmd1, 0, fmd2, 0);
 
-            System.out.println(falsematch_rate);
 
             int target_falsematch_rate = Engine.PROBABILITY_ONE / 100000; //target rate is 0.00001
             
             if(falsematch_rate < target_falsematch_rate){
                 System.out.println("Fingerprints matched");
+                System.out.println(rs.getInt(1));
                 user.setEmployeeID(rs.getInt(1));
                 user.setFirstName(rs.getString(2));
                 user.setLastName(rs.getString(3));
