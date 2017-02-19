@@ -1,4 +1,5 @@
 package dsltimeloggingsystem;
+import java.awt.Font;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -31,12 +33,11 @@ public class Home extends javax.swing.JFrame {
      * Creates new form frame1
      */
     
-    private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
+    private static DefaultTableModel FillTable(String getType, String filterDate) throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = new DefaultTableModel();
         int day = 0;
         List<Attendance> attendanceList = new ArrayList<Attendance>();
-        attendanceList = DB.getAttendance();
-        
+        attendanceList = DB.getAttendance(getType, filterDate);
         model.addColumn("Employee ID");
         model.addColumn("Name");
         model.addColumn("Log Date");
@@ -44,7 +45,7 @@ public class Home extends javax.swing.JFrame {
         model.addColumn("Time Out");
         model.addColumn("Duration");
         
-        System.out.println(attendanceList.size());
+        System.out.println("SIZE " + attendanceList.size());
         for(int i = 0; i < attendanceList.size(); i++){
             Object [] rowData = {attendanceList.get(i).getEmployeeID(), attendanceList.get(i).getFirstName() +" " + attendanceList.get(i).getLastName(), attendanceList.get(i).getLogDate(), attendanceList.get(i).getTimeIn(), attendanceList.get(i).getTimeOut(), 
                 attendanceList.get(i).getDuration()};
@@ -54,12 +55,14 @@ public class Home extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    public Home(User user) throws ClassNotFoundException, SQLException {
-        DefaultTableModel model = this.FillTable();
+    public Home(User user) throws ClassNotFoundException, SQLException, ParseException {
+        DefaultTableModel model = this.FillTable("all", " ");
        
         initComponents();
         jTable1.setModel(model);
         this.sessionUser = user;
+        lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
+        lblNotice.setHorizontalAlignment(JLabel.CENTER);
     }
     
 //    public static void CreateTableModel() throws ClassNotFoundException, SQLException{
@@ -78,12 +81,13 @@ public class Home extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        textField1 = new java.awt.TextField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         txtInputDate = new javax.swing.JTextField();
         btnFilter = new javax.swing.JButton();
+        btnViewDay = new javax.swing.JButton();
+        btnAll = new javax.swing.JButton();
+        lblNotice = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,16 +175,6 @@ public class Home extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jToggleButton1.setText("View Day");
-
-        textField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        textField1.setText("Search");
-        textField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textField1ActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Date Today:");
 
         jButton1.setText("Menu");
@@ -203,38 +197,56 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnViewDay.setText("View Day");
+        btnViewDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewDayActionPerformed(evt);
+            }
+        });
+
+        btnAll.setText("View This Month");
+        btnAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAllActionPerformed(evt);
+            }
+        });
+
+        lblNotice.setText("for date, use this format yyyy-mm-dd");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1007, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnViewDay)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton1)
-                .addGap(272, 272, 272)
+                .addComponent(btnAll)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNotice, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtInputDate, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jToggleButton1)
-                        .addComponent(jButton1)
-                        .addComponent(jLabel1)
-                        .addComponent(txtInputDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnFilter))
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1)
+                    .addComponent(txtInputDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFilter)
+                    .addComponent(btnViewDay)
+                    .addComponent(btnAll)
+                    .addComponent(lblNotice))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                 .addContainerGap())
@@ -242,10 +254,6 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void textField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -281,30 +289,58 @@ public class Home extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        
+    
         try {
-            DB.getAttendance();
+            DefaultTableModel model = this.FillTable("today", txtInputDate.getText());
+            jTable1.setModel(model);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnFilterActionPerformed
 
+    private void btnViewDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDayActionPerformed
+        try {
+            // TODO add your handling code here:
+            DefaultTableModel model = this.FillTable("today", " ");
+            jTable1.setModel(model);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnViewDayActionPerformed
+
+    private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            DefaultTableModel model = this.FillTable("all", " ");
+            jTable1.setModel(model);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAllActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAll;
     private javax.swing.JButton btnFilter;
+    private javax.swing.JButton btnViewDay;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private java.awt.TextField textField1;
+    private javax.swing.JLabel lblNotice;
     private javax.swing.JTextField txtInputDate;
     // End of variables declaration//GEN-END:variables
 
