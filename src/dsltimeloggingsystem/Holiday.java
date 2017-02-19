@@ -153,6 +153,15 @@ public class Holiday extends javax.swing.JFrame {
                 if(status != "Successful"){
                     lblStatus.setText("Error. Please contact system administrator");
                 }
+                else{
+                    this.setVisible(false);
+                    SalaryCondition condition = new SalaryCondition(this.sessionUser);
+                    condition.setTitle("DSL Time Logging | Salary Condition");
+                    condition.pack();
+                    condition.setLocationRelativeTo(null);
+                    condition.setDefaultCloseOperation(0);
+                    condition.setVisible(true);
+                }
             }else{
                 error = true;
             }
@@ -168,10 +177,7 @@ public class Holiday extends javax.swing.JFrame {
         }
         
         if(error == true){
-            
-        }
-        else{
-            
+            lblStatus.setText("Wrong Date format");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 

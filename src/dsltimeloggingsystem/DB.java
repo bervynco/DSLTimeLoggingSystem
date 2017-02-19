@@ -96,6 +96,26 @@ public class DB {
             return "Failed";
         }
     }
+    public static String setAbsentDate(int employeeID, Date absenceDate, String reason) throws ClassNotFoundException, SQLException{
+        //Calendar date = convertDate(holiday);
+        Calendar calendar = Calendar.getInstance();
+        
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO absence (employeeID, absenceDate, reason, appliedDate) VALUES (?,?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setDate(2, new java.sql.Date(convertDate(absenceDate)));
+        ps.setString(3, reason);
+        ps.setDate(4, new java.sql.Date(getCurrentCalendar()));
+        int rows = ps.executeUpdate();
+        c.close();
+       
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
+    }
     public static String setExtraCashPerEmployee(int employeeID, float amount, String action) throws ClassNotFoundException, SQLException{
   
         Connection c = connect();
@@ -177,7 +197,7 @@ public class DB {
             month = 12;
         }
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from cash_advance where month(appliedDate) = ? and employeeID = ?");
+        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from salary_extra where month(appliedDate) = ? and employeeID = ?");
         ps.setInt(1, month);
         ps.setInt(2, employeeID);
         ResultSet rs = ps.executeQuery();
@@ -216,7 +236,7 @@ public class DB {
             month = 12;
         }
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from bonus where month(appliedDate) = ? and employeeID = ?");
+        PreparedStatement ps = c.prepareStatement("Select employeeID, amount from salary_extra where month(appliedDate) = ? and employeeID = ?");
         ps.setInt(1, month);
         ps.setInt(2, employeeID);
         ResultSet rs = ps.executeQuery();

@@ -136,7 +136,6 @@ public class Loan extends javax.swing.JFrame {
             String status = DB.setCashAdvancePerEmployee(this.sessionUser.getEmployeeID(), amount, action);
             
             if(status.equals("Successful")){
-                System.out.println("Successful");
                 this.setVisible(false);
                 SalaryCondition condition = new SalaryCondition(this.sessionUser);
                 condition.setTitle("DSL Time Logging | Salary Condition");
