@@ -407,8 +407,7 @@ public class DB {
         return employees;
     }
     
-    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction) throws ClassNotFoundException, SQLException, FileNotFoundException{
-        String role = "";
+    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, String role) throws ClassNotFoundException, SQLException, FileNotFoundException{
         Connection c = connect();
         
 //        String fingerPrint = fmd.toString();
