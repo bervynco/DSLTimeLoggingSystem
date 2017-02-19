@@ -51,21 +51,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane2" pref="562" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="label1" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnMainMenu" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="label1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="btnMainMenu" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblNotice" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="button1" min="-2" pref="67" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-              <Component id="button2" min="-2" pref="67" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -75,15 +70,13 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="label1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnMainMenu" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="292" max="-2" attributes="0"/>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="button1" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="button2" alignment="1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnMainMenu" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblNotice" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" pref="354" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -96,20 +89,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="List Of Employees"/>
       </Properties>
-    </Component>
-    <Component class="java.awt.Button" name="button1">
-      <Properties>
-        <Property name="label" type="java.lang.String" value="Select"/>
-        <Property name="name" type="java.lang.String" value="" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="java.awt.Button" name="button2">
-      <Properties>
-        <Property name="label" type="java.lang.String" value="Cancel"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button2ActionPerformed"/>
-      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
@@ -142,6 +121,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMainMenuActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNotice">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Click on the cell to compute for salary."/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
