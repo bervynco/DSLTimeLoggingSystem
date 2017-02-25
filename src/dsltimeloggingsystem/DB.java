@@ -94,7 +94,7 @@ public class DB {
         ps.setInt(1, employeeID);
         ps.setString(2, type);
         ps.setString(3, logDetails);
-        ps.setTimestamp(3, dateToday);
+        ps.setTimestamp(4, dateToday);
 
         int rows = ps.executeUpdate();
         c.close();
