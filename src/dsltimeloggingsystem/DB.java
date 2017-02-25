@@ -66,7 +66,6 @@ public class DB {
     }
     
     public static long getCurrentCalendar(){
-        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Calendar cal = Calendar.getInstance();
         return cal.getTimeInMillis();
     }
@@ -75,6 +74,44 @@ public class DB {
         Calendar cal = Calendar.getInstance();
         cal.setTime(holiday);
         return cal.getTimeInMillis();
+    }
+    public static Timestamp getDateToday(){
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Timestamp sq = new java.sql.Timestamp(utilDate.getTime());  
+
+        System.out.println(sq);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        //System.out.println(sdf.format(sq));
+        return sq;
+    }
+    public static void setUserLogStatus(int employeeID, String type, String logDetails) throws ClassNotFoundException, SQLException, ParseException{
+        Timestamp dateToday = DB.getDateToday();
+        //java.sql.Date.
+        //;
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT into user_logs(employeeID, type, logDetails, logDate) VALUES (?,?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setString(2, type);
+        ps.setString(3, logDetails);
+        ps.setTimestamp(3, dateToday);
+
+        int rows = ps.executeUpdate();
+        c.close();
+    }
+    public static int getEmployeeIDFromName(String name) throws ClassNotFoundException, SQLException{
+        int employeeID = 0;
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("SELECT employeeID, CONCAT(firstName,' ', lastName) as 'Name' from users");
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            if(name.equals(rs.getString(2))){
+                
+                employeeID = rs.getInt(1);
+            }
+        }
+        c.close();
+        return employeeID;
     }
     public static String setHoliday(int employeeID, Date holiday) throws ClassNotFoundException, SQLException{
         //Calendar date = convertDate(holiday);
@@ -259,8 +296,11 @@ public class DB {
     public static int getLoan(int employeeID) throws ClassNotFoundException, SQLException{
         int totalLoan = 0;
         Connection c = connect();
-        Timestamp today = DB.getCurrentTimeStamp();
-        int month = today.getMonth();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
+        
+        int month = cal.get(Calendar.MONTH) + 1 ;
+        
         if(month == 0){
             month = 12;
         }
@@ -317,8 +357,11 @@ public class DB {
     
     public static int getLogs(int employeeID) throws ClassNotFoundException, SQLException{
         Connection c = connect();
-        Timestamp today = DB.getCurrentTimeStamp();
-        int month = today.getMonth();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
+        
+        int month = cal.get(Calendar.MONTH) + 1 ;
+        
         if(month == 0){
             month = 12;
         }

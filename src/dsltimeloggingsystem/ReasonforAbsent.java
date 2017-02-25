@@ -18,7 +18,7 @@ public class ReasonforAbsent extends javax.swing.JFrame {
      */
     
     private static User sessionUser = null;
-    public ReasonforAbsent(User user) {
+    public ReasonforAbsent(User user) throws ClassNotFoundException, ParseException, SQLException {
         initComponents();
         this.sessionUser = user;
         lblName.setText(this.sessionUser.getFirstName() + " " + this.sessionUser.getLastName());
@@ -26,6 +26,7 @@ public class ReasonforAbsent extends javax.swing.JFrame {
         lblNotice.setHorizontalAlignment(JLabel.CENTER);
         lblStatus1.setHorizontalAlignment(JLabel.CENTER);
         lblStatus1.setForeground(Color.red);
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Reason for Absent");
     }
 
     /**
@@ -161,14 +162,22 @@ public class ReasonforAbsent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        SalaryCondition condition = new SalaryCondition(this.sessionUser);
-        condition.setTitle("DSL Time Logging | Salary Condition");
-        condition.pack();
-        condition.setLocationRelativeTo(null);
-        condition.setDefaultCloseOperation(0);
-        condition.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            condition.setTitle("DSL Time Logging | Salary Condition");
+            condition.pack();
+            condition.setLocationRelativeTo(null);
+            condition.setDefaultCloseOperation(0);
+            condition.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
@@ -194,6 +203,7 @@ public class ReasonforAbsent extends javax.swing.JFrame {
                     lblStatus1.setText("Error. Please contact system administrator");          
                 }
                 else{
+                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add Reason For Absent");
                     this.setVisible(false);
                     SalaryCondition condition = new SalaryCondition(this.sessionUser);
                     condition.setTitle("DSL Time Logging | Salary Condition");

@@ -5,6 +5,7 @@ import dsltimeloggingsystem.EmployeesUI;
 import dsltimeloggingsystem.User;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,13 +43,14 @@ public class EmployeeList extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    public EmployeeList(User user) throws ClassNotFoundException, SQLException {
+    public EmployeeList(User user) throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = EmployeeList.FillTable();
         initComponents();
         jTable2.setModel(model);
         this.sessionUser = user;
         lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
         lblNotice.setHorizontalAlignment(JLabel.CENTER);
+        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Page Visit", "Employee List");
     }
 
     /**
@@ -148,23 +150,31 @@ public class EmployeeList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
-        // TODO add your handling code here:
-        int row = jTable2.rowAtPoint(evt.getPoint());
-        int employeeID = (int) jTable2.getValueAt(row, 0);
-        this.setVisible(false);
-        SalaryClaim salary = new SalaryClaim(this.sessionUser);
-        try {
-            salary.fillFields(employeeID);
+        try {                                     
+            // TODO add your handling code here:
+            int row = jTable2.rowAtPoint(evt.getPoint());
+            int employeeID = (int) jTable2.getValueAt(row, 0);
+            this.setVisible(false);
+            SalaryClaim salary = new SalaryClaim(this.sessionUser);
+            try {
+                salary.fillFields(employeeID);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            salary.setTitle("DSL Time Logging | Salary Claim");
+            salary.pack();
+            salary.setLocationRelativeTo(null);
+            salary.setDefaultCloseOperation(0);
+            salary.setVisible(true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
         }
-        salary.setTitle("DSL Time Logging | Salary Claim");
-        salary.pack();
-        salary.setLocationRelativeTo(null);
-        salary.setDefaultCloseOperation(0);
-        salary.setVisible(true);
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
@@ -180,6 +190,8 @@ public class EmployeeList extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
         }
         

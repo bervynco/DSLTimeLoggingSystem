@@ -33,11 +33,12 @@ public class Menu extends javax.swing.JFrame {
             btnSalaryCondition.setVisible(true);
         }
     }
-    public Menu(User user) throws ClassNotFoundException, SQLException{
+    public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
         initComponents();
         this.sessionUser = user;
         //System.out.println("Menu " + employeeID);
         this.filterView(user.getEmployeeID());
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Menu");
     }
     
     
@@ -171,6 +172,8 @@ public class Menu extends javax.swing.JFrame {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_btnEmployeeActionPerformed
@@ -178,12 +181,22 @@ public class Menu extends javax.swing.JFrame {
     private void btnPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayrollActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Payroll payroll = new Payroll(this.sessionUser);
-        payroll.setTitle("DSL Time Logging | Payroll");
-        payroll.pack();
-        payroll.setLocationRelativeTo(null);
-        payroll.setDefaultCloseOperation(0);
-        payroll.setVisible(true);
+        Payroll payroll;
+        try {
+            payroll = new Payroll(this.sessionUser);
+            payroll.setTitle("DSL Time Logging | Payroll");
+            payroll.pack();
+            payroll.setLocationRelativeTo(null);
+            payroll.setDefaultCloseOperation(0);
+            payroll.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnPayrollActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
@@ -225,28 +238,46 @@ public class Menu extends javax.swing.JFrame {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnClaimSalaryActionPerformed
 
     private void btnSalaryConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalaryConditionActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        SalaryCondition condition = new SalaryCondition(this.sessionUser);
-        condition.setTitle("DSL Time Logging | Salary Condition");
-        condition.pack();
-        condition.setLocationRelativeTo(null);
-        condition.setDefaultCloseOperation(0);
-        condition.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            condition.setTitle("DSL Time Logging | Salary Condition");
+            condition.pack();
+            condition.setLocationRelativeTo(null);
+            condition.setDefaultCloseOperation(0);
+            condition.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSalaryConditionActionPerformed
 
     private void btnReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportsActionPerformed
         // TODO add your handling code here:
-        Reports report = new Reports(this.sessionUser);
-        report.setTitle("DSL Time Logging | Generate Report");
-        report.pack();
-        report.setLocationRelativeTo(null);
-        report.setDefaultCloseOperation(0);
-        report.setVisible(true);
+        Reports report;
+        try {
+            report = new Reports(this.sessionUser);
+            report.setTitle("DSL Time Logging | Generate Report");
+            report.pack();
+            report.setLocationRelativeTo(null);
+            report.setDefaultCloseOperation(0);
+            report.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }//GEN-LAST:event_btnReportsActionPerformed
 

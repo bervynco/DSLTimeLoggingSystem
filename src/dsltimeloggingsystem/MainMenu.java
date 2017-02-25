@@ -1,6 +1,7 @@
 package dsltimeloggingsystem;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -64,7 +65,7 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
-    public MainMenu(User user) throws ClassNotFoundException, SQLException {
+    public MainMenu(User user) throws ClassNotFoundException, SQLException, ParseException {
         
         
         DefaultTableModel model = MainMenu.FillTable();
@@ -73,6 +74,7 @@ public class MainMenu extends javax.swing.JFrame {
         //jTable1.addColumn(aColumn);
         jTable1.setModel(model);
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Main Menu");
     }
 
     /**
@@ -266,6 +268,8 @@ public class MainMenu extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
         

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.lang.String;
+import java.text.ParseException;
 import javax.swing.JLabel;
 
 public class EditEmployee extends javax.swing.JFrame {
@@ -20,29 +21,15 @@ public class EditEmployee extends javax.swing.JFrame {
     private Reader m_reader;
     private Fmd fmd;
     private static User sessionUser = null;
-    /**
-     * Creates new form EditEmployee
-     */
-//    public EditEmployee(int employeeID){
-//        System.out.println("INSIDE EDIT EMPLOYEE");
-//        initComponents();
-//        try {
-//            DB.getUserDetails(employeeID);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//    }
-    
-    public EditEmployee(User user) {
+
+    public EditEmployee(User user) throws ClassNotFoundException, SQLException, ParseException {
         
         initComponents();
         lblWarningMessage.setFont(new Font("Serif", Font.PLAIN, 30));
         lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
         lblWarningMessage.setForeground(Color.red);
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Edit Employee");
     }
     
     public void setEditableFields(int employeeID) throws ClassNotFoundException, SQLException{
@@ -531,7 +518,14 @@ public class EditEmployee extends javax.swing.JFrame {
                             Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (SQLException ex) {
                             Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        } catch (ParseException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                            try {
+                                DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Update User");
+                            } catch (ParseException ex1) {
+                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex1);
+                            }
+                    }
 
                     }
                     else{
@@ -564,6 +558,8 @@ public class EditEmployee extends javax.swing.JFrame {
             Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jToggleButton5ActionPerformed
@@ -593,9 +589,12 @@ public class EditEmployee extends javax.swing.JFrame {
                     eUI.setLocationRelativeTo(null);
                     eUI.setDefaultCloseOperation(0);
                     eUI.setVisible(true);
+                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Delete User");
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
+                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
                     Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 

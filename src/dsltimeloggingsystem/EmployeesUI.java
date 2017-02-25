@@ -1,5 +1,6 @@
 package dsltimeloggingsystem;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,13 +55,14 @@ public class EmployeesUI extends javax.swing.JFrame {
 //        new jTable1.setModel(model);
     }
     
-    public EmployeesUI(User user) throws ClassNotFoundException, SQLException {
+    public EmployeesUI(User user) throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = EmployeesUI.FillTable();
         
         initComponents();
         jTable1.setModel(model);
         lblUserCount.setText(Integer.toString(userCount));
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Employees Menu");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -233,6 +235,8 @@ public class EmployeesUI extends javax.swing.JFrame {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -240,12 +244,22 @@ public class EmployeesUI extends javax.swing.JFrame {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        NewAddEmployee add = new NewAddEmployee(this.sessionUser);
-        add.setTitle("DSL Time Logging | Add Employees");
-        add.pack();
-        add.setLocationRelativeTo(null);
-        add.setDefaultCloseOperation(0);
-        add.setVisible(true);
+        NewAddEmployee add;
+        try {
+            add = new NewAddEmployee(this.sessionUser);
+            add.setTitle("DSL Time Logging | Add Employees");
+            add.pack();
+            add.setLocationRelativeTo(null);
+            add.setDefaultCloseOperation(0);
+            add.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -266,6 +280,8 @@ public class EmployeesUI extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         

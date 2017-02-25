@@ -62,6 +62,7 @@ public class Home extends javax.swing.JFrame {
         this.sessionUser = user;
         lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
         lblNotice.setHorizontalAlignment(JLabel.CENTER);
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Home Page");
     }
     
 //    public static void CreateTableModel() throws ClassNotFoundException, SQLException{
@@ -247,6 +248,8 @@ public class Home extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
         

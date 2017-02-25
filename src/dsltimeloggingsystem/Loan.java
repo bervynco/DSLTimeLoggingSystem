@@ -2,6 +2,7 @@ package dsltimeloggingsystem;
 
 import java.awt.Color;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -13,12 +14,13 @@ public class Loan extends javax.swing.JFrame {
      */
     private static User sessionUser = null;
     
-    public Loan(User user) {
+    public Loan(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
         lblName.setText(this.sessionUser.getFirstName() + " " + this.sessionUser.getLastName());
         lblStatus.setHorizontalAlignment(JLabel.CENTER);
         lblStatus.setForeground(Color.red);
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Loan");
     }
 
     /**
@@ -143,6 +145,7 @@ public class Loan extends javax.swing.JFrame {
                 condition.setLocationRelativeTo(null);
                 condition.setDefaultCloseOperation(0);
                 condition.setVisible(true);
+                DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save new Loan");
             }
             else{
                 System.out.println("ERROR");
@@ -152,19 +155,29 @@ public class Loan extends javax.swing.JFrame {
             Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        SalaryCondition condition = new SalaryCondition(this.sessionUser);
-        condition.setTitle("DSL Time Logging | Salary Condition");
-        condition.pack();
-        condition.setLocationRelativeTo(null);
-        condition.setDefaultCloseOperation(0);
-        condition.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            condition.setTitle("DSL Time Logging | Salary Condition");
+            condition.pack();
+            condition.setLocationRelativeTo(null);
+            condition.setDefaultCloseOperation(0);
+            condition.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCancelActionPerformed
 
 

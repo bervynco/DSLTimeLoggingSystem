@@ -1,2 +1,0 @@
-ViewDay
-ViewDay$1

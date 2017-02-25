@@ -11,6 +11,7 @@ import dsltimeloggingsystem.SelectedReader;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -33,12 +34,14 @@ public class NewAddEmployee extends javax.swing.JFrame {
     /**
      * Creates new form NewAddEmployee
      */
-    public NewAddEmployee(User user) {
+    public NewAddEmployee(User user) throws ClassNotFoundException, SQLException, ParseException {
         this.setTitle("DSL Add Employee");
         initComponents();
         lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
         lblWarningMessage.setForeground(Color.red);
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "New Employee");
+        
     }
     public String determineAccess(){
         String role = "";
@@ -415,14 +418,20 @@ public class NewAddEmployee extends javax.swing.JFrame {
             DB db = new DB();
             try {
                 status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, accessRole);
+                
                 if(status.equals("Failed")){
                     lblWarningMessage.setText("System Error. Please contact Administrator");
-                } 
+                }
+                else{
+                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
+                }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
+                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -458,6 +467,8 @@ public class NewAddEmployee extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
         }
         

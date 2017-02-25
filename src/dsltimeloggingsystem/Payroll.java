@@ -1,6 +1,7 @@
 package dsltimeloggingsystem;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,9 +10,10 @@ public class Payroll extends javax.swing.JFrame {
     /**
      * Creates new form Payroll
      */
-    public Payroll(User user) {
+    public Payroll(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Payroll");
     }
 
     /**
@@ -111,6 +113,8 @@ public class Payroll extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
         }
        

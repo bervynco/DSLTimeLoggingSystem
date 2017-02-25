@@ -1,15 +1,17 @@
 package dsltimeloggingsystem;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SalaryCondition extends javax.swing.JFrame {
 
     private static User sessionUser = null;
-    public SalaryCondition(User user) {
+    public SalaryCondition(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Salary Condition View");
     }
 
     /**
@@ -113,50 +115,84 @@ public class SalaryCondition extends javax.swing.JFrame {
             Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        Loan loan = new Loan(this.sessionUser);
-        loan.setTitle("DSL Time Logging | Menu");
-        loan.pack();
-        loan.setLocationRelativeTo(null);
-        loan.setDefaultCloseOperation(0);
-        loan.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            Loan loan = new Loan(this.sessionUser);
+            loan.setTitle("DSL Time Logging | Menu");
+            loan.pack();
+            loan.setLocationRelativeTo(null);
+            loan.setDefaultCloseOperation(0);
+            loan.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        ReasonforAbsent rfa = new ReasonforAbsent(this.sessionUser);
-        rfa.setTitle("DSL Time Logging | Reason for Absent");
-        rfa.pack();
-        rfa.setLocationRelativeTo(null);
-        rfa.setDefaultCloseOperation(0);
-        rfa.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            ReasonforAbsent rfa = new ReasonforAbsent(this.sessionUser);
+            rfa.setTitle("DSL Time Logging | Reason for Absent");
+            rfa.pack();
+            rfa.setLocationRelativeTo(null);
+            rfa.setDefaultCloseOperation(0);
+            rfa.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        Allowance allowance = new Allowance(this.sessionUser);
-        allowance.setTitle("DSL Time Logging | Salary Merit");
-        allowance.pack();
-        allowance.setLocationRelativeTo(null);
-        allowance.setDefaultCloseOperation(0);
-        allowance.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            Allowance allowance = new Allowance(this.sessionUser);
+            allowance.setTitle("DSL Time Logging | Salary Merit");
+            allowance.pack();
+            allowance.setLocationRelativeTo(null);
+            allowance.setDefaultCloseOperation(0);
+            allowance.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Holiday holiday = new Holiday(this.sessionUser);
-        holiday.setTitle("DSL Time Logging | Add Holiday");
-        holiday.pack();
-        holiday.setLocationRelativeTo(null);
-        holiday.setDefaultCloseOperation(0);
-        holiday.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            Holiday holiday = new Holiday(this.sessionUser);
+            holiday.setTitle("DSL Time Logging | Add Holiday");
+            holiday.pack();
+            holiday.setLocationRelativeTo(null);
+            holiday.setDefaultCloseOperation(0);
+            holiday.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryCondition.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -3,6 +3,7 @@ package dsltimeloggingsystem;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,9 +44,10 @@ public class SalaryClaim extends javax.swing.JFrame {
         Font boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
         lblSalary.setFont(boldFont);
     }
-    public SalaryClaim(User user) {
+    public SalaryClaim(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Salary Claim");
     }
 
     /**
@@ -297,7 +299,16 @@ public class SalaryClaim extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save Salary Claim");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -314,6 +325,8 @@ public class SalaryClaim extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBackActionPerformed

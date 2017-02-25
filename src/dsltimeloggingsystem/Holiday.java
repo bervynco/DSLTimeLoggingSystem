@@ -28,14 +28,14 @@ public class Holiday extends javax.swing.JFrame {
      * Creates new form Holiday
      */
     private static User sessionUser = null;
-    public Holiday(User user) {
+    public Holiday(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
         lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
         lblNotice.setHorizontalAlignment(JLabel.CENTER);
         lblStatus.setHorizontalAlignment(JLabel.CENTER);
         lblStatus.setForeground(Color.red);
-        
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Holiday Page");
     }
 
     /**
@@ -154,6 +154,7 @@ public class Holiday extends javax.swing.JFrame {
                     lblStatus.setText("Error. Please contact system administrator");
                 }
                 else{
+                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add New Holiday");
                     this.setVisible(false);
                     SalaryCondition condition = new SalaryCondition(this.sessionUser);
                     condition.setTitle("DSL Time Logging | Salary Condition");
@@ -182,14 +183,22 @@ public class Holiday extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        SalaryCondition condition = new SalaryCondition(this.sessionUser);
-        condition.setTitle("DSL Time Logging | Salary Condition");
-        condition.pack();
-        condition.setLocationRelativeTo(null);
-        condition.setDefaultCloseOperation(0);
-        condition.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            condition.setTitle("DSL Time Logging | Salary Condition");
+            condition.pack();
+            condition.setLocationRelativeTo(null);
+            condition.setDefaultCloseOperation(0);
+            condition.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Holiday.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
