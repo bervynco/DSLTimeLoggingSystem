@@ -2,6 +2,7 @@ package dsltimeloggingsystem;
 
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,12 +28,13 @@ public class Reports extends javax.swing.JFrame {
         }
 
     }
-    public Reports(User user) throws SQLException, ClassNotFoundException{
+    public Reports(User user) throws SQLException, ClassNotFoundException, ParseException{
         this.sessionUser = user;
         initComponents();
         FillComboBox();
         lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
         lblNotice.setHorizontalAlignment(JLabel.CENTER);
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Reports");
         
     }
 

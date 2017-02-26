@@ -17,6 +17,7 @@ public class Menu extends javax.swing.JFrame {
             btnReports.setVisible(true);
             btnPayroll.setVisible(true);
             btnSalaryCondition.setVisible(true);
+            btnSystemLogs.setVisible(true);
         }
         else if(user.getRole().equals("Payroll")){
             btnEmployee.setVisible(false);
@@ -24,6 +25,7 @@ public class Menu extends javax.swing.JFrame {
             btnReports.setVisible(false);
             btnPayroll.setVisible(true);
             btnSalaryCondition.setVisible(true);
+            btnSystemLogs.setVisible(false);
         }
         else{
             btnEmployee.setVisible(false);
@@ -31,6 +33,7 @@ public class Menu extends javax.swing.JFrame {
             btnReports.setVisible(false);
             btnPayroll.setVisible(false);
             btnSalaryCondition.setVisible(true);
+            btnSystemLogs.setVisible(false);
         }
     }
     public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
@@ -59,6 +62,7 @@ public class Menu extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         btnSalaryCondition = new javax.swing.JToggleButton();
         btnHome = new javax.swing.JToggleButton();
+        btnSystemLogs = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,10 +118,21 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
+        btnSystemLogs.setText("System Logs");
+        btnSystemLogs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSystemLogsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(132, 132, 132))
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -127,12 +142,9 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnClaimSalary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSystemLogs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(86, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(132, 132, 132))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,8 +163,10 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnReports)
                 .addGap(18, 18, 18)
+                .addComponent(btnSystemLogs)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(btnLogout)
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -276,10 +290,32 @@ public class Menu extends javax.swing.JFrame {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
     }//GEN-LAST:event_btnReportsActionPerformed
+
+    private void btnSystemLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSystemLogsActionPerformed
+        try {
+            // TODO add your handling code here:
+            SystemLogs systemLogs;
+            this.setVisible(false);
+            systemLogs = new SystemLogs(this.sessionUser);
+            systemLogs.setVisible(true);
+            systemLogs.setTitle("DSL Time Logging | System Logs");
+            systemLogs.pack();
+            systemLogs.setLocationRelativeTo(null);
+            systemLogs.setDefaultCloseOperation(0);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSystemLogsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,6 +330,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnPayroll;
     private javax.swing.JButton btnReports;
     private javax.swing.JToggleButton btnSalaryCondition;
+    private javax.swing.JButton btnSystemLogs;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
