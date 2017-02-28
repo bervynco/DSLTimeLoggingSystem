@@ -17,6 +17,7 @@ public class SalaryClaim extends javax.swing.JFrame {
     private static int totalLoan = 0;
     private static int totalRegularWorkingHours = 0; // 8 and above working hours
     private static User sessionUser = null;
+    PayrollDetails payrollDetails = new PayrollDetails();
     
     public void fillFields(int employeeID) throws ClassNotFoundException, SQLException{
         User user = DB.getUserDetails(employeeID);
@@ -43,7 +44,36 @@ public class SalaryClaim extends javax.swing.JFrame {
         // same font but bold
         Font boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
         lblSalary.setFont(boldFont);
+        
+        float rate = Float.valueOf(txtRate.getText());
+        float sssDeduction = Float.valueOf(txtSSSDeduction.getText());
+        float pagibigDeduction = Float.valueOf(txtPagibigDeduction.getText());
+        float philHealthDeduction = Float.valueOf(txtPhilHealthDeduction.getText());
+        float bonus = Float.valueOf(txtBonus.getText());
+        float cashAdvance = Float.valueOf(txtCashAdvance.getText());
+        float loan = Float.valueOf(txtLoan.getText());
+        float days = Float.valueOf(txtDays.getText());
+        float overTime;
+        try{
+            overTime = Float.valueOf(txtOvertime.getText());
+        }
+        catch(NumberFormatException e){
+            overTime = 0;
+        }
+        txtOvertime.setText(Float.toString(overTime));
+        float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
+        payrollDetails.setRate(rate);
+        payrollDetails.setSssDeduction(sssDeduction);
+        payrollDetails.setPagibigDeduction(pagibigDeduction);
+        payrollDetails.setPhilHealthDeduction(philHealthDeduction);
+        payrollDetails.setBonus(bonus);
+        payrollDetails.setCashAdvance(cashAdvance);
+        payrollDetails.setLoan(loan);
+        payrollDetails.setDays(days);
+        payrollDetails.setOverTime(overTime);
+        payrollDetails.setTotalSalary(totalSalary);
     }
+    
     public SalaryClaim(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
@@ -343,7 +373,6 @@ public class SalaryClaim extends javax.swing.JFrame {
         float days = Float.valueOf(txtDays.getText());
         float overTime = Float.valueOf(txtOvertime.getText());
         float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
-        System.out.println(totalSalary);
         lblSalary.setText(Float.toString(totalSalary));
         lblSalary.setFont(new Font("Serif", Font.PLAIN, 24));
         lblSalary.setForeground(new Color(1, 169, 130));
@@ -351,6 +380,18 @@ public class SalaryClaim extends javax.swing.JFrame {
         // same font but bold
         Font boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
         lblSalary.setFont(boldFont);
+        
+        payrollDetails.setRate(rate);
+        payrollDetails.setSssDeduction(sssDeduction);
+        payrollDetails.setPagibigDeduction(pagibigDeduction);
+        payrollDetails.setPhilHealthDeduction(philHealthDeduction);
+        payrollDetails.setBonus(bonus);
+        payrollDetails.setCashAdvance(cashAdvance);
+        payrollDetails.setLoan(loan);
+        payrollDetails.setDays(days);
+        payrollDetails.setOverTime(overTime);
+        payrollDetails.setTotalSalary(totalSalary);
+        
     }//GEN-LAST:event_btnComputeActionPerformed
 
 
