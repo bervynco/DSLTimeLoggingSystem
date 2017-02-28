@@ -43,31 +43,6 @@ public class NewAddEmployee extends javax.swing.JFrame {
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "New Employee");
         
     }
-    public String determineAccess(){
-        String role = "";
-        try {
-            m_collection = UareUGlobal.GetReaderCollection();
-        } catch (UareUException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-        m_reader = Selection.Select(m_collection);
-        Capture.Run(m_reader, false);
-        FingerPrint fingerPrint = new FingerPrint();
-        byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
-        try {
-            role = DB.determineUserRole(fingerPrintImage);
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UareUException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return role;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -387,7 +362,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
         float pagibigDeduction = 0;
         float philHealthDeduction = 0;
         float rate = 0;
-        String role = this.determineAccess();
+        String role = sessionUser.getRole();
         if(role.equals("Administrator")){
             try{
                 employeeID = Integer.parseInt(txtEmployeeID.getText());
@@ -397,8 +372,6 @@ public class NewAddEmployee extends javax.swing.JFrame {
                 philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
                 rate = Float.parseFloat(txtRate.getText());
             }catch(NumberFormatException e){
-
-
             }
             String address = txtAddress.getText();
             String firstName = txtFirstName.getText();
@@ -412,6 +385,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
             String mobileNumber = txtMobileNumber.getText();
             String pagibigNumber = txtPagibigNumber.getText();
             String accessRole = (String) jComboBox1.getSelectedItem();
+            
             FingerPrint fingerPrint = new FingerPrint();
             byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
             
@@ -421,6 +395,9 @@ public class NewAddEmployee extends javax.swing.JFrame {
                 
                 if(status.equals("Failed")){
                     lblWarningMessage.setText("System Error. Please contact Administrator");
+                }
+                else if(status.equals("Duplicate")){
+                    lblWarningMessage.setText("User is already existing in the database via his/her fingerprint");
                 }
                 else{
                     DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
@@ -432,6 +409,8 @@ public class NewAddEmployee extends javax.swing.JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
+                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UareUException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -727,43 +727,75 @@ public class DB {
         return employees;
     }
     
-    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, String role) throws ClassNotFoundException, SQLException, FileNotFoundException{
+    public static String determineDuplicateUser(byte[] fingerPrintImage) throws ClassNotFoundException, SQLException, UareUException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("Select * from users");
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            byte[] fingerPrint  = rs.getBytes(12);
+            Engine engine = UareUGlobal.GetEngine();
+            
+            
+            Fmd fmd1 = UareUGlobal.GetImporter().ImportFmd(fingerPrint, Fmd.Format.ANSI_378_2004, Fmd.Format.ANSI_378_2004);
+            Fmd fmd2 = UareUGlobal.GetImporter().ImportFmd(fingerPrintImage, Fmd.Format.ANSI_378_2004, Fmd.Format.ANSI_378_2004);
+            
+            int falsematch_rate = engine.Compare(fmd1, 0, fmd2, 0);
+
+
+            int target_falsematch_rate = Engine.PROBABILITY_ONE / 100000; //target rate is 0.00001
+            
+            if(falsematch_rate < target_falsematch_rate){
+                System.out.println(rs.getInt(1));
+                System.out.println("STATUS DUPLICATE");
+                return "Duplicate";
+            }
+        }
+        return "Unique";
+    }
+    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, String role) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
         Connection c = connect();
         
-//        String fingerPrint = fmd.toString();
         PreparedStatement ps = c.prepareStatement("INSERT INTO users (firstName, lastName, employeeID, address, telephoneNumber," + 
                 " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
                 "SSSDeduction, pagibigDeduction, philHealthDeduction, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        ps.setString(1, firstName);
-        ps.setString(2, lastName);
-        ps.setInt(3, employeeID);
-        ps.setString(4, address);
-        ps.setString(5, telephoneNumber);
-        ps.setString(6, mobileNumber);
-        ps.setFloat(7, rate);
-        ps.setString(8, timeIn);
-        ps.setString(9, timeOut);
-        ps.setBytes(10, fingerPrint);
-        ps.setTimestamp(11, (Timestamp) getCurrentTimeStamp());
-        ps.setString(12, SSSNumber);
-        ps.setString(13, philHealthNumber);
-        ps.setString(14, tinNumber);
-        ps.setString(15, pagibigNumber);
-        ps.setFloat(16, SSSDeduction);
-        ps.setFloat(17, pagibigDeduction);
-        ps.setFloat(18, philHealthDeduction);
-        ps.setString(19, role);
         
+        String status = determineDuplicateUser(fingerPrint);
+        
+        if(status.equals("Unique")){
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setInt(3, employeeID);
+            ps.setString(4, address);
+            ps.setString(5, telephoneNumber);
+            ps.setString(6, mobileNumber);
+            ps.setFloat(7, rate);
+            ps.setString(8, timeIn);
+            ps.setString(9, timeOut);
+            ps.setBytes(10, fingerPrint);
+            ps.setTimestamp(11, (Timestamp) getCurrentTimeStamp());
+            ps.setString(12, SSSNumber);
+            ps.setString(13, philHealthNumber);
+            ps.setString(14, tinNumber);
+            ps.setString(15, pagibigNumber);
+            ps.setFloat(16, SSSDeduction);
+            ps.setFloat(17, pagibigDeduction);
+            ps.setFloat(18, philHealthDeduction);
+            ps.setString(19, role);
 
-        // execute insert SQL stetement
-        int rows = ps.executeUpdate();
-        c.close();
-       
-        if(rows > 0){
-            return "Successful";
-        }
-        else{
-            return "Failed";
+
+            // execute insert SQL stetement
+            int rows = ps.executeUpdate();
+            c.close();
+
+            if(rows > 0){
+                return "Successful";
+            }
+            else{
+                return "Failed";
+            }
+        }else{
+            return "Duplicate";  
         }
     }
     
@@ -789,7 +821,6 @@ public class DB {
             int target_falsematch_rate = Engine.PROBABILITY_ONE / 100000; //target rate is 0.00001
             
             if(falsematch_rate < target_falsematch_rate){
-                System.out.println("Fingerprints matched");
                 System.out.println(rs.getInt(1));
                 user.setEmployeeID(rs.getInt(1));
                 user.setFirstName(rs.getString(2));

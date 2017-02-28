@@ -53,38 +53,7 @@ public class EditEmployee extends javax.swing.JFrame {
         txtPagibigDeduction.setText(Float.toString(user.getPagibigDeduction()));
         txtPhilHealthDeduction.setText(Float.toString(user.getPhilHealthDeduction()));
     }
-    
-    public String determineAccess(){
-        String role = "";
-        try {
-            m_collection = UareUGlobal.GetReaderCollection();
-        } catch (UareUException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-
-        m_reader = Selection.Select(m_collection);
-        Capture.Run(m_reader, false);
-        FingerPrint fingerPrint = new FingerPrint();
-        byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
-        try {
-            role = DB.determineUserRole(fingerPrintImage);
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UareUException ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return role;
-    }
-
-//    public EditEmployee(int employeeID) throws ClassNotFoundException, SQLException {
-//        initComponents();
-//        
-//        //User user = DB.getUserDetails(employeeID);
-//    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -467,7 +436,7 @@ public class EditEmployee extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        String role = this.determineAccess();
+        String role = sessionUser.getRole();
         String status = "";
         if(role.equals("Administrator")){
             try {
@@ -568,7 +537,7 @@ public class EditEmployee extends javax.swing.JFrame {
         String role = "";
         String status = "";
         
-        role = this.determineAccess();
+        role = sessionUser.getRole();
         
         if(role.equals("Administrator")){
             try {
