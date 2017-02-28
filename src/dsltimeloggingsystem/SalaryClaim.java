@@ -33,7 +33,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         txtLoan.setText(Integer.toString(totalLoan));
         txtDays.setText(Integer.toString(totalRegularWorkingHours));
         lblDeductables.setText(Float.toString(user.getSSSDeduction() + user.getPagibigDeduction() + user.getPhilHealthDeduction()));
-        lblGross.setText((Float.toString(user.getRate() * (float)totalRegularWorkingHours + totalBonus + totalCashAdvance)));
+        lblGross.setText((Float.toString(user.getRate() * (float)totalRegularWorkingHours + totalBonus - totalCashAdvance)));
         float deductables = Float.parseFloat(lblDeductables.getText());
         float gross = Float.parseFloat(lblGross.getText());
         lblSalary.setText(Float.toString(gross - deductables));
@@ -333,6 +333,24 @@ public class SalaryClaim extends javax.swing.JFrame {
 
     private void btnComputeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComputeActionPerformed
         // TODO add your handling code here:
+        float rate = Float.valueOf(txtRate.getText());
+        float sssDeduction = Float.valueOf(txtSSSDeduction.getText());
+        float pagibigDeduction = Float.valueOf(txtPagibigDeduction.getText());
+        float philHealthDeduction = Float.valueOf(txtPhilHealthDeduction.getText());
+        float bonus = Float.valueOf(txtBonus.getText());
+        float cashAdvance = Float.valueOf(txtCashAdvance.getText());
+        float loan = Float.valueOf(txtLoan.getText());
+        float days = Float.valueOf(txtDays.getText());
+        float overTime = Float.valueOf(txtOvertime.getText());
+        float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
+        System.out.println(totalSalary);
+        lblSalary.setText(Float.toString(totalSalary));
+        lblSalary.setFont(new Font("Serif", Font.PLAIN, 24));
+        lblSalary.setForeground(new Color(1, 169, 130));
+        Font font = lblSalary.getFont();
+        // same font but bold
+        Font boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
+        lblSalary.setFont(boldFont);
     }//GEN-LAST:event_btnComputeActionPerformed
 
 
