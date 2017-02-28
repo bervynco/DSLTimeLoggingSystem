@@ -1,9 +1,13 @@
 package dsltimeloggingsystem;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +64,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -71,6 +76,9 @@ public class FilterSystemLogs extends javax.swing.JFrame {
         btnFilter = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lblDateInputNotice = new javax.swing.JLabel();
+        lblWarning = new javax.swing.JLabel();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +111,8 @@ public class FilterSystemLogs extends javax.swing.JFrame {
 
         lblDateInputNotice.setText("Date Inputs can be blank. If blank, this will filter for the whole month.");
 
+        lblWarning.setText("Warning");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,12 +127,13 @@ public class FilterSystemLogs extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnFilter)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnFilter))
+                                .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -132,6 +143,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
                         .addGap(12, 12, 12)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(lblDateInputNotice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblWarning, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +164,9 @@ public class FilterSystemLogs extends javax.swing.JFrame {
                         .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblWarning)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnFilter))
@@ -163,20 +177,35 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        boolean error = false;
+        int employeeID = 0;
+        String startDate = txtStartDate.getText();
+        String endDate = txtEndDate.getText();
+        String name = (String) jComboBox1.getSelectedItem();
         try {
-            // TODO add your handling code here:
-            // TODO add your handling code here:
-            String startDate = txtStartDate.getText();
-            String endDate = txtEndDate.getText();
-            String name = (String) jComboBox1.getSelectedItem();
-            int employeeID = 0;
-            
-            if(!name.equals("Filter All")){
-                employeeID = DB.getEmployeeIDFromName(name);
-            }
-            logs = DB.getSystemLogs(employeeID, startDate, endDate, "filter");
+            Calendar cal = Calendar.getInstance();
+            Calendar cal1 = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);       
+            Date dateStart = sdf.parse(startDate);
+            cal.setTime(dateStart);
+            Date dateEnd = sdf.parse(endDate);
+            cal.setTime(dateEnd);
+        } catch (ParseException ex) {
+            Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
+            error = true;
+        }
+        if(error == true){
+            lblWarning.setText("Date not parseable. Please use the recommended format");
+            lblWarning.setHorizontalAlignment(JLabel.CENTER);
+            lblWarning.setForeground(Color.red);
+        }
+        else{
             try {
-                // TODO add your handling code here:
+                if(!name.equals("Filter All")){
+                    employeeID = DB.getEmployeeIDFromName(name);
+                }
+                logs = DB.getSystemLogs(employeeID, startDate, endDate, "filter");
                 SystemLogs systemLogs;
                 this.setVisible(false);
                 systemLogs = new SystemLogs(this.sessionUser);
@@ -186,19 +215,15 @@ public class FilterSystemLogs extends javax.swing.JFrame {
                 systemLogs.setLocationRelativeTo(null);
                 systemLogs.setDefaultCloseOperation(0);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -231,12 +256,14 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnFilter;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private java.awt.Label label2;
     private javax.swing.JLabel lblDateInputNotice;
     private javax.swing.JLabel lblNotice;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblWarning;
     private javax.swing.JTextField txtEndDate;
     private javax.swing.JTextField txtStartDate;
     // End of variables declaration//GEN-END:variables
