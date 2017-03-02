@@ -21,6 +21,7 @@ public class Reports extends javax.swing.JFrame {
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
+        jComboBox1.addItem("All");
         System.out.println(employees.size());
         for(int i = 0; i < employees.size(); i++){
             String name = employees.get(i).getFirstName() + " " + employees.get(i).getLastName();
