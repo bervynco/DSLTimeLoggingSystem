@@ -113,7 +113,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
 
         label10.setText("Type:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrator", "Assistant Admin", "Payroll", "Employee" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrator", "Assistant Administrator", "Payroll", "Employee" }));
 
         label11.setText("SSS No.:");
 
@@ -392,7 +392,8 @@ public class NewAddEmployee extends javax.swing.JFrame {
             byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
             DB db = new DB();
             try {
-                if(fingerPrintImage == null){
+                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || SSSNumber.equals("")
+                        || philHealthNumber.equals("") || tinNumber.equals("") || pagibigNumber.equals("")|| accessRole.equals("") || employeeID == 0 || rate == 0){
                     lblWarningMessage.setText("Please complete fields before proceeding");
                 }
                 else{

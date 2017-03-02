@@ -330,7 +330,7 @@
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Administrator&quot;, &quot;Assistant Admin&quot;, &quot;Payroll&quot;, &quot;Employee&quot; })" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Administrator&quot;, &quot;Assistant Administrator&quot;, &quot;Payroll&quot;, &quot;Employee&quot; })" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
