@@ -131,16 +131,23 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
         Capture.Run(m_reader, false);
         FingerPrint fingerPrint = new FingerPrint();
         byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
+        fingerPrint.setFingerPrintImage(null);
         try {
             User user = DB.loginFingerPrint(fingerPrintImage);
             if(user.getEmployeeID() != 0){
-                this.setVisible(false);
-                Menu menu = new Menu(user);
-                menu.setTitle("DSL Time Logging | Menu");
-                menu.pack();
-                menu.setLocationRelativeTo(null);
-                menu.setDefaultCloseOperation(0);
-                menu.setVisible(true);
+                if(user.getRole().equals("Administrator") || user.getRole().equals("Assistant Administrator") || user.getRole().equals("Payroll")){
+                    this.setVisible(false);
+                    Menu menu = new Menu(user);
+                    menu.setTitle("DSL Time Logging | Menu");
+                    menu.pack();
+                    menu.setLocationRelativeTo(null);
+                    menu.setDefaultCloseOperation(0);
+                    menu.setVisible(true);
+                }
+                else{
+                    lblStatus.setForeground(Color.red);
+                    lblStatus.setText("Unauthorized!");
+                }
             }
             else{
                 lblStatus.setForeground(Color.red);

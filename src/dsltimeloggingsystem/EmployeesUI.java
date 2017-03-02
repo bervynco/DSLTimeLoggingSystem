@@ -271,7 +271,7 @@ public class EmployeesUI extends javax.swing.JFrame {
         try {
             EditEmployee editEmployee = new EditEmployee(this.sessionUser);
             int employeeID = (int) jTable1.getValueAt(row, 0);
-            editEmployee.setEditableFields(this.sessionUser.getEmployeeID());
+            editEmployee.setEditableFields(employeeID);
             editEmployee.setTitle("DSL Time Logging | Edit Employee");
             editEmployee.pack();
             editEmployee.setLocationRelativeTo(null);

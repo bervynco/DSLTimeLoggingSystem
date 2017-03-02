@@ -541,35 +541,35 @@ public class EditEmployee extends javax.swing.JFrame {
         
         if(role.equals("Administrator")){
             try {
+                System.out.println(employeeID);
                 status = DB.deleteUser(employeeID);
+                if(status.equals("Successful")){
+                    this.setVisible(false);
+                    EmployeesUI eUI;
+                    try {
+                        eUI = new EmployeesUI(this.sessionUser);
+                        eUI.setTitle("DSL Time Logging | Employees");
+                        eUI.pack();
+                        eUI.setLocationRelativeTo(null);
+                        eUI.setDefaultCloseOperation(0);
+                        eUI.setVisible(true);
+                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Delete User");
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+                else{
+                    lblWarningMessage.setText("Unexpected Error. Please Contact Administrator");
+                }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if(status.equals("Successful")){
-                this.setVisible(false);
-                EmployeesUI eUI;
-                try {
-                    eUI = new EmployeesUI(this.sessionUser);
-                    eUI.setTitle("DSL Time Logging | Employees");
-                    eUI.pack();
-                    eUI.setLocationRelativeTo(null);
-                    eUI.setDefaultCloseOperation(0);
-                    eUI.setVisible(true);
-                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Delete User");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
-                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            }
-            else{
-                lblWarningMessage.setText("Unexpected Error. Please Contact Administrator");
             }
         }
         else{

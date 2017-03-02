@@ -23,13 +23,13 @@ public class FingerPrint {
 //    }
 //    
 //     
-    public Fmd getFingerPrint() {
-        return fingerPrint;
-    }
-
-    public void setFingerPrint(Fmd fingerPrint) {
-        this.fingerPrint = fingerPrint;
-    }
+//    public Fmd getFingerPrint() {
+//        return fingerPrint;
+//    }
+//
+//    public void setFingerPrint(Fmd fingerPrint) {
+//        this.fingerPrint = fingerPrint;
+//    }
         
 //    public static Image getFingerPrintImage() {
 //        return fingerPrintImage;
