@@ -3,6 +3,8 @@ package dsltimeloggingsystem;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -13,13 +15,23 @@ public class Loan extends javax.swing.JFrame {
      * Creates new form Loan
      */
     private static User sessionUser = null;
+    private static List<User> employees = new ArrayList<User>();
     
+    public void FillComboBox() throws SQLException, ClassNotFoundException{
+        employees = DB.getUsers();
+        String [] employeeNames = null;
+        for(int i = 0; i < employees.size(); i++){
+            String name = employees.get(i).getFirstName() + " " + employees.get(i).getLastName();
+            jComboBox2.addItem(name);
+        }
+
+    }
     public Loan(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
-        lblName.setText(this.sessionUser.getFirstName() + " " + this.sessionUser.getLastName());
         lblStatus.setHorizontalAlignment(JLabel.CENTER);
         lblStatus.setForeground(Color.red);
+        FillComboBox();
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Loan");
     }
 
@@ -32,20 +44,17 @@ public class Loan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label1 = new java.awt.Label();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnGo = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         txtAmount = new javax.swing.JTextField();
-        lblName = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        label1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        label1.setText("Name:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loan", "Cash Advance" }));
 
@@ -67,6 +76,10 @@ public class Loan extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Employee:");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,23 +87,20 @@ public class Loan extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
+                        .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(117, 117, 117)
                         .addComponent(btnGo)
@@ -99,26 +109,29 @@ public class Loan extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(132, 132, 132)
                         .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGo)
                     .addComponent(btnCancel))
@@ -129,33 +142,42 @@ public class Loan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
-        // TODO add your handling code here:
-        String action = null;
-        float amount = 0;
-        action = (String) jComboBox1.getSelectedItem();
-        amount = Float.parseFloat(txtAmount.getText());
-        try {
-            String status = DB.setCashAdvancePerEmployee(this.sessionUser.getEmployeeID(), amount, action);
-            
-            if(status.equals("Successful")){
-                this.setVisible(false);
-                SalaryCondition condition = new SalaryCondition(this.sessionUser);
-                condition.setTitle("DSL Time Logging | Salary Condition");
-                condition.pack();
-                condition.setLocationRelativeTo(null);
-                condition.setDefaultCloseOperation(0);
-                condition.setVisible(true);
-                DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save new Loan");
+        try {                                      
+            // TODO add your handling code here:
+            String action = null;
+            float amount = 0;
+            action = (String) jComboBox1.getSelectedItem();
+            amount = Float.parseFloat(txtAmount.getText());
+            String name = (String) jComboBox2.getSelectedItem();
+            int employeeID = DB.getEmployeeIDFromName(name);
+            try {
+                String status = DB.setCashAdvancePerEmployee(employeeID, amount, action);
+                
+                if(status.equals("Successful")){
+                    this.setVisible(false);
+                    SalaryCondition condition = new SalaryCondition(this.sessionUser);
+                    condition.setTitle("DSL Time Logging | Salary Condition");
+                    condition.pack();
+                    condition.setLocationRelativeTo(null);
+                    condition.setDefaultCloseOperation(0);
+                    condition.setVisible(true);
+                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save new Loan");
+                }
+                else{
+                    System.out.println("ERROR");
+                    lblStatus.setText("Error. Please contact system administrator");
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else{
-                System.out.println("ERROR");
-                lblStatus.setText("Error. Please contact system administrator");
-            }
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
             Logger.getLogger(Loan.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -185,10 +207,10 @@ public class Loan extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnGo;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private java.awt.Label label1;
-    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
