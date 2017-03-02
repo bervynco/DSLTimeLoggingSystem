@@ -11,7 +11,7 @@ public class Menu extends javax.swing.JFrame {
 
     public void filterView(int employeeID) throws ClassNotFoundException, SQLException{
         User user = DB.getUserDetails(employeeID);
-        if(user.getRole().equals("Administrator")){
+        if(user.getRole().equals("Administrator") || user.getRole().equals("Assistant Admin")){
             btnEmployee.setVisible(true);
             btnClaimSalary.setVisible(true);
             btnReports.setVisible(true);
@@ -27,14 +27,14 @@ public class Menu extends javax.swing.JFrame {
             btnSalaryCondition.setVisible(true);
             btnSystemLogs.setVisible(false);
         }
-        else{
-            btnEmployee.setVisible(false);
-            btnClaimSalary.setVisible(false);
-            btnReports.setVisible(false);
-            btnPayroll.setVisible(false);
-            btnSalaryCondition.setVisible(true);
-            btnSystemLogs.setVisible(false);
-        }
+//        else{
+//            btnEmployee.setVisible(false);
+//            btnClaimSalary.setVisible(false);
+//            btnReports.setVisible(false);
+//            btnPayroll.setVisible(false);
+//            btnSalaryCondition.setVisible(true);
+//            btnSystemLogs.setVisible(false);
+//        }
     }
     public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
         initComponents();
