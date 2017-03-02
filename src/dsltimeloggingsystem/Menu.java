@@ -235,8 +235,22 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            DB.setUserLogStatus(sessionUser.getEmployeeID(),"Page Visit", "Logout");
+            DSLTimeLoggingSystem timeLoggingSystem = new DSLTimeLoggingSystem();
+            timeLoggingSystem.setTitle("DSL Time Logging | Login");
+            timeLoggingSystem.pack();
+            timeLoggingSystem.setLocationRelativeTo(null);
+            timeLoggingSystem.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnClaimSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaimSalaryActionPerformed
