@@ -89,6 +89,11 @@ public class Reports extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,6 +184,25 @@ public class Reports extends javax.swing.JFrame {
             Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnExportActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        try {
+            Menu menu = new Menu( this.sessionUser);
+            menu.setTitle("DSL Time Logging | Menu");
+            menu.pack();
+            menu.setLocationRelativeTo(null);
+            menu.setDefaultCloseOperation(0);
+            menu.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments

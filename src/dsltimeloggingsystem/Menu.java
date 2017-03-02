@@ -293,6 +293,7 @@ public class Menu extends javax.swing.JFrame {
     private void btnReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportsActionPerformed
         // TODO add your handling code here:
         Reports report;
+        this.setVisible(false);
         try {
             report = new Reports(this.sessionUser);
             report.setTitle("DSL Time Logging | Generate Report");
