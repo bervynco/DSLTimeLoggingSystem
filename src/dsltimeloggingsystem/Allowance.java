@@ -159,7 +159,6 @@ public class Allowance extends javax.swing.JFrame {
                     DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save Allowance Item");
                 }
                 else{
-                    System.out.println("ERROR");
                     lblStatus.setText("Error. Please contact system administrator");
                 }
             } catch (ClassNotFoundException ex) {

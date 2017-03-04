@@ -86,11 +86,34 @@ public class DB {
         return sq;
     }
     
-    static void setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
+    static String setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("INSERT INTO payroll (firstName, lastName, employeeID, address, telephoneNumber," + 
-                " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
-                "SSSDeduction, pagibigDeduction, philHealthDeduction, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = c.prepareStatement("INSERT INTO payroll (employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction," + 
+                " bonus, cashAdvance, loan, days, overTime, totalSalary, claimDate, isClaimed" + 
+                ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setFloat(2, rate);
+        ps.setFloat(3, sssDeduction);
+        ps.setFloat(4, pagibigDeduction);
+        ps.setFloat(5, philHealthDeduction);
+        ps.setFloat(6, bonus);
+        ps.setFloat(7, cashAdvance);
+        ps.setFloat(8, loan);
+        ps.setInt(9, days);
+        ps.setFloat(10, overTime);
+        ps.setFloat(11, totalSalary);
+        ps.setDate(12, new java.sql.Date(getCurrentCalendar()));
+        ps.setString(13, "Claimed");
+        
+        int rows = ps.executeUpdate();
+        c.close();
+
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
     }
     
     public static List<Absence> getAbsentDate(String startDate, String endDate, int employeeID) throws ClassNotFoundException, SQLException, ParseException{

@@ -154,15 +154,10 @@ public class EmployeeList extends javax.swing.JFrame {
             // TODO add your handling code here:
             int row = jTable2.rowAtPoint(evt.getPoint());
             int employeeID = (int) jTable2.getValueAt(row, 0);
+            String name = (String) jTable2.getValueAt(row, 1);
             this.setVisible(false);
             SalaryClaim salary = new SalaryClaim(this.sessionUser);
-            try {
-                salary.fillFields(employeeID);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            salary.fillFields(employeeID, name);
             salary.setTitle("DSL Time Logging | Salary Claim");
             salary.pack();
             salary.setLocationRelativeTo(null);
