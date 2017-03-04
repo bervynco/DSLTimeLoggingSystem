@@ -18,8 +18,10 @@ public class SalaryClaim extends javax.swing.JFrame {
     private static int totalRegularWorkingHours = 0; // 8 and above working hours
     private static User sessionUser = null;
     PayrollDetails payrollDetails = new PayrollDetails();
+    private static int employeeID = 0;
     
     public void fillFields(int employeeID) throws ClassNotFoundException, SQLException{
+        this.employeeID = employeeID;
         User user = DB.getUserDetails(employeeID);
         totalBonus = DB.getBonus(employeeID);
         totalCashAdvance = DB.getAllowance(employeeID);
@@ -52,7 +54,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         float bonus = Float.valueOf(txtBonus.getText());
         float cashAdvance = Float.valueOf(txtCashAdvance.getText());
         float loan = Float.valueOf(txtLoan.getText());
-        float days = Float.valueOf(txtDays.getText());
+        int days = Integer.valueOf(txtDays.getText());
         float overTime;
         try{
             overTime = Float.valueOf(txtOvertime.getText());
@@ -330,13 +332,20 @@ public class SalaryClaim extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            // TODO add your handling code here:
-            DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save Salary Claim");
+            float rate = payrollDetails.getRate();
+            float sssDeduction = payrollDetails.getSssDeduction();
+            float pagibigDeduction = payrollDetails.getPagibigDeduction();
+            float philHealthDeduction = payrollDetails.getPhilHealthDeduction();
+            float bonus = payrollDetails.getBonus();
+            float cashAdvance = payrollDetails.getCashAdvance();
+            float loan = payrollDetails.getLoan();
+            int days = payrollDetails.getDays();
+            float overTime = payrollDetails.getOverTime();
+            float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
+            DB.setSalaryClaim(employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime, totalSalary);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -370,7 +379,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         float bonus = Float.valueOf(txtBonus.getText());
         float cashAdvance = Float.valueOf(txtCashAdvance.getText());
         float loan = Float.valueOf(txtLoan.getText());
-        float days = Float.valueOf(txtDays.getText());
+        int days = Integer.valueOf(txtDays.getText());
         float overTime = Float.valueOf(txtOvertime.getText());
         float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
         lblSalary.setText(Float.toString(totalSalary));

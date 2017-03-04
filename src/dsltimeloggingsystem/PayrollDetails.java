@@ -17,7 +17,7 @@ public class PayrollDetails {
     private float bonus;
     private float cashAdvance;
     private float loan;
-    private float days;
+    private int days;
     private float overTime;
     private float totalSalary;
 
@@ -77,11 +77,11 @@ public class PayrollDetails {
         this.loan = loan;
     }
 
-    public float getDays() {
+    public int getDays() {
         return days;
     }
 
-    public void setDays(float days) {
+    public void setDays(int days) {
         this.days = days;
     }
 

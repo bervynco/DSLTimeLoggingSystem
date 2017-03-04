@@ -85,6 +85,14 @@ public class DB {
         //System.out.println(sdf.format(sq));
         return sq;
     }
+    
+    static void setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO payroll (firstName, lastName, employeeID, address, telephoneNumber," + 
+                " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
+                "SSSDeduction, pagibigDeduction, philHealthDeduction, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    }
+    
     public static List<Absence> getAbsentDate(String startDate, String endDate, int employeeID) throws ClassNotFoundException, SQLException, ParseException{
         Connection c = connect();
         Calendar calendar = Calendar.getInstance();
@@ -923,4 +931,5 @@ public class DB {
         
         
     }
+
 }
