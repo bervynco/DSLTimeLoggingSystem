@@ -181,39 +181,45 @@ public class Reports extends javax.swing.JFrame {
         List<User> users;
         int employeeID = 0;
         String reportType = (String)jComboBox2.getSelectedItem();
-        
-        try {
-            Calendar cal = Calendar.getInstance();
-            Calendar cal1 = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            sdf.setLenient(false);       
-            dateStart = sdf.parse(startDate);
-            cal.setTime(dateStart);
-            dateEnd = sdf.parse(endDate);
-            cal.setTime(dateEnd);
-        } catch (ParseException ex) {
-            Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
-            error = true;
-        }
-        if(error == true){
-            lblWarning.setText("Date not parseable. Please use the recommended format");
-            lblWarning.setHorizontalAlignment(JLabel.CENTER);
-            lblWarning.setForeground(Color.red);
-        }
-        else{
-            if(name.equals("All")){
-                try {
-                    users = DB.getUsers();
-                    GenerateReport generate = new GenerateReport();
-                    generate.generateReport(startDate, endDate, reportType, users);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
-                    Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+        if(!startDate.equals("") || !startDate.equals("")){
+            try {
+                Calendar cal = Calendar.getInstance();
+                Calendar cal1 = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                sdf.setLenient(false);       
+                dateStart = sdf.parse(startDate);
+                cal.setTime(dateStart);
+                dateEnd = sdf.parse(endDate);
+                cal.setTime(dateEnd);
+            } catch (ParseException ex) {
+                Logger.getLogger(FilterSystemLogs.class.getName()).log(Level.SEVERE, null, ex);
+                error = true;
+            }
+            if(error == true){
+                lblWarning.setText("Date not parseable. Please use the recommended format");
+                lblWarning.setHorizontalAlignment(JLabel.CENTER);
+                lblWarning.setForeground(Color.red);
+            }
+            else{
+                if(name.equals("All")){
+                    try {
+                        users = DB.getUsers();
+                        GenerateReport generate = new GenerateReport();
+                        generate.generateReport(startDate, endDate, reportType, users);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
+        }
+        else{
+            lblWarning.setText("Please complete all fields");
+            lblWarning.setHorizontalAlignment(JLabel.CENTER);
+            lblWarning.setForeground(Color.red);
         }
 
     }//GEN-LAST:event_btnExportActionPerformed
