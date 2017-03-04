@@ -392,8 +392,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
             byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
             DB db = new DB();
             try {
-                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || SSSNumber.equals("")
-                        || philHealthNumber.equals("") || tinNumber.equals("") || pagibigNumber.equals("")|| accessRole.equals("") || employeeID == 0 || rate == 0){
+                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0){
                     lblWarningMessage.setText("Please complete fields before proceeding");
                 }
                 else{

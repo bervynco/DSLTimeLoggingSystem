@@ -407,8 +407,7 @@ public class EditEmployee extends javax.swing.JFrame {
                     String telephoneNumber = txtTelephoneNumber.getText();
                     String mobileNumber = txtMobileNumber.getText();
                     byte[] fingerPrintImage = user.getFingerPrintImage();
-                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || SSSNumber.equals("")
-                        || philHealthNumber.equals("") || tinNumber.equals("") || pagibigNumber.equals("")|| role.equals("") || employeeID == 0 || rate == 0){
+                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0){
                         lblWarningMessage.setText("Please complete fields before proceeding");
                     }
                     else{
