@@ -6,6 +6,7 @@
 package dsltimeloggingsystem;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -13,11 +14,14 @@ import java.sql.Timestamp;
  */
 public class Attendance {
     private int employeeID;
+    private String employeeName;
     private String firstName;
     private String lastName;
     private Timestamp logDate;
     private Timestamp timeIn;
     private Timestamp timeOut;
+    private Timestamp timeInDate;
+    private Timestamp timeOutDate;
     private int duration;
 
     public int getEmployeeID() {
@@ -27,11 +31,37 @@ public class Attendance {
     public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
     }
+    /* REPORT Generating */
+    public String getEmployeeName() {
+        return employeeName;
+    }
 
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
 
+    public Timestamp getTimeInDate() {
+        return timeInDate;
+    }
+
+    public void setTimeInDate(Timestamp timeInDate) {
+        this.timeInDate = timeInDate;
+    }
+
+    public Timestamp getTimeOutDate() {
+        return timeOutDate;
+    }
+
+    public void setTimeOutDate(Timestamp timeOutDate) {
+        this.timeOutDate = timeOutDate;
+    }
+    
+     /* REPORT Generating */
+    
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

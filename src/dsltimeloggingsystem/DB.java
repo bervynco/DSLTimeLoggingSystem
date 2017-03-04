@@ -85,7 +85,231 @@ public class DB {
         //System.out.println(sdf.format(sq));
         return sq;
     }
-    
+    public static List<Absence> getAbsentDate(String startDate, String endDate, int employeeID) throws ClassNotFoundException, SQLException, ParseException{
+        Connection c = connect();
+        Calendar calendar = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        List<Absence> absenceList = new ArrayList<>();
+        if(startDate.equals("") && endDate.equals("")){
+            cal.setTime(new java.sql.Date(getCurrentCalendar()));
+            int month = cal.get(Calendar.MONTH) + 1;
+            int day = cal.get(Calendar.DATE);
+            int year = cal.get(Calendar.YEAR);
+//                PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate FROM user_logs a, users b" + 
+//                        " where a.employeeID = b.employeeID and a.employeeID = ? and month(a.logDate) = ? and year(a.logDate) = ?");
+//                ps.setInt(1, employeeID);
+//                ps.setInt(2, month);
+//                ps.setInt(3, day);
+//                ps.setInt(4, year);
+//                ResultSet rs = ps.executeQuery();
+//                while(rs.next()){
+//                    UserLogs ul = new UserLogs();
+//                    ul.setEmployeeID(rs.getInt(1));
+//                    ul.setEmployeeName(rs.getString(2));
+//                    ul.setType(rs.getString(3));
+//                    ul.setLogDetails(rs.getString(4));
+//                    ul.setLogDate(rs.getTimestamp(5).toString());
+//                    logs.add(ul);
+//                }
+        }
+        else if(startDate.equals("") || endDate.equals("")){
+            int month = 0;
+            int day = 0;
+            int year = 0;
+            if(!startDate.equals("")){
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = format.parse(startDate);
+                cal.setTime(date);
+                month = cal.get(Calendar.MONTH) + 1;
+                day = cal.get(Calendar.DATE);
+                year = cal.get(Calendar.YEAR);
+            }
+            else if(!endDate.equals("")){
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = format.parse(endDate);
+                cal.setTime(date);
+                month = cal.get(Calendar.MONTH) + 1;
+                day = cal.get(Calendar.DATE);
+                year = cal.get(Calendar.YEAR);
+            }
+//                PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate FROM user_logs a, users b "+
+//                         "where a.employeeID = b.employeeID and a.employeeID = ? and month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate)=?");// 
+//                ps.setInt(1, employeeID);
+//                ps.setInt(2, month);
+//                ps.setInt(3, day);
+//                ps.setInt(4, year);
+//                ResultSet rs = ps.executeQuery();
+//                while(rs.next()){
+//                    UserLogs ul = new UserLogs();
+//                    ul.setEmployeeID(rs.getInt(1));
+//                    ul.setEmployeeName(rs.getString(2));
+//                    ul.setType(rs.getString(3));
+//                    ul.setLogDetails(rs.getString(4));
+//                    ul.setLogDate(rs.getTimestamp(5).toString());
+//                    logs.add(ul);
+//                }
+        }
+        else{
+            int startMonth = 0;
+            int startDay = 0;
+            int startYear = 0;
+            int endMonth = 0;
+            int endDay = 0;
+            int endYear = 0;
+
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateStart = format.parse(startDate);
+            Date dateEnd = format.parse(endDate);
+            cal.setTime(dateStart);
+            cal2.setTime(dateEnd);
+            startMonth = cal.get(Calendar.MONTH) + 1;
+            startDay = cal.get(Calendar.DATE);
+            startYear = cal.get(Calendar.YEAR);
+            endMonth = cal2.get(Calendar.MONTH) + 1;
+            endDay = cal2.get(Calendar.DATE);
+            endYear = cal2.get(Calendar.YEAR);
+
+            PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.absenceDate, a.reason"+
+                    " from absence a, users b where b.employeeID = a.employeeID and a.employeeID = ? and (month(a.absenceDate) >= ? AND month(a.absenceDate) <=?)"+
+                    " and (day(a.absenceDate) >= ? AND day(a.absenceDate) <=?)and (year(a.absenceDate) >= ? AND year(a.absenceDate) <=?)");
+
+            ps.setInt(1, employeeID);
+            ps.setInt(2, startMonth);
+            ps.setInt(3, endMonth);
+            ps.setInt(4, startDay);
+            ps.setInt(5, endDay);
+            ps.setInt(6, startYear);
+            ps.setInt(7, endYear);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Absence absence = new Absence();
+                absence.setEmployeeID(rs.getInt(1));
+                absence.setEmployeeName(rs.getString(2));
+                absence.setAbsenceDate(rs.getDate(3));
+                absence.setReason(rs.getString(4));
+
+                absenceList.add(absence);
+            }
+        }
+        
+        c.close();
+        return absenceList;
+    }
+    public static List<Attendance> getReportAttendance(String startDate, String endDate, int employeeID) throws ClassNotFoundException, SQLException, ParseException{
+        Connection c = connect();
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        List<Attendance> attendanceList = new ArrayList<>();
+        
+        if(startDate.equals("") && endDate.equals("")){
+            cal.setTime(new java.sql.Date(getCurrentCalendar()));
+            int month = cal.get(Calendar.MONTH) + 1;
+            int day = cal.get(Calendar.DATE);
+            int year = cal.get(Calendar.YEAR);
+//                PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate FROM user_logs a, users b" + 
+//                        " where a.employeeID = b.employeeID and a.employeeID = ? and month(a.logDate) = ? and year(a.logDate) = ?");
+//                ps.setInt(1, employeeID);
+//                ps.setInt(2, month);
+//                ps.setInt(3, day);
+//                ps.setInt(4, year);
+//                ResultSet rs = ps.executeQuery();
+//                while(rs.next()){
+//                    UserLogs ul = new UserLogs();
+//                    ul.setEmployeeID(rs.getInt(1));
+//                    ul.setEmployeeName(rs.getString(2));
+//                    ul.setType(rs.getString(3));
+//                    ul.setLogDetails(rs.getString(4));
+//                    ul.setLogDate(rs.getTimestamp(5).toString());
+//                    logs.add(ul);
+//                }
+        }
+        else if(startDate.equals("") || endDate.equals("")){
+            int month = 0;
+            int day = 0;
+            int year = 0;
+            if(!startDate.equals("")){
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = format.parse(startDate);
+                cal.setTime(date);
+                month = cal.get(Calendar.MONTH) + 1;
+                day = cal.get(Calendar.DATE);
+                year = cal.get(Calendar.YEAR);
+            }
+            else if(!endDate.equals("")){
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = format.parse(endDate);
+                cal.setTime(date);
+                month = cal.get(Calendar.MONTH) + 1;
+                day = cal.get(Calendar.DATE);
+                year = cal.get(Calendar.YEAR);
+            }
+//                PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate FROM user_logs a, users b "+
+//                         "where a.employeeID = b.employeeID and a.employeeID = ? and month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate)=?");// 
+//                ps.setInt(1, employeeID);
+//                ps.setInt(2, month);
+//                ps.setInt(3, day);
+//                ps.setInt(4, year);
+//                ResultSet rs = ps.executeQuery();
+//                while(rs.next()){
+//                    UserLogs ul = new UserLogs();
+//                    ul.setEmployeeID(rs.getInt(1));
+//                    ul.setEmployeeName(rs.getString(2));
+//                    ul.setType(rs.getString(3));
+//                    ul.setLogDetails(rs.getString(4));
+//                    ul.setLogDate(rs.getTimestamp(5).toString());
+//                    logs.add(ul);
+//                }
+        }
+        else{
+            int startMonth = 0;
+            int startDay = 0;
+            int startYear = 0;
+            int endMonth = 0;
+            int endDay = 0;
+            int endYear = 0;
+
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateStart = format.parse(startDate);
+            Date dateEnd = format.parse(endDate);
+            cal.setTime(dateStart);
+            cal2.setTime(dateEnd);
+            startMonth = cal.get(Calendar.MONTH) + 1;
+            startDay = cal.get(Calendar.DATE);
+            startYear = cal.get(Calendar.YEAR);
+            endMonth = cal2.get(Calendar.MONTH) + 1;
+            endDay = cal2.get(Calendar.DATE);
+            endYear = cal2.get(Calendar.YEAR);
+
+            PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.logDate, a.timeIn,"+
+                    " a.timeOut from logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and (month(a.logDate) >= ? AND month(a.logDate) <=?)"+
+                    " and (day(a.logDate) >= ? AND day(a.logDate) <=?)and (year(a.logDate) >= ? AND year(a.logDate) <=?)");
+
+            ps.setInt(1, employeeID);
+            ps.setInt(2, startMonth);
+            ps.setInt(3, endMonth);
+            ps.setInt(4, startDay);
+            ps.setInt(5, endDay);
+            ps.setInt(6, startYear);
+            ps.setInt(7, endYear);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Attendance ul = new Attendance();
+                ul.setEmployeeID(rs.getInt(1));
+                ul.setEmployeeName(rs.getString(2));
+                ul.setLogDate(rs.getTimestamp(3));
+                ul.setTimeInDate(rs.getTimestamp(4));
+                ul.setTimeOutDate(rs.getTimestamp(5));
+
+                attendanceList.add(ul);
+            }
+        }
+        
+        c.close();
+        
+        
+        return attendanceList;
+    }
     public static List<UserLogs> getSystemLogs(int employeeID, String startDate, String endDate, String filter) throws ClassNotFoundException, SQLException, ParseException{
         Connection c = connect();
         Calendar cal = Calendar.getInstance();
@@ -344,6 +568,7 @@ public class DB {
             return "Failed";
         }
     }
+    
     public static String setAbsentDate(int employeeID, Date absenceDate, String reason) throws ClassNotFoundException, SQLException{
         //Calendar date = convertDate(holiday);
         Calendar calendar = Calendar.getInstance();
