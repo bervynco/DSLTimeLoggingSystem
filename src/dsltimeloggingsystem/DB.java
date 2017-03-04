@@ -507,50 +507,29 @@ public class DB {
         }
     }
     
-    public static List<Attendance> getAttendance(String getType, String filterDate) throws ClassNotFoundException, SQLException, ParseException{
+    public static List<Attendance> getAttendance() throws ClassNotFoundException, SQLException, ParseException{
         int month = 0;
         int day = 0;
         int year = 0;
         String sqlDate = "";
         
-        
         Calendar cal = Calendar.getInstance();
-        if(filterDate.equals(" ")){
-            cal.setTime(new java.sql.Date(getCurrentCalendar()));
-            if(getType.equals("all")){
-                month = cal.get(Calendar.MONTH) + 1;
-                sqlDate = "month(a.logDate) = ?";
-            }
-            else if(getType.equals("today")){
-                day = cal.get(Calendar.DATE);
-                sqlDate = "month(a.logDate) = ? and day(a.logDate) = ?";
-            }
-            else;
-        }
-        else{
-            Date date = null;
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            date = formatter.parse(filterDate);
-            cal.setTime(new java.sql.Date(convertDate(date)));
-            month = cal.get(Calendar.MONTH) + 1;
-            day = cal.get(Calendar.DATE);
-            year = cal.get(Calendar.YEAR);
-//            System.out.println(month);
-//            System.out.println(day);
-//            System.out.println(year);
-            sqlDate = "month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate) = ?";
-        }
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
+        month = cal.get(Calendar.MONTH) + 1;
+        day = cal.get(Calendar.DATE);
+        year = cal.get(Calendar.YEAR);
         
+        System.out.println(month);
+        System.out.println(day);
+        System.out.println(year);
+        sqlDate = "month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate) =?";
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from logs a, users b where " +  sqlDate +" and a.employeeID = b.employeeID;");
+        PreparedStatement ps = c.prepareStatement("Select a.employeeID, b.firstName, b.lastName, a.logDate, a.timeIn, a.timeOut, TIMESTAMPDIFF(HOUR, a.timeIn, a.timeOut) as Duration from " +
+                "logs a, users b where " +  sqlDate +" and a.employeeID = b.employeeID;");
         ps.setInt(1, month);
-        if(day != 0){
-            ps.setInt(2, day);
-        }
-        if(year!= 0){
-            ps.setInt(3, year);
-        }
+        ps.setInt(2, day);
+        ps.setInt(3, year);
         ResultSet rs = ps.executeQuery();
         
         while(rs.next()){
