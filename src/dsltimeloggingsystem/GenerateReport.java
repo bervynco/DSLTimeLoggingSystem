@@ -45,7 +45,7 @@ public class GenerateReport {
                     Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
                     Font.BOLD);
-    public void generateReport(String startDate, String endDate, String reportType, List<User> users) throws ClassNotFoundException, ParseException, SQLException{
+    public void generateReport(String startDate, String endDate, String reportType, List<User> users, int employeeID) throws ClassNotFoundException, ParseException, SQLException{
 //        System.out.println("SIZE:" + users.size());
         try {
             Document document = new Document();
@@ -60,7 +60,7 @@ public class GenerateReport {
                 addContentPayroll(document, users, reportType);
             }
             else if(reportType.equals("Attendance")){
-                addContentAttendance(document, users, reportType, startDate, endDate);
+                addContentAttendance(document, users, reportType, startDate, endDate, employeeID);
             }
             else{
 
@@ -91,7 +91,10 @@ public class GenerateReport {
             document.newPage();
     }
 
-    private static void addContentAttendance(Document document, List<User> user, String reportType, String startDate, String endDate) throws DocumentException, ClassNotFoundException, SQLException, ParseException {  
+    private static void addContentAttendance(Document document, List<User> user, String reportType, String startDate, String endDate, int employeeID) throws DocumentException, ClassNotFoundException, SQLException, ParseException {  
+        List<Attendance> attendance = new ArrayList<>(); 
+        List<Absence> absence = new ArrayList<>();
+        
         PdfPTable tableAttendance = new PdfPTable(3);
         PdfPCell c1 = new PdfPCell(new Phrase("Date Log"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -128,11 +131,56 @@ public class GenerateReport {
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
         Section subCatPart = null;
         Paragraph subPara = null;
-        catPart.add( Chunk.NEWLINE );
-        for(int i = 0; i < user.size(); i++){
-            List<Attendance> attendance = new ArrayList<>(); 
-            List<Absence> absence = new ArrayList<>();
-            String fullName = user.get(i).getFirstName() + ' ' + user.get(i).getLastName();
+        
+        if(employeeID == 0){
+            for(int i = 0; i < user.size(); i++){
+                
+                String fullName = user.get(i).getFirstName() + ' ' + user.get(i).getLastName();
+                subPara = new Paragraph(fullName, subFont);
+                addEmptyLine(subPara, 1);
+                subCatPart = catPart.addSection(subPara);
+                Paragraph headerOne = new Paragraph();
+                headerOne.setAlignment(Element.ALIGN_CENTER);
+
+                headerOne.add(new Paragraph("Attendance", subFont));
+                Paragraph headerTwo = new Paragraph();
+                headerTwo.setAlignment(Element.ALIGN_CENTER);
+
+                headerTwo.add(new Paragraph("Absence", subFont));
+
+
+                attendance = DB.getReportAttendance(startDate, endDate, user.get(i).getEmployeeID());
+                absence = DB.getAbsentDate(startDate, endDate, user.get(i).getEmployeeID());
+
+                if(attendance.size() > 0){
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerOne);
+                    subCatPart.add( Chunk.NEWLINE );
+                    for(int k = 0; k < attendance.size(); k++){
+                        tableAttendance.addCell(attendance.get(k).getLogDate().toString());
+                        tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
+                        tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                    }
+                    subCatPart.add(tableAttendance);
+                }
+                if(absence.size() > 0){
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerTwo);
+                    subCatPart.add( Chunk.NEWLINE );
+                    for(int k =0; k < absence.size(); k++){
+                        tableAbsence.addCell(absence.get(k).getAbsenceDate().toString());
+                        tableAbsence.addCell(absence.get(k).getReason().toString());
+                    }
+                    subCatPart.add(tableAbsence);
+                }
+                subCatPart.add( Chunk.NEWLINE );
+            }
+        }
+        else{
+            System.out.println("EMPLOYEE");
+            User userDetails = DB.getUserDetails(employeeID);  
+            String fullName = userDetails.getFirstName() + ' ' + userDetails.getLastName();
+            
             subPara = new Paragraph(fullName, subFont);
             addEmptyLine(subPara, 1);
             subCatPart = catPart.addSection(subPara);
@@ -145,10 +193,10 @@ public class GenerateReport {
 
             headerTwo.add(new Paragraph("Absence", subFont));
             
-            
-            attendance = DB.getReportAttendance(startDate, endDate, user.get(i).getEmployeeID());
-            absence = DB.getAbsentDate(startDate, endDate, user.get(i).getEmployeeID());
-            
+            System.out.println(userDetails.getEmployeeID());
+            attendance = DB.getReportAttendance(startDate, endDate, userDetails.getEmployeeID());
+            absence = DB.getAbsentDate(startDate, endDate, userDetails.getEmployeeID());
+
             if(attendance.size() > 0){
                 subCatPart.add( Chunk.NEWLINE );
                 subCatPart.add(headerOne);

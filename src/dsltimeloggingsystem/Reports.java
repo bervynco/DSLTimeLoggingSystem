@@ -171,6 +171,7 @@ public class Reports extends javax.swing.JFrame {
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
         // TODO add your handling code here:
+        GenerateReport generate = new GenerateReport();
         String startDate = txtStartDate.getText();
         String endDate = txtEndDate.getText();
         String name = (String) jComboBox1.getSelectedItem();
@@ -178,7 +179,7 @@ public class Reports extends javax.swing.JFrame {
         Date dateStart = null;
         Date dateEnd = null;
         
-        List<User> users;
+        List<User> users = null;
         int employeeID = 0;
         String reportType = (String)jComboBox2.getSelectedItem();
         if(!startDate.equals("") || !startDate.equals("")){
@@ -204,11 +205,23 @@ public class Reports extends javax.swing.JFrame {
                 if(name.equals("All")){
                     try {
                         users = DB.getUsers();
-                        GenerateReport generate = new GenerateReport();
-                        generate.generateReport(startDate, endDate, reportType, users);
+                        
+                        generate.generateReport(startDate, endDate, reportType, users, 0);
                     } catch (SQLException ex) {
                         Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else{
+                    try {
+                        employeeID = DB.getEmployeeIDFromName(name);
+                        generate.generateReport(startDate, endDate, reportType, users, employeeID);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
                         Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
                         Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
