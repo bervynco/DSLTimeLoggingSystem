@@ -28,6 +28,9 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 /**
  *
  * @author L R E
@@ -46,7 +49,9 @@ public class GenerateReport {
 //        System.out.println("SIZE:" + users.size());
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("C:/PDF/" + reportType + ".pdf"));
+            DateFormat df = new SimpleDateFormat("dd-MM-yy-HHmmss");
+            Date dateobj = new Date();
+            PdfWriter.getInstance(document, new FileOutputStream("C:/PDF/" + reportType + '-' + df.format(dateobj) + ".pdf"));
             document.open();
             addTitlePage(document);
             
