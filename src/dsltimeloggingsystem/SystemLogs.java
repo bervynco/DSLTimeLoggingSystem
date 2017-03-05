@@ -44,9 +44,8 @@ public class SystemLogs extends javax.swing.JFrame {
         model.addColumn("Access Type");
         model.addColumn("Access Location");
         model.addColumn("Access Time");
-        if(temp == 0){
+        if(logs == null){
             logs = DB.getSystemLogs(0, "", "", "");
-            temp = 1;
         }
         if(logs != null){
             for(i = 0; i < logs.size(); i++){
