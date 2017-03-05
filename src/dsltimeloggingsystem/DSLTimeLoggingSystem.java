@@ -35,6 +35,7 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
         initComponents();
         lblStatus.setFont(new Font("Serif", Font.PLAIN, 26));
         lblStatus.setHorizontalAlignment(JLabel.CENTER);
+        lblOr.setHorizontalAlignment(JLabel.CENTER);
         
     }
     
@@ -55,6 +56,9 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
         btn_ScanReader = new javax.swing.JButton();
         btn_capture = new javax.swing.JButton();
         lblStatus = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        lblOr = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,6 +81,11 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
             }
         });
 
+        lblOr.setText("or");
+        lblOr.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel3.setText("Password");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,11 +97,20 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
                     .addComponent(btn_ScanReader, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
+            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
+                .addGap(9, 9, 9)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(lblOr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,7 +124,13 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
                 .addComponent(btn_ScanReader)
                 .addGap(43, 43, 43)
                 .addComponent(btn_capture)
-                .addGap(65, 65, 65))
+                .addGap(14, 14, 14)
+                .addComponent(lblOr)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap())
         );
 
         pack();
@@ -210,7 +234,10 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
     private javax.swing.JButton btn_ScanReader;
     private javax.swing.JButton btn_capture;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPasswordField jPasswordField1;
     private java.awt.Label label2;
+    private javax.swing.JLabel lblOr;
     private javax.swing.JLabel lblStatus;
     // End of variables declaration//GEN-END:variables
 }
