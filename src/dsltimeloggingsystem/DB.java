@@ -265,16 +265,9 @@ public class DB {
         endYear = cal2.get(Calendar.YEAR);
 
         PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.absenceDate, a.reason"+
-                " from absence a, users b where b.employeeID = a.employeeID and a.employeeID = ? and (month(a.absenceDate) >= ? AND month(a.absenceDate) <=?)"+
-                " and (day(a.absenceDate) >= ? AND day(a.absenceDate) <=?)and (year(a.absenceDate) >= ? AND year(a.absenceDate) <=?)");
+                " from absence a, users b where b.employeeID = a.employeeID and a.employeeID = ? and a.absenceDate BETWEEN '" + startDate + "' AND '" + endDate + "'");
 
         ps.setInt(1, employeeID);
-        ps.setInt(2, startMonth);
-        ps.setInt(3, endMonth);
-        ps.setInt(4, startDay);
-        ps.setInt(5, endDay);
-        ps.setInt(6, startYear);
-        ps.setInt(7, endYear);
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             Absence absence = new Absence();
@@ -315,7 +308,7 @@ public class DB {
         endYear = cal2.get(Calendar.YEAR);
 
         PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.logDate, a.timeIn,"+
-                " a.timeOut from logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and a.logDate BETWEEN '" + startDate + "' AND '" + endDate + "';");
+                " a.timeOut from logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and a.logDate BETWEEN '" + startDate + "' AND '" + endDate + "'");
 
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
@@ -385,7 +378,7 @@ public class DB {
                     year = cal.get(Calendar.YEAR);
                 }
                 PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate FROM user_logs a, users b "+
-                         "where a.employeeID = b.employeeID and a.employeeID = ? and month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate)=?");// 
+                         "where a.employeeID = b.employeeID and a.employeeID = ? and month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate)=?"); 
                 ps.setInt(1, employeeID);
                 ps.setInt(2, month);
                 ps.setInt(3, day);
@@ -422,15 +415,8 @@ public class DB {
                 endYear = cal2.get(Calendar.YEAR);
 
                 PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate"+
-                        " FROM user_logs a, users b where a.employeeID = b.employeeID and a.employeeID = ? and (month(a.logDate) >= ? AND month(a.logDate) <=?)"+
-                        " and (day(a.logDate) >= ? AND day(a.logDate) <=?)and (year(a.logDate) >= ? AND year(a.logDate) <=?)");
+                        " FROM user_logs a, users b where a.employeeID = b.employeeID and a.employeeID = ? and a.logDate BETWEEN '" + startDate + "' AND '" + endDate + "';");
                 ps.setInt(1, employeeID);
-                ps.setInt(2, startMonth);
-                ps.setInt(3, endMonth);
-                ps.setInt(4, startDay);
-                ps.setInt(5, endDay);
-                ps.setInt(6, startYear);
-                ps.setInt(7, endYear);
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
                     UserLogs ul = new UserLogs();
@@ -522,14 +508,8 @@ public class DB {
                 endYear = cal2.get(Calendar.YEAR);
 
                 PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.type, a.logDetails, a.logDate"+
-                        " FROM user_logs a, users b where a.employeeID = b.employeeID and (month(a.logDate) >= ? AND month(a.logDate) <=?)"+
-                        " and (day(a.logDate) >= ? AND day(a.logDate) <=?)and (year(a.logDate) >= ? AND year(a.logDate) <=?)");
-                ps.setInt(1, startMonth);
-                ps.setInt(2, endMonth);
-                ps.setInt(3, startDay);
-                ps.setInt(4, endDay);
-                ps.setInt(5, startYear);
-                ps.setInt(6, endYear);
+                        " FROM user_logs a, users b where a.employeeID = b.employeeID and a.logDate BETWEEN '" + startDate + "' AND '" + endDate + "'");
+                
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
                     UserLogs ul = new UserLogs();
