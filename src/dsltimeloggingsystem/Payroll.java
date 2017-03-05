@@ -17,18 +17,29 @@ public class Payroll extends javax.swing.JFrame {
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = new DefaultTableModel();
         int day = 0;
-        List<Attendance> attendanceList = new ArrayList<Attendance>();
-        attendanceList = DB.getAttendance();
+        List<PayrollDetails> payrollDetails = new ArrayList<PayrollDetails>();
+        payrollDetails = DB.getSalaryClaim(0);
         model.addColumn("Employee ID");
         model.addColumn("Name");
-        model.addColumn("Log Date");
-        model.addColumn("Time In");
-        model.addColumn("Time Out");
-        model.addColumn("Duration");
+        model.addColumn("Rate");
+        model.addColumn("SSS Deduction");
+        model.addColumn("Pagibig Deduction");
+        model.addColumn("PhilHealth Deduction");
+        model.addColumn("Bonus");
+        model.addColumn("Cash Advance");
+        model.addColumn("Loan");
+        model.addColumn("Days");
+        model.addColumn("Overtime");
+        model.addColumn("Tax Deduction");
+        model.addColumn("Total Salary");
+        model.addColumn("Claim Date");
         
-        for(int i = 0; i < attendanceList.size(); i++){
-            Object [] rowData = {attendanceList.get(i).getEmployeeID(), attendanceList.get(i).getFirstName() +" " + attendanceList.get(i).getLastName(), attendanceList.get(i).getLogDate(), attendanceList.get(i).getTimeIn(), attendanceList.get(i).getTimeOut(), 
-                attendanceList.get(i).getDuration()};
+        for(int i = 0; i < payrollDetails.size(); i++){
+            Object [] rowData = {payrollDetails.get(i).getEmployeeID(), payrollDetails.get(i).getEmployeeName(), payrollDetails.get(i).getRate(), 
+                payrollDetails.get(i).getSssDeduction(), payrollDetails.get(i).getPagibigDeduction(),payrollDetails.get(i).getPhilHealthDeduction(),
+                payrollDetails.get(i).getBonus(),payrollDetails.get(i).getCashAdvance(), payrollDetails.get(i).getLoan(), payrollDetails.get(i).getDays(), 
+                payrollDetails.get(i).getOverTime(), payrollDetails.get(i).getTaxDeduction(), payrollDetails.get(i).getTotalSalary(),
+                payrollDetails.get(i).getClaimDate()};
             model.addRow(rowData);
         }
        

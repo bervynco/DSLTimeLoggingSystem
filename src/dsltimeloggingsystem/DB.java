@@ -105,14 +105,14 @@ public class DB {
             dayEnd = 31;
         }
         if(employeeID == 0){
-            sqlSyntax = "month(claimDate) = ? and (day(claimDate) > =? and day(claimDate) <= ? )and year(claimDate) = ?";
+            sqlSyntax = "month(a.claimDate) = ? and (day(a.claimDate) >= ? and day(a.claimDate) <= ? )and year(a.claimDate) = ?";
         }
         else{
-            sqlSyntax = "employeeID = ? and month(claimDate) = ? and (day(claimDate) >= ? and day(claimDate) <= ? ) and year(claimDate) = ?";
+            sqlSyntax = "a.employeeID = ? and month(a.claimDate) = ? and (day(a.claimDate) >= ? and day(a.claimDate) <= ? ) and year(a.claimDate) = ?";
         }
         
-        PreparedStatement ps = c.prepareStatement("SELECT employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overtime,"+
-                "totalSalary, isClaimed, claimDate from payroll where " + sqlSyntax);
+        PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.rate, a.sssDeduction, a.pagibigDeduction, a.philHealthDeduction, a.bonus, a.cashAdvance, a.loan,"+
+                " a.days, a.overtime, a.totalSalary, a.taxDeduction, a.isClaimed, a.claimDate from payroll a, users b where a.employeeID = b.employeeID and " + sqlSyntax);
         if(employeeID == 0){
             ps.setInt(1, month);
             ps.setInt(2, dayStart);
@@ -131,18 +131,20 @@ public class DB {
             PayrollDetails payroll = new PayrollDetails();
             
             payroll.setEmployeeID(rs.getInt(1));
-            payroll.setRate(rs.getFloat(2));
-            payroll.setSssDeduction(rs.getFloat(3));
-            payroll.setPagibigDeduction(rs.getFloat(4));
-            payroll.setPhilHealthDeduction(rs.getFloat(4));
-            payroll.setBonus(rs.getFloat(5));
-            payroll.setCashAdvance(rs.getFloat(6));
-            payroll.setLoan(rs.getFloat(7));
-            payroll.setDays(rs.getInt(8));
-            payroll.setOverTime(rs.getFloat(9));
-            payroll.setTotalSalary(rs.getInt(10));
-            payroll.setIsClaimed(rs.getString(11));
-            payroll.setClaimDate(rs.getTimestamp(12));
+            payroll.setEmployeeName(rs.getString(2));
+            payroll.setRate(rs.getFloat(3));
+            payroll.setSssDeduction(rs.getFloat(4));
+            payroll.setPagibigDeduction(rs.getFloat(5));
+            payroll.setPhilHealthDeduction(rs.getFloat(6));
+            payroll.setBonus(rs.getFloat(7));
+            payroll.setCashAdvance(rs.getFloat(8));
+            payroll.setLoan(rs.getFloat(9));
+            payroll.setDays(rs.getInt(10));
+            payroll.setOverTime(rs.getFloat(11));
+            payroll.setTotalSalary(rs.getInt(12));
+            payroll.setTaxDeduction(rs.getFloat(13));
+            payroll.setIsClaimed(rs.getString(14));
+            payroll.setClaimDate(rs.getTimestamp(15));
             details.add(payroll);
         }
         c.close();
@@ -179,15 +181,9 @@ public class DB {
         
         
         PreparedStatement ps = c.prepareStatement("SELECT employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime,"+
-                "totalSalary, claimDate, isClaimed from payroll a where employeeID = ? and (month(a.claimDate) >= ? AND month(a.claimDate) <=?)"+
-                " and (day(a.claimDate) >= ? AND day(a.claimDate) <=?)and (year(a.claimDate) >= ? AND year(a.claimDate) <=?)");
-            ps.setInt(1, employeeID);
-            ps.setInt(2, startMonth);
-            ps.setInt(3, startMonth);
-            ps.setInt(4, startDay);
-            ps.setInt(5, endDay);
-            ps.setInt(6, startYear);
-            ps.setInt(7, endYear);
+                "totalSalary, taxDeduction, claimDate, isClaimed from payroll a where employeeID = ? and a.claimDate BETWEEN '" + startDate + "' AND '" + endDate + "';");
+        ps.setInt(1, employeeID);
+        
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             PayrollDetails payroll = new PayrollDetails();
@@ -202,8 +198,9 @@ public class DB {
             payroll.setDays(rs.getInt(9));
             payroll.setOverTime(rs.getFloat(10));
             payroll.setTotalSalary(rs.getFloat(11));
-            payroll.setClaimDate(rs.getTimestamp(12));
-            payroll.setIsClaimed(rs.getString(13));
+            payroll.setTaxDeduction(rs.getFloat(12));
+            payroll.setClaimDate(rs.getTimestamp(13));
+            payroll.setIsClaimed(rs.getString(14));
             
             details.add(payroll);
         }
@@ -211,11 +208,11 @@ public class DB {
         return details;
     }
     
-    public static String setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
+    public static String setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary, float taxDeduction) throws ClassNotFoundException, SQLException {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("INSERT INTO payroll (employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction," + 
-                " bonus, cashAdvance, loan, days, overTime, totalSalary, claimDate, isClaimed" + 
-                ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                " bonus, cashAdvance, loan, days, overTime, totalSalary, taxDeduction, claimDate, isClaimed" + 
+                ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         ps.setInt(1, employeeID);
         ps.setFloat(2, rate);
         ps.setFloat(3, sssDeduction);
@@ -227,8 +224,9 @@ public class DB {
         ps.setInt(9, days);
         ps.setFloat(10, overTime);
         ps.setFloat(11, totalSalary);
-        ps.setDate(12, new java.sql.Date(getCurrentCalendar()));
-        ps.setString(13, "Claimed");
+        ps.setFloat(12, taxDeduction);
+        ps.setDate(13, new java.sql.Date(getCurrentCalendar()));
+        ps.setString(14, "Claimed");
         
         int rows = ps.executeUpdate();
         c.close();
@@ -317,16 +315,9 @@ public class DB {
         endYear = cal2.get(Calendar.YEAR);
 
         PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.logDate, a.timeIn,"+
-                " a.timeOut from logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and (month(a.logDate) >= ? AND month(a.logDate) <=?)"+
-                " and (day(a.logDate) >= ? AND day(a.logDate) <=?)and (year(a.logDate) >= ? AND year(a.logDate) <=?)");
+                " a.timeOut from logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and a.logDate BETWEEN '" + startDate + "' AND '" + endDate + "';");
 
         ps.setInt(1, employeeID);
-        ps.setInt(2, startMonth);
-        ps.setInt(3, endMonth);
-        ps.setInt(4, startDay);
-        ps.setInt(5, endDay);
-        ps.setInt(6, startYear);
-        ps.setInt(7, endYear);
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             Attendance ul = new Attendance();
@@ -880,7 +871,7 @@ public class DB {
         }
     }
     
-    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction) throws SQLException, ClassNotFoundException{
+    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction) throws SQLException, ClassNotFoundException{
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, address =?, telephoneNumber =?, mobileNumber = ?, rate = ?, timeIn = ?, timeOut = ?, fingerPrint = ?, modified =?, " +""
                 + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ? WHERE employeeID = ?");
@@ -903,6 +894,7 @@ public class DB {
         ps.setFloat(16, pagibigDeduction);
         ps.setFloat(17, philHealthDeduction);
         ps.setInt(18, employeeID);
+        ps.setFloat(19, taxDeduction);
         int affectedRow = ps.executeUpdate();
         c.close();
         if(affectedRow > 0){
@@ -917,7 +909,7 @@ public class DB {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, role, fingerPrint," +  
                 "SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction" + 
-                ", philHealthDeduction, pagibigDeduction from users where employeeID = ?");
+                ", philHealthDeduction, pagibigDeduction, taxDeduction from users where employeeID = ?");
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
         User user = new User();
@@ -939,6 +931,7 @@ public class DB {
             user.setSSSDeduction(rs.getFloat(16));
             user.setPhilHealthDeduction(rs.getFloat(17));
             user.setPagibigDeduction(rs.getFloat(18));
+            user.setTaxDeduction(rs.getFloat(19));
             user.setFingerPrintImage(rs.getBytes(11));
         }
         c.close();
@@ -949,7 +942,7 @@ public class DB {
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn," + 
-                " timeOut, role, fingerPrint, SSSNumber, philHealthNumber, pagibigNumber, SSSDeduction, philHealthDeduction, pagibigDeduction, tinNumber from users");
+                " timeOut, role, fingerPrint, SSSNumber, philHealthNumber, pagibigNumber, SSSDeduction, philHealthDeduction, pagibigDeduction, tinNumber, taxDeduction from users");
         ResultSet rs = ps.executeQuery();
         
         while (rs.next()) {
@@ -971,7 +964,7 @@ public class DB {
                 user.setPhilHealthDeduction(rs.getFloat("philHealthDeduction"));
                 user.setPagibigDeduction(rs.getFloat("pagibigDeduction"));
                 user.setTinNumber(rs.getString("tinNumber"));
-
+                user.setTaxDeduction(rs.getFloat("taxDeduction"));
                 employees.add(user);
         }
         c.close();
@@ -1004,12 +997,12 @@ public class DB {
         }
         return "Unique";
     }
-    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, String role) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
+    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("INSERT INTO users (firstName, lastName, employeeID, address, telephoneNumber," + 
                 " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
-                "SSSDeduction, pagibigDeduction, philHealthDeduction, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
         String status = determineDuplicateUser(fingerPrint);
         
@@ -1032,7 +1025,8 @@ public class DB {
             ps.setFloat(16, SSSDeduction);
             ps.setFloat(17, pagibigDeduction);
             ps.setFloat(18, philHealthDeduction);
-            ps.setString(19, role);
+            ps.setFloat(19, taxDeduction);
+            ps.setString(20, role);
 
 
             // execute insert SQL stetement

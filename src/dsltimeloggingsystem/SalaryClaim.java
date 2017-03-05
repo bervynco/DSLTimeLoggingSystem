@@ -26,7 +26,6 @@ public class SalaryClaim extends javax.swing.JFrame {
         System.out.println(employeeID);
         List<PayrollDetails> details = DB.getSalaryClaim(employeeID);
         if(details.size() == 0){
-            System.out.println("SIZE == 0");
             lblName.setText(name);
             this.employeeID = employeeID;
             User user = DB.getUserDetails(employeeID);
@@ -42,7 +41,8 @@ public class SalaryClaim extends javax.swing.JFrame {
             txtCashAdvance.setText(Integer.toString(totalCashAdvance));
             txtLoan.setText(Integer.toString(totalLoan));
             txtDays.setText(Integer.toString(totalRegularWorkingHours));
-            lblDeductables.setText(Float.toString(user.getSSSDeduction() + user.getPagibigDeduction() + user.getPhilHealthDeduction()));
+            txtTaxDeduction.setText(Float.toString(user.getTaxDeduction()));
+            lblDeductables.setText(Float.toString(user.getSSSDeduction() + user.getPagibigDeduction() + user.getPhilHealthDeduction() + user.getTaxDeduction()));
             lblGross.setText((Float.toString(user.getRate() * (float)totalRegularWorkingHours + totalBonus - totalCashAdvance)));
             float deductables = Float.parseFloat(lblDeductables.getText());
             float gross = Float.parseFloat(lblGross.getText());
@@ -61,6 +61,7 @@ public class SalaryClaim extends javax.swing.JFrame {
             float bonus = Float.valueOf(txtBonus.getText());
             float cashAdvance = Float.valueOf(txtCashAdvance.getText());
             float loan = Float.valueOf(txtLoan.getText());
+            float taxDeduction = Float.valueOf(txtTaxDeduction.getText());
             int days = Integer.valueOf(txtDays.getText());
             float overTime;
             try{
@@ -70,7 +71,7 @@ public class SalaryClaim extends javax.swing.JFrame {
                 overTime = 0;
             }
             txtOvertime.setText(Float.toString(overTime));
-            float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
+            float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction + taxDeduction) + bonus - (cashAdvance + loan) + overTime;
             payrollDetails.setRate(rate);
             payrollDetails.setSssDeduction(sssDeduction);
             payrollDetails.setPagibigDeduction(pagibigDeduction);
@@ -81,6 +82,7 @@ public class SalaryClaim extends javax.swing.JFrame {
             payrollDetails.setDays(days);
             payrollDetails.setOverTime(overTime);
             payrollDetails.setTotalSalary(totalSalary);
+            payrollDetails.setTaxDeduction(taxDeduction);
         }
         else{
             System.out.println("SIZE > 0");
@@ -94,6 +96,7 @@ public class SalaryClaim extends javax.swing.JFrame {
                 txtLoan.setText(Float.toString(details.get(i).getLoan()));
                 txtDays.setText(Integer.toString(details.get(i).getDays()));
                 lblSalary.setText(Float.toString(details.get(i).getTotalSalary()));
+                txtTaxDeduction.setText(Float.toString(details.get(i).getTaxDeduction()));
                 lblSalary.setFont(new Font("Serif", Font.PLAIN, 24));
                 lblSalary.setForeground(new Color(1, 169, 130));
                 btnCompute.setVisible(false);
@@ -148,6 +151,8 @@ public class SalaryClaim extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         lblName = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtTaxDeduction = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -206,6 +211,9 @@ public class SalaryClaim extends javax.swing.JFrame {
 
         lblStatus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setText("Tax Deduction:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -247,13 +255,15 @@ public class SalaryClaim extends javax.swing.JFrame {
                                             .addGap(18, 18, 18)
                                             .addComponent(txtSSSDeduction)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(label12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(label13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(label12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                                            .addComponent(txtPhilHealthDeduction))
+                                            .addComponent(txtPhilHealthDeduction)
+                                            .addComponent(txtTaxDeduction))
                                         .addGap(117, 117, 117))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,7 +303,7 @@ public class SalaryClaim extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSSSDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
@@ -344,9 +354,12 @@ public class SalaryClaim extends javax.swing.JFrame {
                             .addComponent(txtBonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCashAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(label10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCashAdvance)
+                        .addComponent(txtTaxDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblSalary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblDeductables, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -354,7 +367,7 @@ public class SalaryClaim extends javax.swing.JFrame {
                     .addComponent(label14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(label16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblGross, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnCompute)
@@ -376,8 +389,9 @@ public class SalaryClaim extends javax.swing.JFrame {
             float loan = payrollDetails.getLoan();
             int days = payrollDetails.getDays();
             float overTime = payrollDetails.getOverTime();
-            float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
-            String status = DB.setSalaryClaim(employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime, totalSalary);
+            float taxDeduction = payrollDetails.getTaxDeduction();
+            float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction + taxDeduction) + bonus - (cashAdvance + loan) + overTime;
+            String status = DB.setSalaryClaim(employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime, totalSalary, taxDeduction);
             
             if(status.equals("Successful")){
                 lblStatus.setText("Successful. Please press the back button to claim other salary");
@@ -427,7 +441,8 @@ public class SalaryClaim extends javax.swing.JFrame {
         float loan = Float.valueOf(txtLoan.getText());
         int days = Integer.valueOf(txtDays.getText());
         float overTime = Float.valueOf(txtOvertime.getText());
-        float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction) + bonus - (cashAdvance + loan) + overTime;
+        float taxDeduction = Float.valueOf(txtTaxDeduction.getText());
+        float totalSalary = (rate * days) -(sssDeduction + pagibigDeduction + philHealthDeduction + taxDeduction) + bonus - (cashAdvance + loan) + overTime;
         lblSalary.setText(Float.toString(totalSalary));
         lblSalary.setFont(new Font("Serif", Font.PLAIN, 24));
         lblSalary.setForeground(new Color(1, 169, 130));
@@ -446,6 +461,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         payrollDetails.setDays(days);
         payrollDetails.setOverTime(overTime);
         payrollDetails.setTotalSalary(totalSalary);
+        payrollDetails.setTaxDeduction(taxDeduction);
         
     }//GEN-LAST:event_btnComputeActionPerformed
 
@@ -454,6 +470,7 @@ public class SalaryClaim extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCompute;
     private javax.swing.JButton btnSave;
+    private javax.swing.JLabel jLabel1;
     private java.awt.Label label1;
     private java.awt.Label label10;
     private java.awt.Label label11;
@@ -481,5 +498,6 @@ public class SalaryClaim extends javax.swing.JFrame {
     private javax.swing.JTextField txtPhilHealthDeduction;
     private javax.swing.JTextField txtRate;
     private javax.swing.JTextField txtSSSDeduction;
+    private javax.swing.JTextField txtTaxDeduction;
     // End of variables declaration//GEN-END:variables
 }

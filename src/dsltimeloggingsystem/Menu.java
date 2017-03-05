@@ -254,6 +254,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnClaimSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaimSalaryActionPerformed
+        this.setVisible(false);
         try {
             // TODO add your handling code here:
             EmployeeList list = new EmployeeList(this.sessionUser);

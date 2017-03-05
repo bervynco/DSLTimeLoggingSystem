@@ -30,6 +30,7 @@ public class User {
     private float SSSDeduction;
     private float pagibigDeduction;
     private float philHealthDeduction;
+    private float taxDeduction;
     private static byte[] fingerPrintImage;
     
     public int getEmployeeID() {
@@ -176,6 +177,14 @@ public class User {
         this.philHealthDeduction = philHealthDeduction;
     }
 
+    public float getTaxDeduction() {
+        return taxDeduction;
+    }
+
+    public void setTaxDeduction(float taxDeduction) {
+        this.taxDeduction = taxDeduction;
+    }
+    
     public static byte[] getFingerPrintImage() {
         return fingerPrintImage;
     }

@@ -25,6 +25,7 @@ public class PayrollDetails {
     private int days;
     private float overTime;
     private float totalSalary;
+    private float taxDeduction;
     private String isClaimed;
     private Timestamp claimDate;
     
@@ -132,6 +133,14 @@ public class PayrollDetails {
         this.isClaimed = isClaimed;
     }
 
+    public float getTaxDeduction() {
+        return taxDeduction;
+    }
+
+    public void setTaxDeduction(float taxDeduction) {
+        this.taxDeduction = taxDeduction;
+    }
+    
     public Timestamp getClaimDate() {
         return claimDate;
     }
