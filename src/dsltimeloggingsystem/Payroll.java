@@ -2,18 +2,47 @@ package dsltimeloggingsystem;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class Payroll extends javax.swing.JFrame {
     private static User sessionUser = null;
     /**
      * Creates new form Payroll
      */
+    
+    private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException, ParseException {
+        DefaultTableModel model = new DefaultTableModel();
+        int day = 0;
+        List<Attendance> attendanceList = new ArrayList<Attendance>();
+        attendanceList = DB.getAttendance();
+        model.addColumn("Employee ID");
+        model.addColumn("Name");
+        model.addColumn("Log Date");
+        model.addColumn("Time In");
+        model.addColumn("Time Out");
+        model.addColumn("Duration");
+        
+        for(int i = 0; i < attendanceList.size(); i++){
+            Object [] rowData = {attendanceList.get(i).getEmployeeID(), attendanceList.get(i).getFirstName() +" " + attendanceList.get(i).getLastName(), attendanceList.get(i).getLogDate(), attendanceList.get(i).getTimeIn(), attendanceList.get(i).getTimeOut(), 
+                attendanceList.get(i).getDuration()};
+            model.addRow(rowData);
+        }
+       
+        return model;
+//        new jTable1.setModel(model);
+    }
+    
     public Payroll(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Payroll");
+        DefaultTableModel model = this.FillTable();
+        
+        jTable1.setModel(model); 
     }
 
     /**

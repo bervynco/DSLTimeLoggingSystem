@@ -10,6 +10,8 @@ package dsltimeloggingsystem;
  * @author L R E
  */
 public class PayrollDetails {
+    private int employeeID;
+    private String employeeName;
     private float rate;
     private float sssDeduction;
     private float pagibigDeduction;
@@ -21,6 +23,22 @@ public class PayrollDetails {
     private float overTime;
     private float totalSalary;
 
+    public int getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+    
     public float getRate() {
         return rate;
     }
