@@ -69,7 +69,7 @@ public class GenerateReport {
                 addContentAttendance(document, users, reportType, startDate, endDate, employeeID);
             }
             else{
-
+                addContentBoth(document, users, reportType, startDate, endDate, employeeID);
             }  
             
             document.close();
@@ -191,11 +191,10 @@ public class GenerateReport {
             subCatPart = catPart.addSection(subPara);
             Paragraph headerOne = new Paragraph();
             headerOne.setAlignment(Element.ALIGN_CENTER);
-
             headerOne.add(new Paragraph("Attendance", subFont));
+            
             Paragraph headerTwo = new Paragraph();
             headerTwo.setAlignment(Element.ALIGN_CENTER);
-
             headerTwo.add(new Paragraph("Absence", subFont));
             
             System.out.println(userDetails.getEmployeeID());
@@ -233,6 +232,151 @@ public class GenerateReport {
     }
     private static void addContentPayroll(Document document, List<User> user, String reportType, String startDate, String endDate, int employeeID) throws DocumentException, ClassNotFoundException, SQLException, ParseException {
         List<PayrollDetails> payrollDetails = new ArrayList<>(); 
+        
+        PdfPTable tablePayroll = new PdfPTable(11);
+        tablePayroll.setWidthPercentage(100);
+        PdfPCell c3 = new PdfPCell(new Phrase("Rate"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+
+        c3 = new PdfPCell(new Phrase("SSS Deduction"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+
+        c3 = new PdfPCell(new Phrase("Pagibig Deduction"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("PhilHealth Deduction"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("Bonus"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("Cash Advance"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+
+        c3 = new PdfPCell(new Phrase("Loan"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("Days of Work"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("Overtime"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("Total Salary"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        
+        c3 = new PdfPCell(new Phrase("Claim Date"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c3);
+        tablePayroll.setHeaderRows(1);
+        
+        Anchor anchor = new Anchor(reportType, catFont);
+        anchor.setName("reportType");
+        
+        // Second parameter is the number of the chapter
+        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+        Section subCatPart = null;
+        Paragraph subPara = null;
+        
+        if(employeeID == 0){
+            for(int i = 0; i < user.size(); i++){
+                
+                String fullName = user.get(i).getFirstName() + ' ' + user.get(i).getLastName();
+                subPara = new Paragraph(fullName, subFont);
+                addEmptyLine(subPara, 1);
+                subCatPart = catPart.addSection(subPara);
+                Paragraph headerOne = new Paragraph();
+                headerOne.setAlignment(Element.ALIGN_CENTER);
+
+                headerOne.add(new Paragraph("Payroll Details", subFont));
+                payrollDetails = DB.getReportSalaryClaim(startDate, endDate, user.get(i).getEmployeeID());
+                
+                if( payrollDetails.size() > 0){
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerOne);
+                    subCatPart.add( Chunk.NEWLINE );
+                    for(int k = 0; k < payrollDetails.size(); k++){
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getRate()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getSssDeduction()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPagibigDeduction()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPhilHealthDeduction()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getBonus()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getCashAdvance()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getLoan()));
+                        tablePayroll.addCell(Integer.toString(payrollDetails.get(k).getDays()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getOverTime()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getTotalSalary()));
+                        tablePayroll.addCell(payrollDetails.get(k).getClaimDate().toString());
+                    }
+                    subCatPart.add(tablePayroll);
+                }
+                subCatPart.add( Chunk.NEWLINE );
+            }
+        }
+        else{
+            User userDetails = DB.getUserDetails(employeeID);  
+            String fullName = userDetails.getFirstName() + ' ' + userDetails.getLastName();
+            
+            subPara = new Paragraph(fullName, subFont);
+            addEmptyLine(subPara, 1);
+            subCatPart = catPart.addSection(subPara);
+            Paragraph headerOne = new Paragraph();
+            headerOne.setAlignment(Element.ALIGN_CENTER);
+            headerOne.add(new Paragraph("Payroll Details", subFont));
+            payrollDetails = DB.getReportSalaryClaim(startDate, endDate, userDetails.getEmployeeID());
+
+            if( payrollDetails.size() > 0){
+                subCatPart.add(headerOne);
+                subCatPart.add( Chunk.NEWLINE );
+                for(int k = 0; k < payrollDetails.size(); k++){
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getRate()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getSssDeduction()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPagibigDeduction()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPhilHealthDeduction()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getBonus()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getCashAdvance()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getLoan()));
+                    tablePayroll.addCell(Integer.toString(payrollDetails.get(k).getDays()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getOverTime()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getTotalSalary()));
+                    tablePayroll.addCell(payrollDetails.get(k).getClaimDate().toString());
+                }
+                subCatPart.add(tablePayroll);
+            }
+            
+            System.out.println(userDetails.getEmployeeID());
+            
+            subCatPart.add( Chunk.NEWLINE );
+        }
+        addEmptyLine(subPara, 5);
+        // add a table
+        document.add(catPart);
+    }
+    private static void addContentBoth(Document document, List<User> user, String reportType, String startDate, String endDate, int employeeID) throws DocumentException, ClassNotFoundException, SQLException, ParseException {  
+        List<PayrollDetails> payrollDetails = new ArrayList<>(); 
+        List<Attendance> attendance = new ArrayList<>(); 
+        List<Absence> absence = new ArrayList<>();
         
         PdfPTable tablePayroll = new PdfPTable(11);
         tablePayroll.setWidthPercentage(100);
@@ -292,6 +436,34 @@ public class GenerateReport {
         tablePayroll.addCell(c1);
         tablePayroll.setHeaderRows(1);
         
+        PdfPTable tableAttendance = new PdfPTable(3);
+        PdfPCell c3 = new PdfPCell(new Phrase("Date Log"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableAttendance.addCell(c3);
+
+        c3 = new PdfPCell(new Phrase("Time In"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableAttendance.addCell(c3);
+
+        c3 = new PdfPCell(new Phrase("Time out"));
+        c3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableAttendance.addCell(c3);
+        tableAttendance.setHeaderRows(1);
+        
+        PdfPTable tableAbsence = new PdfPTable(2);
+        PdfPCell c2 = new PdfPCell(new Phrase("Absence Date"));
+        c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableAbsence.addCell(c2);
+
+        c2 = new PdfPCell(new Phrase("Reason"));
+        c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableAbsence.addCell(c2);
+        tableAbsence.setHeaderRows(1);
         Anchor anchor = new Anchor(reportType, catFont);
         anchor.setName("reportType");
         
@@ -309,11 +481,19 @@ public class GenerateReport {
                 subCatPart = catPart.addSection(subPara);
                 Paragraph headerOne = new Paragraph();
                 headerOne.setAlignment(Element.ALIGN_CENTER);
-
                 headerOne.add(new Paragraph("Payroll Details", subFont));
-                payrollDetails = DB.getReportSalaryClaim(startDate, endDate, user.get(i).getEmployeeID());
                 
-                System.out.println("PAYROLL SIZE" + payrollDetails.size());
+                Paragraph headerTwo = new Paragraph();
+                headerTwo.setAlignment(Element.ALIGN_CENTER);
+                headerTwo.add(new Paragraph("Attendance", subFont));
+                
+                Paragraph headerThree = new Paragraph();
+                headerThree.setAlignment(Element.ALIGN_CENTER);
+                headerThree.add(new Paragraph("Absence", subFont));
+                
+                payrollDetails = DB.getReportSalaryClaim(startDate, endDate, user.get(i).getEmployeeID());
+                attendance = DB.getReportAttendance(startDate, endDate, user.get(i).getEmployeeID());
+                absence = DB.getAbsentDate(startDate, endDate, user.get(i).getEmployeeID());
                 if( payrollDetails.size() > 0){
                     subCatPart.add( Chunk.NEWLINE );
                     subCatPart.add(headerOne);
@@ -334,6 +514,29 @@ public class GenerateReport {
                     subCatPart.add(tablePayroll);
                 }
                 subCatPart.add( Chunk.NEWLINE );
+                if(attendance.size() > 0){
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerTwo);
+                    subCatPart.add( Chunk.NEWLINE );
+                    for(int k = 0; k < attendance.size(); k++){
+                        tableAttendance.addCell(attendance.get(k).getLogDate().toString());
+                        tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
+                        tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                    }
+                    subCatPart.add(tableAttendance);
+                }
+                subCatPart.add( Chunk.NEWLINE );
+                if(absence.size() > 0){
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerThree);
+                    subCatPart.add( Chunk.NEWLINE );
+                    for(int k =0; k < absence.size(); k++){
+                        tableAbsence.addCell(absence.get(k).getAbsenceDate().toString());
+                        tableAbsence.addCell(absence.get(k).getReason().toString());
+                    }
+                    subCatPart.add(tableAbsence);
+                }
+                subCatPart.add( Chunk.NEWLINE );
             }
         }
         else{
@@ -346,9 +549,17 @@ public class GenerateReport {
             Paragraph headerOne = new Paragraph();
             headerOne.setAlignment(Element.ALIGN_CENTER);
             headerOne.add(new Paragraph("Payroll Details", subFont));
-            payrollDetails = DB.getReportSalaryClaim(startDate, endDate, userDetails.getEmployeeID());
 
-            System.out.println("PAYROLL SIZE" + payrollDetails.size());
+            Paragraph headerTwo = new Paragraph();
+            headerTwo.setAlignment(Element.ALIGN_CENTER);
+            headerTwo.add(new Paragraph("Attendance", subFont));
+
+            Paragraph headerThree = new Paragraph();
+            headerThree.setAlignment(Element.ALIGN_CENTER);
+            headerThree.add(new Paragraph("Absence", subFont));
+            payrollDetails = DB.getReportSalaryClaim(startDate, endDate, userDetails.getEmployeeID());
+            attendance = DB.getReportAttendance(startDate, endDate, userDetails.getEmployeeID());
+            absence = DB.getAbsentDate(startDate, endDate, userDetails.getEmployeeID());
             if( payrollDetails.size() > 0){
                 subCatPart.add(headerOne);
                 subCatPart.add( Chunk.NEWLINE );
@@ -367,8 +578,27 @@ public class GenerateReport {
                 }
                 subCatPart.add(tablePayroll);
             }
-            
-            System.out.println(userDetails.getEmployeeID());
+            if(attendance.size() > 0){
+                subCatPart.add( Chunk.NEWLINE );
+                subCatPart.add(headerOne);
+                subCatPart.add( Chunk.NEWLINE );
+                for(int k = 0; k < attendance.size(); k++){
+                    tableAttendance.addCell(attendance.get(k).getLogDate().toString());
+                    tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
+                    tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                }
+                subCatPart.add(tableAttendance);
+            }
+            if(absence.size() > 0){
+                subCatPart.add( Chunk.NEWLINE );
+                subCatPart.add(headerTwo);
+                subCatPart.add( Chunk.NEWLINE );
+                for(int k =0; k < absence.size(); k++){
+                    tableAbsence.addCell(absence.get(k).getAbsenceDate().toString());
+                    tableAbsence.addCell(absence.get(k).getReason().toString());
+                }
+                subCatPart.add(tableAbsence);
+            }
             
             subCatPart.add( Chunk.NEWLINE );
         }
@@ -376,7 +606,6 @@ public class GenerateReport {
         // add a table
         document.add(catPart);
     }
-
     private static void addEmptyLine(Paragraph paragraph, int number) {
             for (int i = 0; i < number; i++) {
                     paragraph.add(new Paragraph(" "));
