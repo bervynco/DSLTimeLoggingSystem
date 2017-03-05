@@ -46,18 +46,24 @@ public class GenerateReport {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
                     Font.BOLD);
     public void generateReport(String startDate, String endDate, String reportType, List<User> users, int employeeID) throws ClassNotFoundException, ParseException, SQLException{
-//        System.out.println("SIZE:" + users.size());
+        String reportItem = null;
+        if(employeeID == 0){
+            reportItem = "All";
+        }
+        else{
+            reportItem = Integer.toString(employeeID);
+        }
         try {
             Document document = new Document();
             DateFormat df = new SimpleDateFormat("dd-MM-yy-HHmmss");
             Date dateobj = new Date();
-            PdfWriter.getInstance(document, new FileOutputStream("C:/PDF/" + reportType + '-' + df.format(dateobj) + ".pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("C:/PDF/" + reportType + '-' + reportItem + '-' + df.format(dateobj) + ".pdf"));
             document.open();
             addTitlePage(document);
             
             
             if(reportType.equals("Payroll")){
-                addContentPayroll(document, users, reportType);
+                addContentPayroll(document, users, reportType, startDate, endDate, employeeID);
             }
             else if(reportType.equals("Attendance")){
                 addContentAttendance(document, users, reportType, startDate, endDate, employeeID);
@@ -177,7 +183,6 @@ public class GenerateReport {
             }
         }
         else{
-            System.out.println("EMPLOYEE");
             User userDetails = DB.getUserDetails(employeeID);  
             String fullName = userDetails.getFirstName() + ' ' + userDetails.getLastName();
             
@@ -226,8 +231,150 @@ public class GenerateReport {
 
 
     }
-    private static void addContentPayroll(Document document, List<User> user, String reportType) throws DocumentException {
+    private static void addContentPayroll(Document document, List<User> user, String reportType, String startDate, String endDate, int employeeID) throws DocumentException, ClassNotFoundException, SQLException, ParseException {
+        List<PayrollDetails> payrollDetails = new ArrayList<>(); 
+        
+        PdfPTable tablePayroll = new PdfPTable(11);
+        tablePayroll.setWidthPercentage(100);
+        PdfPCell c1 = new PdfPCell(new Phrase("Rate"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("SSS Deduction"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Pagibig Deduction"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("PhilHealth Deduction"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Bonus"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Cash Advance"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Loan"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Days of Work"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Overtime"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Total Salary"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Claim Date"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablePayroll.addCell(c1);
+        tablePayroll.setHeaderRows(1);
+        
+        Anchor anchor = new Anchor(reportType, catFont);
+        anchor.setName("reportType");
+        
+        // Second parameter is the number of the chapter
+        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+        Section subCatPart = null;
+        Paragraph subPara = null;
+        
+        if(employeeID == 0){
+            for(int i = 0; i < user.size(); i++){
+                
+                String fullName = user.get(i).getFirstName() + ' ' + user.get(i).getLastName();
+                subPara = new Paragraph(fullName, subFont);
+                addEmptyLine(subPara, 1);
+                subCatPart = catPart.addSection(subPara);
+                Paragraph headerOne = new Paragraph();
+                headerOne.setAlignment(Element.ALIGN_CENTER);
+
+                headerOne.add(new Paragraph("Payroll Details", subFont));
+                payrollDetails = DB.getReportSalaryClaim(startDate, endDate, user.get(i).getEmployeeID());
+                
+                System.out.println("PAYROLL SIZE" + payrollDetails.size());
+                if( payrollDetails.size() > 0){
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerOne);
+                    subCatPart.add( Chunk.NEWLINE );
+                    for(int k = 0; k < payrollDetails.size(); k++){
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getRate()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getSssDeduction()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPagibigDeduction()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPhilHealthDeduction()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getBonus()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getCashAdvance()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getLoan()));
+                        tablePayroll.addCell(Integer.toString(payrollDetails.get(k).getDays()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getOverTime()));
+                        tablePayroll.addCell(Float.toString(payrollDetails.get(k).getTotalSalary()));
+                        tablePayroll.addCell(payrollDetails.get(k).getClaimDate().toString());
+                    }
+                    subCatPart.add(tablePayroll);
+                }
+                subCatPart.add( Chunk.NEWLINE );
+            }
+        }
+        else{
+            User userDetails = DB.getUserDetails(employeeID);  
+            String fullName = userDetails.getFirstName() + ' ' + userDetails.getLastName();
             
+            subPara = new Paragraph(fullName, subFont);
+            addEmptyLine(subPara, 1);
+            subCatPart = catPart.addSection(subPara);
+            Paragraph headerOne = new Paragraph();
+            headerOne.setAlignment(Element.ALIGN_CENTER);
+            headerOne.add(new Paragraph("Payroll Details", subFont));
+            payrollDetails = DB.getReportSalaryClaim(startDate, endDate, userDetails.getEmployeeID());
+
+            System.out.println("PAYROLL SIZE" + payrollDetails.size());
+            if( payrollDetails.size() > 0){
+                subCatPart.add(headerOne);
+                subCatPart.add( Chunk.NEWLINE );
+                for(int k = 0; k < payrollDetails.size(); k++){
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getRate()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getSssDeduction()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPagibigDeduction()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getPhilHealthDeduction()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getBonus()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getCashAdvance()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getLoan()));
+                    tablePayroll.addCell(Integer.toString(payrollDetails.get(k).getDays()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getOverTime()));
+                    tablePayroll.addCell(Float.toString(payrollDetails.get(k).getTotalSalary()));
+                    tablePayroll.addCell(payrollDetails.get(k).getClaimDate().toString());
+                }
+                subCatPart.add(tablePayroll);
+            }
+            
+            System.out.println(userDetails.getEmployeeID());
+            
+            subCatPart.add( Chunk.NEWLINE );
+        }
+        addEmptyLine(subPara, 5);
+        // add a table
+        document.add(catPart);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {

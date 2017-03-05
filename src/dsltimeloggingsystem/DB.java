@@ -111,7 +111,8 @@ public class DB {
             sqlSyntax = "employeeID = ? and month(claimDate) = ? and (day(claimDate) >= ? and day(claimDate) <= ? ) and year(claimDate) = ?";
         }
         
-        PreparedStatement ps = c.prepareStatement("SELECT * from payroll where " + sqlSyntax);
+        PreparedStatement ps = c.prepareStatement("SELECT employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overtime,"+
+                "totalSalary, isClaimed, claimDate from payroll where " + sqlSyntax);
         if(employeeID == 0){
             ps.setInt(1, month);
             ps.setInt(2, dayStart);
@@ -128,6 +129,7 @@ public class DB {
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             PayrollDetails payroll = new PayrollDetails();
+            
             payroll.setEmployeeID(rs.getInt(1));
             payroll.setRate(rs.getFloat(2));
             payroll.setSssDeduction(rs.getFloat(3));
@@ -140,13 +142,76 @@ public class DB {
             payroll.setOverTime(rs.getFloat(9));
             payroll.setTotalSalary(rs.getInt(10));
             payroll.setIsClaimed(rs.getString(11));
+            payroll.setClaimDate(rs.getTimestamp(12));
+            details.add(payroll);
+        }
+        c.close();
+        return details;
+    }
+    
+    public static List<PayrollDetails> getReportSalaryClaim(String startDate, String endDate, int employeeID) throws ClassNotFoundException, SQLException, ParseException {
+        Connection c = connect();
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        List<Attendance> attendanceList = new ArrayList<>();
+        
+        int startMonth = 0;
+        int startDay = 0;
+        int startYear = 0;
+        int endMonth = 0;
+        int endDay = 0;
+        int endYear = 0;
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateStart = format.parse(startDate);
+        Date dateEnd = format.parse(endDate);
+        cal.setTime(dateStart);
+        cal2.setTime(dateEnd);
+        startMonth = cal.get(Calendar.MONTH) + 1;
+        startDay = cal.get(Calendar.DATE);
+        startYear = cal.get(Calendar.YEAR);
+        endMonth = cal2.get(Calendar.MONTH) + 1;
+        endDay = cal2.get(Calendar.DATE);
+        endYear = cal2.get(Calendar.YEAR);
+        
+        
+        List<PayrollDetails> details = new ArrayList<>();
+        
+        
+        PreparedStatement ps = c.prepareStatement("SELECT employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime,"+
+                "totalSalary, claimDate, isClaimed from payroll a where employeeID = ? and (month(a.claimDate) >= ? AND month(a.claimDate) <=?)"+
+                " and (day(a.claimDate) >= ? AND day(a.claimDate) <=?)and (year(a.claimDate) >= ? AND year(a.claimDate) <=?)");
+            ps.setInt(1, employeeID);
+            ps.setInt(2, startMonth);
+            ps.setInt(3, startMonth);
+            ps.setInt(4, startDay);
+            ps.setInt(5, endDay);
+            ps.setInt(6, startYear);
+            ps.setInt(7, endYear);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            PayrollDetails payroll = new PayrollDetails();
+            payroll.setEmployeeID(rs.getInt(1));
+            payroll.setRate(rs.getFloat(2));
+            payroll.setSssDeduction(rs.getFloat(3));
+            payroll.setPagibigDeduction(rs.getFloat(4));
+            payroll.setPhilHealthDeduction(rs.getFloat(5));
+            payroll.setBonus(rs.getFloat(6));
+            payroll.setCashAdvance(rs.getFloat(7));
+            payroll.setLoan(rs.getFloat(8));
+            payroll.setDays(rs.getInt(9));
+            payroll.setOverTime(rs.getFloat(10));
+            payroll.setTotalSalary(rs.getFloat(11));
+            payroll.setClaimDate(rs.getTimestamp(12));
+            payroll.setIsClaimed(rs.getString(13));
             
             details.add(payroll);
         }
         c.close();
         return details;
     }
-    static String setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
+    
+    public static String setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("INSERT INTO payroll (employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction," + 
                 " bonus, cashAdvance, loan, days, overTime, totalSalary, claimDate, isClaimed" + 

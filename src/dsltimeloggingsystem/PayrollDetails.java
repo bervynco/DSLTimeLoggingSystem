@@ -5,6 +5,9 @@
  */
 package dsltimeloggingsystem;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  *
  * @author L R E
@@ -23,6 +26,8 @@ public class PayrollDetails {
     private float overTime;
     private float totalSalary;
     private String isClaimed;
+    private Timestamp claimDate;
+    
     public int getEmployeeID() {
         return employeeID;
     }
@@ -125,6 +130,14 @@ public class PayrollDetails {
 
     public void setIsClaimed(String isClaimed) {
         this.isClaimed = isClaimed;
+    }
+
+    public Timestamp getClaimDate() {
+        return claimDate;
+    }
+
+    public void setClaimDate(Timestamp claimDate) {
+        this.claimDate = claimDate;
     }
     
     
