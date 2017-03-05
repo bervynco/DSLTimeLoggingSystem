@@ -15,7 +15,6 @@ public class User {
     private int employeeID; 
     private String firstName;
     private String lastName;
-    private String username;
     private String password;
     private String mobileNumber;
     private String telephoneNumber;
@@ -55,14 +54,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

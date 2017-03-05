@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/DB.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/MainMenu.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/EmployeesUI.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/SalaryClaim.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/PayrollDetails.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Menu.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Allowance.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/EmployeeList.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/AlternativeLogIn.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Payroll.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/User.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Home.java</file>
         </group>
     </open-files>
 </project-private>

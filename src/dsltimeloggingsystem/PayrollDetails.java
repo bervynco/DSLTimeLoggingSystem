@@ -22,7 +22,7 @@ public class PayrollDetails {
     private int days;
     private float overTime;
     private float totalSalary;
-
+    private String isClaimed;
     public int getEmployeeID() {
         return employeeID;
     }
@@ -117,6 +117,14 @@ public class PayrollDetails {
 
     public void setTotalSalary(float totalSalary) {
         this.totalSalary = totalSalary;
+    }
+
+    public String getIsClaimed() {
+        return isClaimed;
+    }
+
+    public void setIsClaimed(String isClaimed) {
+        this.isClaimed = isClaimed;
     }
     
     

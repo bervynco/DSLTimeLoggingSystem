@@ -85,7 +85,67 @@ public class DB {
         //System.out.println(sdf.format(sq));
         return sq;
     }
-    
+    public static List<PayrollDetails> getSalaryClaim(int employeeID) throws ClassNotFoundException, SQLException {
+        Connection c = connect();
+        String sqlSyntax = null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.sql.Date(getCurrentCalendar()));
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DATE);
+        int year = cal.get(Calendar.YEAR);
+        int dayStart = 0;
+        int dayEnd = 0;
+        List<PayrollDetails> details = new ArrayList<>();
+        if(day >= 1 && day <=15){
+            dayStart = 1;
+            dayEnd = 15;
+        }
+        else{
+            dayStart = 16;
+            dayEnd = 31;
+        }
+        if(employeeID == 0){
+            sqlSyntax = "month(claimDate) = ? and (day(claimDate) > =? and day(claimDate) <= ? )and year(claimDate) = ?";
+        }
+        else{
+            sqlSyntax = "employeeID = ? and month(claimDate) = ? and (day(claimDate) >= ? and day(claimDate) <= ? ) and year(claimDate) = ?";
+        }
+        
+        PreparedStatement ps = c.prepareStatement("SELECT * from payroll where " + sqlSyntax);
+        if(employeeID == 0){
+            ps.setInt(1, month);
+            ps.setInt(2, dayStart);
+            ps.setInt(3, dayEnd);
+            ps.setInt(4, year);
+        }
+        else{
+            ps.setInt(1, employeeID);
+            ps.setInt(2, month);
+            ps.setInt(3, dayStart);
+            ps.setInt(4, dayEnd);
+            ps.setInt(5, year);
+        }
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            PayrollDetails payroll = new PayrollDetails();
+            payroll.setEmployeeID(rs.getInt(1));
+            payroll.setRate(rs.getFloat(2));
+            payroll.setSssDeduction(rs.getFloat(3));
+            payroll.setPagibigDeduction(rs.getFloat(4));
+            payroll.setPhilHealthDeduction(rs.getFloat(4));
+            payroll.setBonus(rs.getFloat(5));
+            payroll.setCashAdvance(rs.getFloat(6));
+            payroll.setLoan(rs.getFloat(7));
+            payroll.setDays(rs.getInt(8));
+            payroll.setOverTime(rs.getFloat(9));
+            payroll.setTotalSalary(rs.getInt(10));
+            payroll.setIsClaimed(rs.getString(11));
+            
+            details.add(payroll);
+        }
+        c.close();
+        return details;
+    }
     static String setSalaryClaim(int employeeID, float rate, float sssDeduction, float pagibigDeduction, float philHealthDeduction, float bonus, float cashAdvance, float loan, int days, float overTime, float totalSalary) throws ClassNotFoundException, SQLException {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("INSERT INTO payroll (employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction," + 
@@ -461,7 +521,6 @@ public class DB {
         //Calendar date = convertDate(holiday);
         Calendar calendar = Calendar.getInstance();
 
-        
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("INSERT INTO holiday (employeeID, holidayDate, appliedDate) VALUES (?,?,?)");
         ps.setInt(1, employeeID);
@@ -549,10 +608,7 @@ public class DB {
         month = cal.get(Calendar.MONTH) + 1;
         day = cal.get(Calendar.DATE);
         year = cal.get(Calendar.YEAR);
-        
-        System.out.println(month);
-        System.out.println(day);
-        System.out.println(year);
+
         sqlDate = "month(a.logDate) = ? and day(a.logDate) = ? and year(a.logDate) =?";
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         Connection c = connect();
@@ -684,18 +740,35 @@ public class DB {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new java.sql.Date(getCurrentCalendar()));
         
-        int month = cal.get(Calendar.MONTH) + 1 ;
-        
+        int month = cal.get(Calendar.MONTH) + 1;
+        System.out.println("MONTH" + month);
+        int day = cal.get(Calendar.DATE);
+        int year = cal.get(Calendar.YEAR);
+        int dayStart = 0;
+        int dayEnd = 0;
+        if(day >= 1 && day <=15){
+            dayStart = 1;
+            dayEnd = 15;
+        }
+        else{
+            dayStart = 16;
+            dayEnd = 30;
+        }
         if(month == 0){
             month = 12;
         }
         
         int total = 0;
-        //PreparedStatement ps = c.prepareStatement("SELECT employeeID, timeIn, timeOut, TIMESTAMPDIFF(HOUR, timeIn, timeOut) as 'Duration' FROM dsl.logs where employeeID = ? and month(logDate) = ?");
-        PreparedStatement ps = c.prepareStatement("SELECT employeeID, timeIn, timeOut, logDate, TIMESTAMPDIFF(HOUR, timeIn, timeOut) AS 'Duration',(select count(case when TIMESTAMPDIFF(HOUR, timeIn, timeOut) > 8 then 1 else null end)) as 'NormalWorkingDay' FROM logs WHERE employeeID = ? and month(logDate) = ?");
+        // THIS STATEMENT SHOULD RENDER 8 hours
+        PreparedStatement ps = c.prepareStatement("SELECT employeeID, timeIn, timeOut, logDate, TIMESTAMPDIFF(HOUR, timeIn, timeOut) AS 'Duration'," + 
+                "(select count(case when TIMESTAMPDIFF(HOUR, timeIn, timeOut) > 8 then 1 else null end)) as 'NormalWorkingDay' FROM logs " + 
+                "WHERE employeeID = ? and month(logDate) = ? and (day(logDate) >= ? and day(logDate) <= ? ) and year(logDate) = ?");
         
         ps.setInt(1, employeeID);
         ps.setInt(2, month);
+        ps.setInt(3, dayStart);
+        ps.setInt(4, dayEnd);
+        ps.setInt(5, year);
         ResultSet rs = ps.executeQuery();
         
         while(rs.next()){
