@@ -71,6 +71,7 @@ public class Payroll extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null},
@@ -110,6 +111,7 @@ public class Payroll extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        btnMainMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnMainMenu.setText("Main Menu");
         btnMainMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,7 +135,7 @@ public class Payroll extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addComponent(btnMainMenu)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE))
         );
 
         pack();

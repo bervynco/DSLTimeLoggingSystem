@@ -85,6 +85,7 @@ public class SystemLogs extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        btnMainMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnMainMenu.setText("Main menu");
         btnMainMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +93,7 @@ public class SystemLogs extends javax.swing.JFrame {
             }
         });
 
+        btnAddFilter.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnAddFilter.setText("Add Filter");
         btnAddFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +115,7 @@ public class SystemLogs extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMainMenu)
                     .addComponent(btnAddFilter))

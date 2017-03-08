@@ -851,10 +851,10 @@ public class DB {
         }
     }
     
-    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction) throws SQLException, ClassNotFoundException{
+    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction) throws SQLException, ClassNotFoundException{
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, address =?, telephoneNumber =?, mobileNumber = ?, rate = ?, timeIn = ?, timeOut = ?, fingerPrint = ?, modified =?, " +""
-                + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ? WHERE employeeID = ?");
+        PreparedStatement ps = c.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, address =?, telephoneNumber =?, mobileNumber = ?, rate = ?, timeIn = ?, timeOut = ?, modified =?, " +""
+                + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ?, taxDeduction =? WHERE employeeID = ?");
         
         ps.setString(1, firstName);
         ps.setString(2, lastName);
@@ -864,17 +864,18 @@ public class DB {
         ps.setFloat(6, rate);
         ps.setString(7, timeIn);
         ps.setString(8, timeOut);
-        ps.setBytes(9, fingerPrint);
-        ps.setTimestamp(10, (Timestamp) getCurrentTimeStamp());
-        ps.setString(11, SSSNumber);
-        ps.setString(12, philHealthNumber);
-        ps.setString(13, tinNumber);
-        ps.setString(14, pagibigNumber);
-        ps.setFloat(15, SSSDeduction);
-        ps.setFloat(16, pagibigDeduction);
-        ps.setFloat(17, philHealthDeduction);
+       
+        ps.setTimestamp(9, (Timestamp) getCurrentTimeStamp());
+        ps.setString(10, SSSNumber);
+        ps.setString(11, philHealthNumber);
+        ps.setString(12, tinNumber);
+        ps.setString(13, pagibigNumber);
+        ps.setFloat(14, SSSDeduction);
+        ps.setFloat(15, pagibigDeduction);
+        ps.setFloat(16, philHealthDeduction);
+          ps.setFloat(17, taxDeduction);
         ps.setInt(18, employeeID);
-        ps.setFloat(19, taxDeduction);
+      
         int affectedRow = ps.executeUpdate();
         c.close();
         if(affectedRow > 0){

@@ -85,9 +85,10 @@ public class EmployeeList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        label1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        label1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         label1.setText("List Of Employees");
 
+        jTable2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -106,6 +107,7 @@ public class EmployeeList extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
+        btnMainMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnMainMenu.setText("Main Menu");
         btnMainMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +115,7 @@ public class EmployeeList extends javax.swing.JFrame {
             }
         });
 
+        lblNotice.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNotice.setText("Click on the cell to compute for salary.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -142,7 +145,7 @@ public class EmployeeList extends javax.swing.JFrame {
                     .addComponent(btnMainMenu)
                     .addComponent(lblNotice))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
