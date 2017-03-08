@@ -32,6 +32,7 @@ public class User {
     private float philHealthDeduction;
     private float taxDeduction;
     private static byte[] fingerPrintImage;
+    private String pages;
     
     public int getEmployeeID() {
         return employeeID;
@@ -191,6 +192,14 @@ public class User {
 
     public static void setFingerPrintImage(byte[] fingerPrintImage) {
         User.fingerPrintImage = fingerPrintImage;
+    }
+
+    public String getPages() {
+        return pages;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
     }
     
     

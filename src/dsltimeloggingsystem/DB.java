@@ -978,12 +978,12 @@ public class DB {
         }
         return "Unique";
     }
-    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
+    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role, ArrayList<String> pageNames) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("INSERT INTO users (firstName, lastName, employeeID, address, telephoneNumber," + 
                 " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
-                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
         String status = determineDuplicateUser(fingerPrint);
         
@@ -1008,6 +1008,7 @@ public class DB {
             ps.setFloat(18, philHealthDeduction);
             ps.setFloat(19, taxDeduction);
             ps.setString(20, role);
+            ps.setString(21, pageNames.toString());
 
 
             // execute insert SQL stetement
