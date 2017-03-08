@@ -923,7 +923,7 @@ public class DB {
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn," + 
-                " timeOut, role, fingerPrint, SSSNumber, philHealthNumber, pagibigNumber, SSSDeduction, philHealthDeduction, pagibigDeduction, tinNumber, taxDeduction from users");
+                " timeOut, role, fingerPrint, SSSNumber, philHealthNumber, pagibigNumber, SSSDeduction, philHealthDeduction, pagibigDeduction, tinNumber, taxDeduction, pages from users");
         ResultSet rs = ps.executeQuery();
         
         while (rs.next()) {
@@ -946,6 +946,7 @@ public class DB {
                 user.setPagibigDeduction(rs.getFloat("pagibigDeduction"));
                 user.setTinNumber(rs.getString("tinNumber"));
                 user.setTaxDeduction(rs.getFloat("taxDeduction"));
+                user.setPages(rs.getString("pages"));
                 employees.add(user);
         }
         c.close();
