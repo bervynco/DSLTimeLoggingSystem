@@ -36,6 +36,13 @@ import java.util.List;
  * @author L R E
  */
 public class DB {
+//    private static String user = "root";
+//    private static String pass = "DslDatabase";
+//    private static String host = "localhost";
+//    private static String port = "3306";
+//    private static String url = "jdbc:mysql://" + host + ":" + port + "/dsl";
+//    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    
     private static String user = "root";
     private static String pass = "password";
     private static String host = "localhost";
@@ -1066,8 +1073,36 @@ public class DB {
         }
         c.close();
         return user;
-        
-        
     }
-
+    public static User alternativeLogin(int employeeID, String password) throws ClassNotFoundException, SQLException, UareUException, ParseException{
+        String role = "";
+        User user = new User();
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("Select employeeID as 'EmployeeID', firstName as 'FirstName', lastName as 'LastName'," + 
+                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint, password from users" + 
+                " where employeeID = ? and password = ?");
+        
+        System.out.println(password);
+        ps.setInt(1, employeeID);
+        ps.setString(2, password);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                user.setEmployeeID(rs.getInt(1));
+                user.setFirstName(rs.getString(2));
+                user.setLastName(rs.getString(3));
+                user.setAddress(rs.getString(4));
+                user.setTelephoneNumber(rs.getString(5));
+                user.setMobileNumber(rs.getString(6));
+                user.setRate(rs.getFloat(7));
+                user.setTimeIn(rs.getString(8));
+                user.setTimeOut(rs.getString(9));
+                role = rs.getString(10);
+                user.setRole(role);
+                user.setFingerPrintImage(rs.getBytes(11));
+                user.setPassword(rs.getString(12));
+            
+        }
+        c.close();
+        return user;
+    }
 }
