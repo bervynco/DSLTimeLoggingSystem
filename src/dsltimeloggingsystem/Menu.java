@@ -2,45 +2,53 @@ package dsltimeloggingsystem;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public class Menu extends javax.swing.JFrame {
     
     private static User sessionUser = null;
 
-    public void filterView(int employeeID) throws ClassNotFoundException, SQLException{
-        User user = DB.getUserDetails(employeeID);
-        if(user.getRole().equals("Administrator") || user.getRole().equals("Assistant Admin")){
+    public void filterView(int employeeID, User user) throws ClassNotFoundException, SQLException{
+        //User user = DB.getUserDetails(employeeID);
+        System.out.println(user.getEmployeeID());
+        System.out.println(user.getPages());
+        String views[] = {"btnEmployee", "btnClaimSalary", "btnReports", "btnPayroll", "btnNotes", "btnUpload"};
+        if(user.getRole().equals("Administrator")){
+            String[] pages = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(",");
+            for(int i = 0; i < pages.length; i++){
+                for(int k = 0; k < views.length; k++){
+                    System.out.println(views[k]);
+                    System.out.println(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher(views[k]).find());
+                }
+                
+            }
+            
             btnEmployee.setVisible(true);
             btnClaimSalary.setVisible(true);
             btnReports.setVisible(true);
             btnPayroll.setVisible(true);
             btnSalaryCondition.setVisible(true);
             btnSystemLogs.setVisible(true);
+            btnNotes.setVisible(true);
         }
-        else if(user.getRole().equals("Payroll")){
+        else{
             btnEmployee.setVisible(false);
             btnClaimSalary.setVisible(false);
             btnReports.setVisible(false);
             btnPayroll.setVisible(true);
             btnSalaryCondition.setVisible(true);
             btnSystemLogs.setVisible(false);
+            btnNotes.setVisible(false);
         }
-//        else{
-//            btnEmployee.setVisible(false);
-//            btnClaimSalary.setVisible(false);
-//            btnReports.setVisible(false);
-//            btnPayroll.setVisible(false);
-//            btnSalaryCondition.setVisible(true);
-//            btnSystemLogs.setVisible(false);
-//        }
     }
     public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
         initComponents();
         this.sessionUser = user;
         //System.out.println("Menu " + employeeID);
-        this.filterView(user.getEmployeeID());
+        this.filterView(user.getEmployeeID(), sessionUser);
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Menu");
     }
     
@@ -64,8 +72,8 @@ public class Menu extends javax.swing.JFrame {
         btnSalaryCondition = new javax.swing.JToggleButton();
         btnHome = new javax.swing.JToggleButton();
         btnSystemLogs = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnNotes = new javax.swing.JButton();
+        btnUploads = new javax.swing.JButton();
 
         jButton2.setText("jButton2");
 
@@ -74,7 +82,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("MENU");
 
-        btnEmployee.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnEmployee.setText("Employee");
         btnEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,7 +90,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnPayroll.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnPayroll.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnPayroll.setText("Payroll Overview");
         btnPayroll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,7 +98,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnClaimSalary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnClaimSalary.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnClaimSalary.setText("Claim Salary");
         btnClaimSalary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,7 +106,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnReports.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnReports.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnReports.setText("Reports");
         btnReports.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +114,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnLogout.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnLogout.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnLogout.setText("Log Out");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,7 +122,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnSalaryCondition.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSalaryCondition.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnSalaryCondition.setText("Add Salary Condition");
         btnSalaryCondition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,7 +130,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnHome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnHome.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnHome.setText("Home");
         btnHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +138,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnSystemLogs.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSystemLogs.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnSystemLogs.setText("System Logs");
         btnSystemLogs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,11 +146,21 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jButton1.setText("Notes");
+        btnNotes.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnNotes.setText("Notes");
+        btnNotes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotesActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jButton3.setText("Upload Document");
+        btnUploads.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnUploads.setText("Upload Document");
+        btnUploads.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,20 +172,19 @@ public class Menu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnPayroll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalaryCondition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSystemLogs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPayroll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalaryCondition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSystemLogs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnUploads, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnEmployee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnClaimSalary, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnReports, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNotes, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82))
         );
@@ -189,11 +206,11 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnReports))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btnNotes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(btnSystemLogs))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(btnUploads)
                     .addComponent(btnLogout))
                 .addGap(30, 30, 30))
         );
@@ -362,6 +379,44 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSystemLogsActionPerformed
 
+    private void btnUploadsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadsActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            UploadDocuments upload = new UploadDocuments(this.sessionUser);
+            upload.setVisible(true);
+            upload.setTitle("DSL Time Logging | System Logs");
+            upload.pack();
+            upload.setLocationRelativeTo(null);
+            upload.setDefaultCloseOperation(0);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnUploadsActionPerformed
+
+    private void btnNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotesActionPerformed
+        this.setVisible(false);
+        try {
+            // TODO add your handling code here:
+            AddNote notes = new AddNote(this.sessionUser);
+            notes.setVisible(true);
+            notes.setTitle("DSL Time Logging | Add Notes");
+            notes.pack();
+            notes.setLocationRelativeTo(null);
+            notes.setDefaultCloseOperation(0);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnNotesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -372,13 +427,13 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnEmployee;
     private javax.swing.JToggleButton btnHome;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnNotes;
     private javax.swing.JButton btnPayroll;
     private javax.swing.JButton btnReports;
     private javax.swing.JToggleButton btnSalaryCondition;
     private javax.swing.JButton btnSystemLogs;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnUploads;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

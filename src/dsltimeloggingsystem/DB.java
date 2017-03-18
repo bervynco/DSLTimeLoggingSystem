@@ -82,6 +82,38 @@ public class DB {
         cal.setTime(holiday);
         return cal.getTimeInMillis();
     }
+    public static String addNote(int employeeID, String note) throws ClassNotFoundException, SQLException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO notes (employeeID, note, noteDate) VALUES (?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setString(2, note);
+        ps.setTimestamp(3, getCurrentTimeStamp());
+        int rows = ps.executeUpdate();
+        c.close();
+
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
+    }
+    public static String setUploadFile(int employeeID, String fileType, File file) throws ClassNotFoundException, SQLException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, uploadDate) VALUES (?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setString(2, fileType);
+        ps.setTimestamp(3, getCurrentTimeStamp());
+        int rows = ps.executeUpdate();
+        c.close();
+
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
+    }
     public static Timestamp getDateToday(){
         java.util.Date utilDate = new java.util.Date();
         java.sql.Timestamp sq = new java.sql.Timestamp(utilDate.getTime());  
@@ -897,7 +929,7 @@ public class DB {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, role, fingerPrint," +  
                 "SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction" + 
-                ", philHealthDeduction, pagibigDeduction, taxDeduction from users where employeeID = ?");
+                ", philHealthDeduction, pagibigDeduction, taxDeduction, pages from users where employeeID = ?");
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
         User user = new User();
@@ -921,6 +953,7 @@ public class DB {
             user.setPagibigDeduction(rs.getFloat(18));
             user.setTaxDeduction(rs.getFloat(19));
             user.setFingerPrintImage(rs.getBytes(11));
+            user.setPages(rs.getString(20));
         }
         c.close();
         return user;
@@ -1039,7 +1072,7 @@ public class DB {
         User user = new User();
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID as 'EmployeeID', firstName as 'FirstName', lastName as 'LastName'," + 
-                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint from users");
+                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint, password, pages from users");
         
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -1067,6 +1100,8 @@ public class DB {
                 user.setTimeIn(rs.getString(8));
                 user.setTimeOut(rs.getString(9));
                 role = rs.getString(10);
+                user.setPassword(rs.getString(11));
+                user.setPages(rs.getString(12));
                 user.setRole(role);
             }
             
@@ -1079,10 +1114,9 @@ public class DB {
         User user = new User();
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID as 'EmployeeID', firstName as 'FirstName', lastName as 'LastName'," + 
-                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint, password from users" + 
+                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint, password, pages from users" + 
                 " where employeeID = ? and password = ?");
         
-        System.out.println(password);
         ps.setInt(1, employeeID);
         ps.setString(2, password);
         ResultSet rs = ps.executeQuery();
@@ -1100,7 +1134,7 @@ public class DB {
                 user.setRole(role);
                 user.setFingerPrintImage(rs.getBytes(11));
                 user.setPassword(rs.getString(12));
-            
+                user.setPages(rs.getString(13));
         }
         c.close();
         return user;
