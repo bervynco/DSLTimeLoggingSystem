@@ -2,6 +2,7 @@ package dsltimeloggingsystem;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,39 +11,66 @@ import java.util.regex.Pattern;
 public class Menu extends javax.swing.JFrame {
     
     private static User sessionUser = null;
-
+    private static ArrayList<String> employeePages = new ArrayList<>();
     public void filterView(int employeeID, User user) throws ClassNotFoundException, SQLException{
-        //User user = DB.getUserDetails(employeeID);
-        System.out.println(user.getEmployeeID());
-        System.out.println(user.getPages());
-        String views[] = {"btnEmployee", "btnClaimSalary", "btnReports", "btnPayroll", "btnNotes", "btnUpload"};
+        btnEmployee.setVisible(true);
+        btnClaimSalary.setVisible(false);
+        btnReports.setVisible(false);
+        btnPayroll.setVisible(false);
+        btnSalaryCondition.setVisible(false);
+        btnSystemLogs.setVisible(false);
+        btnNotes.setVisible(false);
+
         if(user.getRole().equals("Administrator")){
-            String[] pages = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(",");
-            for(int i = 0; i < pages.length; i++){
-                for(int k = 0; k < views.length; k++){
-                    System.out.println(views[k]);
-                    System.out.println(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher(views[k]).find());
-                }
-                
-            }
-            
+            btnSystemLogs.setVisible(true);
             btnEmployee.setVisible(true);
             btnClaimSalary.setVisible(true);
             btnReports.setVisible(true);
             btnPayroll.setVisible(true);
             btnSalaryCondition.setVisible(true);
-            btnSystemLogs.setVisible(true);
             btnNotes.setVisible(true);
         }
-        else{
-            btnEmployee.setVisible(false);
-            btnClaimSalary.setVisible(false);
-            btnReports.setVisible(false);
+        else if(user.getRole().equals("Payroll")){
             btnPayroll.setVisible(true);
-            btnSalaryCondition.setVisible(true);
-            btnSystemLogs.setVisible(false);
-            btnNotes.setVisible(false);
         }
+        else if(user.getRole().equals("Co-Administrator")){
+            String[] pages = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(", ");
+            for(int i = 0; i < pages.length; i++){
+                if(pages[i].equals("Claim Salary") || pages[i].equals("Add Employee") || pages[i].equals("Edit Employee") || pages[i].equals("Delete Employee")){
+                    
+                    pages[i] = pages[i].replaceAll("\\s+","");
+                    if(pages[i].equals("AddEmployee") ||pages[i].equals("EditEmployee") || pages[i].equals("DeleteEmployee")){
+                        employeePages.add(pages[i]);
+                    }
+                }
+                if(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher("btnEmployee").find()){
+                    //btnUpload.setVisible(true);
+                }
+                else if(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher("btnClaimSalary").find()){
+                    System.out.println("Claim Salary");
+                    btnClaimSalary.setVisible(true);
+                }
+                else if(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher("btnReports").find()){
+                    System.out.println("Reports");
+                    btnReports.setVisible(true);
+                }
+                else if(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher("btnPayroll").find()){
+                    System.out.println("Payroll");
+                    btnPayroll.setVisible(true);
+                }
+                else if(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher("btnNotes").find()){
+                    System.out.println("Notes");
+                    btnNotes.setVisible(true);
+                }
+                else if(Pattern.compile(Pattern.quote(pages[i]), Pattern.CASE_INSENSITIVE).matcher("btnUpload").find()){
+                    System.out.println("Upload");
+                    btnUpload.setVisible(true);
+                }
+                else;
+
+            }
+        }
+        else;
     }
     public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
         initComponents();
@@ -73,7 +101,7 @@ public class Menu extends javax.swing.JFrame {
         btnHome = new javax.swing.JToggleButton();
         btnSystemLogs = new javax.swing.JButton();
         btnNotes = new javax.swing.JButton();
-        btnUploads = new javax.swing.JButton();
+        btnUpload = new javax.swing.JButton();
 
         jButton2.setText("jButton2");
 
@@ -154,11 +182,11 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnUploads.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnUploads.setText("Upload Document");
-        btnUploads.addActionListener(new java.awt.event.ActionListener() {
+        btnUpload.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnUpload.setText("Upload Document");
+        btnUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUploadsActionPerformed(evt);
+                btnUploadActionPerformed(evt);
             }
         });
 
@@ -177,7 +205,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnSalaryCondition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSystemLogs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUploads, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnUpload, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +238,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnSystemLogs))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUploads)
+                    .addComponent(btnUpload)
                     .addComponent(btnLogout))
                 .addGap(30, 30, 30))
         );
@@ -222,7 +250,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            EmployeesUI eUI = new EmployeesUI(this.sessionUser);
+            EmployeesUI eUI = new EmployeesUI(this.sessionUser, employeePages);
             eUI.setTitle("DSL Time Logging | Employees");
             eUI.pack();
             eUI.setLocationRelativeTo(null);
@@ -379,7 +407,7 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSystemLogsActionPerformed
 
-    private void btnUploadsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadsActionPerformed
+    private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
         try {
             // TODO add your handling code here:
             this.setVisible(false);
@@ -396,7 +424,7 @@ public class Menu extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnUploadsActionPerformed
+    }//GEN-LAST:event_btnUploadActionPerformed
 
     private void btnNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotesActionPerformed
         this.setVisible(false);
@@ -432,7 +460,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnReports;
     private javax.swing.JToggleButton btnSalaryCondition;
     private javax.swing.JButton btnSystemLogs;
-    private javax.swing.JButton btnUploads;
+    private javax.swing.JButton btnUpload;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

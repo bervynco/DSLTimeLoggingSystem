@@ -1026,9 +1026,9 @@ public class DB {
                 " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
                 "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
-        String status = determineDuplicateUser(fingerPrint);
+        //String status = determineDuplicateUser(fingerPrint);
         
-        if(status.equals("Unique")){
+        //if(status.equals("Unique")){
             ps.setString(1, firstName);
             ps.setString(2, lastName);
             ps.setInt(3, employeeID);
@@ -1038,7 +1038,7 @@ public class DB {
             ps.setFloat(7, rate);
             ps.setString(8, timeIn);
             ps.setString(9, timeOut);
-            ps.setBytes(10, fingerPrint);
+            ps.setBytes(10, null);
             ps.setTimestamp(11, (Timestamp) getCurrentTimeStamp());
             ps.setString(12, SSSNumber);
             ps.setString(13, philHealthNumber);
@@ -1062,9 +1062,9 @@ public class DB {
             else{
                 return "Failed";
             }
-        }else{
-            return "Duplicate";  
-        }
+//        }else{
+//            return "Duplicate";  
+//        }
     }
     
     public static User loginFingerPrint(byte[] fingerPrintImage) throws ClassNotFoundException, SQLException, UareUException, ParseException{
@@ -1119,6 +1119,7 @@ public class DB {
         
         ps.setInt(1, employeeID);
         ps.setString(2, password);
+        
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
                 user.setEmployeeID(rs.getInt(1));

@@ -128,7 +128,7 @@ public class AlternativeLogIn extends javax.swing.JFrame {
             User user = DB.alternativeLogin(employeeID, password);
             
             if(user.getEmployeeID() != 0){
-                if(user.getRole().equals("Administrator") || user.getRole().equals("Assistant Administrator") || user.getRole().equals("Payroll")){
+                if(user.getRole().equals("Administrator") || user.getRole().equals("Co-Administrator") || user.getRole().equals("Payroll")){
                     this.setVisible(false);
                     Menu menu = new Menu(user);
                     menu.setTitle("DSL Time Logging | Menu");

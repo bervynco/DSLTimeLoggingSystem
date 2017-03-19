@@ -211,8 +211,8 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jCheckBoxUpload" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCheckBoxSalaryClaim" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCheckBoxViewSalary" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jCheckBoxClaimSalary" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jCheckBoxPayroll" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckboxDeleteEmployee" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckboxAddEmployee" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckboxEditEmployee" min="-2" max="-2" attributes="0"/>
@@ -291,12 +291,12 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jCheckboxReports" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jCheckBoxViewSalary" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jCheckBoxPayroll" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBoxSalaryClaim" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBoxClaimSalary" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtTimeOut" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -438,13 +438,8 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox1">
               <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Admin"/>
-                    <StringItem index="1" value="Co-Admin"/>
-                    <StringItem index="2" value="Payroll"/>
-                    <StringItem index="3" value="Employee"/>
-                  </StringArray>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Administrator&quot;, &quot;Co-Administrator&quot;, &quot;Payroll&quot;, &quot;Employee&quot; })" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -489,15 +484,15 @@
                 <Property name="text" type="java.lang.String" value="Reports"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBoxViewSalary">
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxPayroll">
               <Properties>
                 <Property name="text" type="java.lang.String" value="View Salary"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxViewSalaryActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxPayrollActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBoxSalaryClaim">
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxClaimSalary">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Claim Salary"/>
               </Properties>

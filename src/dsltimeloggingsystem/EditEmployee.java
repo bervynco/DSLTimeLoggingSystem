@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.lang.String;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 import javax.swing.JLabel;
 
 public class EditEmployee extends javax.swing.JFrame {
@@ -22,13 +24,29 @@ public class EditEmployee extends javax.swing.JFrame {
     private Fmd fmd;
     private static User sessionUser = null;
     private static User user;
-    public EditEmployee(User user) throws ClassNotFoundException, SQLException, ParseException {
+    private static ArrayList<String> employeePages = new ArrayList<>();
+    public void RestrictViews(ArrayList<String> employeePages){
+        btnEditEmployee.setVisible(false);
+        btnDeleteEmployee.setVisible(false);
+        for(int i = 0; i < employeePages.size(); i++){
+            if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnEditEmployee").find()){
+               btnEditEmployee.setVisible(true);
+            }
+            if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnDeleteEmployee").find()){
+               btnDeleteEmployee.setVisible(true);
+            }
+        }
+        
+    }
+    public EditEmployee(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         
         initComponents();
         lblWarningMessage.setFont(new Font("Serif", Font.PLAIN, 30));
         lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
         lblWarningMessage.setForeground(Color.red);
         this.sessionUser = user;
+        this.employeePages = employeePages;
+        RestrictViews(this.employeePages);
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Edit Employee");
     }
     
@@ -99,8 +117,8 @@ public class EditEmployee extends javax.swing.JFrame {
         txtPagibigDeduction = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         txtTinNumber = new javax.swing.JTextField();
-        btnUpdate = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnEditEmployee = new javax.swing.JButton();
+        btnDeleteEmployee = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         txtPagibigNumber = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -183,21 +201,21 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel19.setText("Tin Number:");
 
-        btnUpdate.setBackground(new java.awt.Color(1, 169, 130));
-        btnUpdate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnUpdate.setText("Update User");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        btnEditEmployee.setBackground(new java.awt.Color(1, 169, 130));
+        btnEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnEditEmployee.setText("Update User");
+        btnEditEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnEditEmployeeActionPerformed(evt);
             }
         });
 
-        jButton1.setBackground(java.awt.Color.red);
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Delete User");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteEmployee.setBackground(java.awt.Color.red);
+        btnDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnDeleteEmployee.setText("Delete User");
+        btnDeleteEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDeleteEmployeeActionPerformed(evt);
             }
         });
 
@@ -332,11 +350,11 @@ public class EditEmployee extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(188, 188, 188)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEditEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(233, 233, 233)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDeleteEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(lblWarningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -417,8 +435,8 @@ public class EditEmployee extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton5)
-                    .addComponent(btnUpdate)
-                    .addComponent(jButton1))
+                    .addComponent(btnEditEmployee)
+                    .addComponent(btnDeleteEmployee))
                 .addGap(52, 52, 52))
         );
 
@@ -429,7 +447,7 @@ public class EditEmployee extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditEmployeeActionPerformed
         // TODO add your handling code here:
         String role = sessionUser.getRole();
         String status = "";
@@ -474,7 +492,7 @@ public class EditEmployee extends javax.swing.JFrame {
                             this.setVisible(false);
                             EmployeesUI eUI;
                             try {
-                                eUI = new EmployeesUI(this.sessionUser);
+                                eUI = new EmployeesUI(this.sessionUser, this.employeePages);
                                 eUI.setTitle("DSL Time Logging | Employees");
                                 eUI.pack();
                                 eUI.setLocationRelativeTo(null);
@@ -507,14 +525,14 @@ public class EditEmployee extends javax.swing.JFrame {
             lblWarningMessage.setText("You are not authorized to make changes. Please contact administrator");
         }
         
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnEditEmployeeActionPerformed
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
         // TODO add your handling code here:
         EmployeesUI eUI;
         try {
             this.setVisible(false);
-            eUI = new EmployeesUI(this.sessionUser);
+            eUI = new EmployeesUI(this.sessionUser, this.employeePages);
             eUI.setTitle("DSL Time Logging | Employees");
             eUI.pack();
             eUI.setLocationRelativeTo(null);
@@ -530,7 +548,7 @@ public class EditEmployee extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEmployeeActionPerformed
         String role = "";
         String status = "";
         
@@ -544,7 +562,7 @@ public class EditEmployee extends javax.swing.JFrame {
                     this.setVisible(false);
                     EmployeesUI eUI;
                     try {
-                        eUI = new EmployeesUI(this.sessionUser);
+                        eUI = new EmployeesUI(this.sessionUser, this.employeePages);
                         eUI.setTitle("DSL Time Logging | Employees");
                         eUI.pack();
                         eUI.setLocationRelativeTo(null);
@@ -572,7 +590,7 @@ public class EditEmployee extends javax.swing.JFrame {
         else{
             lblWarningMessage.setText("You are not authorized to make changes. Please contact administrator");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnDeleteEmployeeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,8 +598,8 @@ public class EditEmployee extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnDeleteEmployee;
+    private javax.swing.JButton btnEditEmployee;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;

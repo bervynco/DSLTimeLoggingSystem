@@ -42,7 +42,7 @@
                   <Component id="btnSalaryCondition" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnHome" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnSystemLogs" max="32767" attributes="0"/>
-                  <Component id="btnUploads" max="32767" attributes="0"/>
+                  <Component id="btnUpload" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="58" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -84,7 +84,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnUploads" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnUpload" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnLogout" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -200,7 +200,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNotesActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnUploads">
+    <Component class="javax.swing.JButton" name="btnUpload">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="16" style="0"/>
@@ -208,7 +208,7 @@
         <Property name="text" type="java.lang.String" value="Upload Document"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUploadsActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUploadActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

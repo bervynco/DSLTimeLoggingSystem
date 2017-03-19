@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -22,6 +23,7 @@ public class EmployeesUI extends javax.swing.JFrame {
     private static int employeeID = 0;
     
     private static User sessionUser = null;
+    private static ArrayList<String> employeePages = new ArrayList<>();
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
@@ -54,11 +56,22 @@ public class EmployeesUI extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    
-    public EmployeesUI(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public void RestrictViews(ArrayList<String> employeePages){
+        btnAddEmployee.setVisible(false);
+        for(int i = 0; i < employeePages.size(); i++){
+            if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnAddEmployee").find()){
+               btnAddEmployee.setVisible(true);
+            }
+        }
+        
+    }
+    public EmployeesUI(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
+        this.employeePages = employeePages;
+        
         DefaultTableModel model = EmployeesUI.FillTable();
         
         initComponents();
+        RestrictViews(this.employeePages);
         jTable1.setModel(model);
         lblUserCount.setText(Integer.toString(userCount));
         this.sessionUser = user;
@@ -75,11 +88,11 @@ public class EmployeesUI extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         lblUserCount = new javax.swing.JLabel();
+        btnAddEmployee = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,14 +176,6 @@ public class EmployeesUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jToggleButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jToggleButton1.setText("Add Employee");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jTextField1.setText("Search");
 
@@ -185,6 +190,14 @@ public class EmployeesUI extends javax.swing.JFrame {
             }
         });
 
+        btnAddEmployee.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnAddEmployee.setText("Add Employee");
+        btnAddEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEmployeeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,7 +207,7 @@ public class EmployeesUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToggleButton1)
+                        .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -209,13 +222,12 @@ public class EmployeesUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jToggleButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1)
-                        .addGap(3, 3, 3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3))
+                    .addComponent(btnAddEmployee))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -248,27 +260,6 @@ public class EmployeesUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        NewAddEmployee add;
-        try {
-            add = new NewAddEmployee(this.sessionUser);
-            add.setTitle("DSL Time Logging | Add Employees");
-            add.pack();
-            add.setLocationRelativeTo(null);
-            add.setDefaultCloseOperation(0);
-            add.setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
 
@@ -276,7 +267,7 @@ public class EmployeesUI extends javax.swing.JFrame {
        
         this.setVisible(false);
         try {
-            EditEmployee editEmployee = new EditEmployee(this.sessionUser);
+            EditEmployee editEmployee = new EditEmployee(this.sessionUser, this.employeePages);
             int employeeID = (int) jTable1.getValueAt(row, 0);
             editEmployee.setEditableFields(employeeID);
             editEmployee.setTitle("DSL Time Logging | Edit Employee");
@@ -297,18 +288,39 @@ public class EmployeesUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        this.setVisible(false);
+        NewAddEmployee add;
+        try {
+            add = new NewAddEmployee(this.sessionUser, this.employeePages);
+            add.setTitle("DSL Time Logging | Add Employees");
+            add.pack();
+            add.setLocationRelativeTo(null);
+            add.setDefaultCloseOperation(0);
+            add.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAddEmployeeActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddEmployee;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblUserCount;
     // End of variables declaration//GEN-END:variables
 }

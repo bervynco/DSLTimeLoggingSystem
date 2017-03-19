@@ -32,12 +32,14 @@ public class NewAddEmployee extends javax.swing.JFrame {
     private Reader m_reader;
     private Fmd fmd;
     private static User sessionUser = null;
-    public NewAddEmployee(User user) throws ClassNotFoundException, SQLException, ParseException {
+    private static ArrayList<String> employeePages = new ArrayList<>();
+    public NewAddEmployee(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         this.setTitle("DSL Add Employee");
         initComponents();
         lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
         lblWarningMessage.setForeground(Color.red);
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "New Employee");
     }
 
@@ -72,8 +74,8 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jCheckboxEditEmployee = new javax.swing.JCheckBox();
         jCheckboxDeleteEmployee = new javax.swing.JCheckBox();
         jCheckboxReports = new javax.swing.JCheckBox();
-        jCheckBoxViewSalary = new javax.swing.JCheckBox();
-        jCheckBoxSalaryClaim = new javax.swing.JCheckBox();
+        jCheckBoxPayroll = new javax.swing.JCheckBox();
+        jCheckBoxClaimSalary = new javax.swing.JCheckBox();
         jCheckBoxUpload = new javax.swing.JCheckBox();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -138,7 +140,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel7.setText("Type:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Co-Admin", "Payroll", "Employee" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrator", "Co-Administrator", "Payroll", "Employee" }));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel8.setText("Mobile No.:");
@@ -154,14 +156,14 @@ public class NewAddEmployee extends javax.swing.JFrame {
 
         jCheckboxReports.setText("Reports");
 
-        jCheckBoxViewSalary.setText("View Salary");
-        jCheckBoxViewSalary.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxPayroll.setText("View Salary");
+        jCheckBoxPayroll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxViewSalaryActionPerformed(evt);
+                jCheckBoxPayrollActionPerformed(evt);
             }
         });
 
-        jCheckBoxSalaryClaim.setText("Claim Salary");
+        jCheckBoxClaimSalary.setText("Claim Salary");
 
         jCheckBoxUpload.setText("Upload Files");
 
@@ -353,8 +355,8 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBoxUpload)
-                                    .addComponent(jCheckBoxSalaryClaim)
-                                    .addComponent(jCheckBoxViewSalary)
+                                    .addComponent(jCheckBoxClaimSalary)
+                                    .addComponent(jCheckBoxPayroll)
                                     .addComponent(jCheckboxDeleteEmployee)
                                     .addComponent(jCheckboxAddEmployee)
                                     .addComponent(jCheckboxEditEmployee)
@@ -417,10 +419,10 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jCheckboxReports)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBoxViewSalary)))
+                                .addComponent(jCheckBoxPayroll)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxSalaryClaim)
+                            .addComponent(jCheckBoxClaimSalary)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel11)
                                 .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -641,16 +643,16 @@ public class NewAddEmployee extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBoxViewSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxViewSalaryActionPerformed
+    private void jCheckBoxPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPayrollActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxViewSalaryActionPerformed
+    }//GEN-LAST:event_jCheckBoxPayrollActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         EmployeesUI eUI;
         try {
-            eUI = new EmployeesUI(this.sessionUser);
+            eUI = new EmployeesUI(this.sessionUser,this.employeePages);
             eUI.setTitle("DSL Time Logging | Employees");
             eUI.pack();
             eUI.setLocationRelativeTo(null);
@@ -681,15 +683,20 @@ public class NewAddEmployee extends javax.swing.JFrame {
             System.out.println("DELETE EMPLOYEE" + jCheckboxDeleteEmployee.isSelected());
             pageNames.add(jCheckboxDeleteEmployee.getText());
         }
-//        if(jCheckboxPayroll.isSelected()){
-//            System.out.println("PAYROLL" + jCheckboxPayroll.isSelected());
-//            pageNames.add(jCheckboxPayroll.getText());
-//        }
+        if(jCheckBoxPayroll.isSelected()){
+            System.out.println("PAYROLL" + jCheckBoxPayroll.isSelected());
+            pageNames.add("Payroll");
+        }
         if(jCheckboxReports.isSelected()){
             System.out.println("REPORTS" + jCheckboxReports.isSelected());
             pageNames.add(jCheckboxReports.getText());
         }
-        
+        if(jCheckBoxUpload.isSelected()){
+            pageNames.add("Upload");
+        }
+        if(jCheckBoxClaimSalary.isSelected()){
+            pageNames.add("Claim Salary");
+        }
         String status = "";
         int employeeID = 0;
         
@@ -727,37 +734,49 @@ public class NewAddEmployee extends javax.swing.JFrame {
             byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
             DB db = new DB();
             try {
-                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0){
-                    lblWarningMessage.setText("Please complete fields before proceeding");
-                }
-                else{
-                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
-                
-                    if(status.equals("Failed")){
-                        lblWarningMessage.setText("System Error. Please contact Administrator");
-                    }
-                    else if(status.equals("Duplicate")){
-                        lblWarningMessage.setText("User is already existing in the database via his/her fingerprint");
-                    }
-                    else{
-                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
-                        this.setVisible(false);
-                        EmployeesUI eUI = new EmployeesUI(this.sessionUser);
-                        eUI.setTitle("DSL Time Logging | Employees");
-                        eUI.pack();
-                        eUI.setLocationRelativeTo(null);
-                        eUI.setDefaultCloseOperation(0);
-                        eUI.setVisible(true);
-                    }
-                }
-                
+                status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
+//            try {
+//                
+//                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0){
+//                    lblWarningMessage.setText("Please complete fields before proceeding");
+//                }
+//                else{
+//                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
+//                
+//                    if(status.equals("Failed")){
+//                        lblWarningMessage.setText("System Error. Please contact Administrator");
+//                    }
+//                    else if(status.equals("Duplicate")){
+//                        lblWarningMessage.setText("User is already existing in the database via his/her fingerprint");
+//                   }
+//                    else{
+//                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
+//                        this.setVisible(false);
+//                       EmployeesUI eUI = new EmployeesUI(this.sessionUser);
+//                        eUI.setTitle("DSL Time Logging | Employees");
+//                        eUI.pack();
+//                       eUI.setLocationRelativeTo(null);
+//                        eUI.setDefaultCloseOperation(0);
+//                        eUI.setVisible(true);
+//                    }
+//               }
+//                
+//            } catch (ClassNotFoundException ex) {
+//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (SQLException ex) {
+//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (FileNotFoundException ex) {
+//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (ParseException ex) {
+//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (UareUException ex) {
+//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UareUException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
@@ -822,9 +841,9 @@ public class NewAddEmployee extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnScan;
-    private javax.swing.JCheckBox jCheckBoxSalaryClaim;
+    private javax.swing.JCheckBox jCheckBoxClaimSalary;
+    private javax.swing.JCheckBox jCheckBoxPayroll;
     private javax.swing.JCheckBox jCheckBoxUpload;
-    private javax.swing.JCheckBox jCheckBoxViewSalary;
     private javax.swing.JCheckBox jCheckboxAddEmployee;
     private javax.swing.JCheckBox jCheckboxDeleteEmployee;
     private javax.swing.JCheckBox jCheckboxEditEmployee;
