@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -734,53 +735,43 @@ public class NewAddEmployee extends javax.swing.JFrame {
             byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
             DB db = new DB();
             try {
-                status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
-//            try {
-//                
-//                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0){
-//                    lblWarningMessage.setText("Please complete fields before proceeding");
-//                }
-//                else{
-//                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
-//                
-//                    if(status.equals("Failed")){
-//                        lblWarningMessage.setText("System Error. Please contact Administrator");
-//                    }
-//                    else if(status.equals("Duplicate")){
-//                        lblWarningMessage.setText("User is already existing in the database via his/her fingerprint");
-//                   }
-//                    else{
-//                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
-//                        this.setVisible(false);
-//                       EmployeesUI eUI = new EmployeesUI(this.sessionUser);
-//                        eUI.setTitle("DSL Time Logging | Employees");
-//                        eUI.pack();
-//                       eUI.setLocationRelativeTo(null);
-//                        eUI.setDefaultCloseOperation(0);
-//                        eUI.setVisible(true);
-//                    }
-//               }
-//                
-//            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (ParseException ex) {
-//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (UareUException ex) {
-//                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0){
+                    lblWarningMessage.setText("Please complete fields before proceeding");
+                }
+                else{
+                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
+                
+                    if(status.equals("Failed")){
+                        lblWarningMessage.setText("System Error. Please contact Administrator");
+                    }
+                    else if(status.equals("Duplicate")){
+                        lblWarningMessage.setText("User is already existing in the database via his/her fingerprint");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Add Employee Successful");
+                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
+                        this.setVisible(false);
+                        EmployeesUI eUI = new EmployeesUI(this.sessionUser, this.employeePages);
+                        eUI.setTitle("DSL Time Logging | Employees");
+                        eUI.pack();
+                        eUI.setLocationRelativeTo(null);
+                        eUI.setDefaultCloseOperation(0);
+                        eUI.setVisible(true);
+                    }
+               }
+                
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UareUException ex) {
                 Logger.getLogger(NewAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
         else{
             lblWarningMessage.setText("You are not authorized to make changes. Please contact administrator");

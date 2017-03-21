@@ -57,7 +57,10 @@ public class EmployeesUI extends javax.swing.JFrame {
 //        new jTable1.setModel(model);
     }
     public void RestrictViews(ArrayList<String> employeePages){
-        btnAddEmployee.setVisible(false);
+       //
+       if(employeePages.size() > 0){
+            btnAddEmployee.setVisible(false);
+       }
         for(int i = 0; i < employeePages.size(); i++){
             if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnAddEmployee").find()){
                btnAddEmployee.setVisible(true);

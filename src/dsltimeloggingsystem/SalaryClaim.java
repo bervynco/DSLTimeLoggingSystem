@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class SalaryClaim extends javax.swing.JFrame {
 
@@ -396,9 +397,10 @@ public class SalaryClaim extends javax.swing.JFrame {
             String status = DB.setSalaryClaim(employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime, totalSalary, taxDeduction);
             
             if(status.equals("Successful")){
-                lblStatus.setText("Successful. Please press the back button to claim other salary");
-                lblStatus.setHorizontalAlignment(JLabel.CENTER);
-                lblStatus.setForeground(new Color(0,100,0));
+                JOptionPane.showMessageDialog(null, "Salary Claim completed. Click the back button to claim other salary. ");
+//                lblStatus.setText("Successful. Please press the back button to claim other salary");
+//                lblStatus.setHorizontalAlignment(JLabel.CENTER);
+//                lblStatus.setForeground(new Color(0,100,0));
             }
             else{
                 lblStatus.setText("Error. Please Contact System Administrator");

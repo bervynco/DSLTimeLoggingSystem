@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Reports extends javax.swing.JFrame {
 
@@ -184,6 +185,7 @@ public class Reports extends javax.swing.JFrame {
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
         // TODO add your handling code here:
+        
         GenerateReport generate = new GenerateReport();
         String startDate = txtStartDate.getText();
         String endDate = txtEndDate.getText();
@@ -215,6 +217,7 @@ public class Reports extends javax.swing.JFrame {
                 lblWarning.setForeground(Color.red);
             }
             else{
+                JOptionPane.showMessageDialog(null, "Report Successfully generated. Proceed to C:/PDF for your report");
                 lblWarning.setText("File downloaded on your C:/PDF drive.");
                 lblWarning.setHorizontalAlignment(JLabel.CENTER);
                 lblWarning.setForeground(new Color(1, 169, 130));

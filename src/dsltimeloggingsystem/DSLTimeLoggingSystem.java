@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -166,6 +167,7 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
             User user = DB.loginFingerPrint(fingerPrintImage);
             if(user.getEmployeeID() != 0){
                 if(user.getRole().equals("Administrator") || user.getRole().equals("Assistant Administrator") || user.getRole().equals("Payroll")){
+                    JOptionPane.showMessageDialog(null, "Login Successful");
                     this.setVisible(false);
                     Menu menu = new Menu(user);
                     menu.setTitle("DSL Time Logging | Menu");

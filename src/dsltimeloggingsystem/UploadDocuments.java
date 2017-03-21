@@ -7,6 +7,7 @@ package dsltimeloggingsystem;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class UploadDocuments extends javax.swing.JFrame {
 
     }
     public UploadDocuments(User user) throws ClassNotFoundException, SQLException, ParseException {
+        
         this.sessionUser = user;
         initComponents();
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Upload");
@@ -200,6 +202,7 @@ public class UploadDocuments extends javax.swing.JFrame {
             String name = (String) jComboboxEmployee.getSelectedItem();
             String type = (String) jComboboxType.getSelectedItem();
             int employeeID = DB.getEmployeeIDFromName(name);
+            System.out.println(selectedFile.getAbsolutePath());
             String status = DB.setUploadFile(employeeID, type, selectedFile);
             if(status == "Successful"){
                 DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Upload Document");
@@ -222,6 +225,8 @@ public class UploadDocuments extends javax.swing.JFrame {
             Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnUploadActionPerformed
 
@@ -230,7 +235,8 @@ public class UploadDocuments extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
             lblFileName.setText(selectedFile.getName());
         }
     }//GEN-LAST:event_btnChooseActionPerformed

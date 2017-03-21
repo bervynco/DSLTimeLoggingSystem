@@ -15,6 +15,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.DriverManager;
@@ -98,12 +99,17 @@ public class DB {
             return "Failed";
         }
     }
-    public static String setUploadFile(int employeeID, String fileType, File file) throws ClassNotFoundException, SQLException{
+    public static String setUploadFile(int employeeID, String fileType, File file) throws ClassNotFoundException, SQLException, FileNotFoundException{
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, uploadDate) VALUES (?,?,?)");
+        String filePath = file.getAbsolutePath();
+        InputStream inputStream = new FileInputStream(new File(filePath));
+        FileInputStream fis = null;
+
+        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, uploadFile, uploadDate) VALUES (?,?,?,?)");
         ps.setInt(1, employeeID);
         ps.setString(2, fileType);
-        ps.setTimestamp(3, getCurrentTimeStamp());
+        ps.setBlob(3, inputStream);
+        ps.setTimestamp(4, getCurrentTimeStamp());
         int rows = ps.executeUpdate();
         c.close();
 

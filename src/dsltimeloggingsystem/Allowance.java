@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Allowance extends javax.swing.JFrame {
     
@@ -148,6 +149,7 @@ public class Allowance extends javax.swing.JFrame {
                 String status = DB.setExtraCashPerEmployee(employeeID, amount, action);
                 
                 if(status.equals("Successful")){
+                    JOptionPane.showMessageDialog(null, "Add Allowance Successful");
                     System.out.println("Successful");
                     this.setVisible(false);
                     SalaryCondition condition = new SalaryCondition(this.sessionUser);

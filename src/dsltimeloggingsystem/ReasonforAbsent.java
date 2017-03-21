@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class ReasonforAbsent extends javax.swing.JFrame {
 
@@ -224,6 +225,7 @@ public class ReasonforAbsent extends javax.swing.JFrame {
                         lblStatus1.setText("Error. Please contact system administrator");
                     }
                     else{
+                        JOptionPane.showMessageDialog(null, "Add Absence Completed");
                         DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add Reason For Absent");
                         this.setVisible(false);
                         SalaryCondition condition = new SalaryCondition(this.sessionUser);

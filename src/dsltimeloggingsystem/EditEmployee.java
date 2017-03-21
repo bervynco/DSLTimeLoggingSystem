@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class EditEmployee extends javax.swing.JFrame {
     
@@ -489,6 +490,7 @@ public class EditEmployee extends javax.swing.JFrame {
                     else{
                         status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction);
                         if(status.equals("Successful")){
+                            JOptionPane.showMessageDialog(null, "Edit Employee Successful");
                             this.setVisible(false);
                             EmployeesUI eUI;
                             try {
@@ -559,6 +561,7 @@ public class EditEmployee extends javax.swing.JFrame {
                 System.out.println(employeeID);
                 status = DB.deleteUser(employeeID);
                 if(status.equals("Successful")){
+                    JOptionPane.showMessageDialog(null, "Delete Employee Successful");
                     this.setVisible(false);
                     EmployeesUI eUI;
                     try {

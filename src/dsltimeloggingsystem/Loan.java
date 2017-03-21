@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Loan extends javax.swing.JFrame {
 
@@ -154,6 +155,7 @@ public class Loan extends javax.swing.JFrame {
                 String status = DB.setCashAdvancePerEmployee(employeeID, amount, action);
                 
                 if(status.equals("Successful")){
+                    JOptionPane.showMessageDialog(null, "Add Loan Successful");
                     this.setVisible(false);
                     SalaryCondition condition = new SalaryCondition(this.sessionUser);
                     condition.setTitle("DSL Time Logging | Salary Condition");

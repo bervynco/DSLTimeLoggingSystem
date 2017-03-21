@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -129,6 +130,7 @@ public class AlternativeLogIn extends javax.swing.JFrame {
             
             if(user.getEmployeeID() != 0){
                 if(user.getRole().equals("Administrator") || user.getRole().equals("Co-Administrator") || user.getRole().equals("Payroll")){
+                    JOptionPane.showMessageDialog(null, "Login Successful");
                     this.setVisible(false);
                     Menu menu = new Menu(user);
                     menu.setTitle("DSL Time Logging | Menu");
