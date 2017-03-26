@@ -5,7 +5,7 @@ import com.digitalpersona.uareu.ReaderCollection;
 import com.digitalpersona.uareu.UareUException;
 import com.digitalpersona.uareu.UareUGlobal;
 import dsltimeloggingsystem.DB;
-import dsltimeloggingsystem.DSLTimeLoggingSystem;
+import dsltimeloggingsystem.Main;
 import dsltimeloggingsystem.Selection;
 import java.sql.SQLException;
 import java.util.logging.Level;

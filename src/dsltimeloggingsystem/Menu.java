@@ -313,7 +313,7 @@ public class Menu extends javax.swing.JFrame {
             // TODO add your handling code here:
             this.setVisible(false);
             DB.setUserLogStatus(sessionUser.getEmployeeID(),"Page Visit", "Logout");
-            DSLTimeLoggingSystem timeLoggingSystem = new DSLTimeLoggingSystem();
+            Main timeLoggingSystem = new Main();
             timeLoggingSystem.setTitle("DSL Time Logging | Login");
             timeLoggingSystem.pack();
             timeLoggingSystem.setLocationRelativeTo(null);
@@ -332,7 +332,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             EmployeeList list = new EmployeeList(this.sessionUser);
-            list.setTitle("DSL Time Logging | List of Emoloyees");
+            list.setTitle("DSL Time Logging | List of Employees");
             list.pack();
             list.setLocationRelativeTo(null);
             list.setDefaultCloseOperation(0);
@@ -430,7 +430,7 @@ public class Menu extends javax.swing.JFrame {
         this.setVisible(false);
         try {
             // TODO add your handling code here:
-            AddNote notes = new AddNote(this.sessionUser);
+            AddNote notes = new AddNote(this.sessionUser, "Main Menu", this.employeePages);
             notes.setVisible(true);
             notes.setTitle("DSL Time Logging | Add Notes");
             notes.pack();

@@ -15,7 +15,10 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.DriverManager;
@@ -83,6 +86,18 @@ public class DB {
         cal.setTime(holiday);
         return cal.getTimeInMillis();
     }
+    
+    public static Timestamp getDateToday(){
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Timestamp sq = new java.sql.Timestamp(utilDate.getTime());  
+
+        System.out.println(sq);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        //System.out.println(sdf.format(sq));
+        return sq;
+    }
+    
     public static String addNote(int employeeID, String note) throws ClassNotFoundException, SQLException{
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("INSERT INTO notes (employeeID, note, noteDate) VALUES (?,?,?)");
@@ -102,14 +117,14 @@ public class DB {
     public static String setUploadFile(int employeeID, String fileType, File file) throws ClassNotFoundException, SQLException, FileNotFoundException{
         Connection c = connect();
         String filePath = file.getAbsolutePath();
-        InputStream inputStream = new FileInputStream(new File(filePath));
-        FileInputStream fis = null;
+        FileInputStream fis = new FileInputStream(new File(filePath));
 
-        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, uploadFile, uploadDate) VALUES (?,?,?,?)");
+        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, fileName, uploadFile, uploadDate) VALUES (?,?,?,?)");
         ps.setInt(1, employeeID);
         ps.setString(2, fileType);
-        ps.setBlob(3, inputStream);
-        ps.setTimestamp(4, getCurrentTimeStamp());
+        ps.setString(3, file.getName());
+        ps.setBinaryStream(4, fis);
+        ps.setTimestamp(5, getCurrentTimeStamp());
         int rows = ps.executeUpdate();
         c.close();
 
@@ -120,15 +135,68 @@ public class DB {
             return "Failed";
         }
     }
-    public static Timestamp getDateToday(){
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Timestamp sq = new java.sql.Timestamp(utilDate.getTime());  
+    
+    public static List<Notes> getNotes(int employeeID) throws ClassNotFoundException, SQLException{
 
-        System.out.println(sq);
+        List<Notes> notesList = new ArrayList<Notes>();
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("Select a.noteID, a.employeeID, b.firstName, b.lastName, a.note from " +
+                "notes a, users b where a.employeeID = ? and a.employeeID = b.employeeID;");
+        ps.setInt(1, employeeID);
+        ResultSet rs = ps.executeQuery();
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        //System.out.println(sdf.format(sq));
-        return sq;
+        while(rs.next()){
+            Notes notes = new Notes();
+            notes.setNoteID(rs.getInt(1));
+            notes.setEmployeeID(rs.getInt(2));
+            notes.setFirstName(rs.getString(3));
+            notes.setLastName(rs.getString(4));
+            notes.setNote(rs.getString(5));
+            
+            notesList.add(notes);
+        }
+        c.close();
+        return notesList;
+    }
+    public static List<Files> getFiles(int employeeID) throws ClassNotFoundException, SQLException, FileNotFoundException, IOException{
+        String fileName = null;
+        List<Files> filesList = new ArrayList<Files>();
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("Select a.uploadID, a.employeeID, b.firstName, b.lastName, a.fileName, a.uploadFile from " +
+                "uploads a, users b where a.employeeID = ? and a.employeeID = b.employeeID;");
+        ps.setInt(1, employeeID);
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            Files files = new Files();
+            files.setFileID(rs.getInt(1));
+            files.setEmployeeID(rs.getInt(2));
+            files.setFirstName(rs.getString(3));
+            files.setLastName(rs.getString(4));
+            fileName = rs.getString(5);
+            files.setFileName(fileName);
+            InputStream stream = rs.getBinaryStream(6);
+            OutputStream outputStream = new FileOutputStream("C:\\DSL-Downloads"+ "\\" + fileName);
+            int streams;
+            while ((stream.read()) != -1) {
+                streams = stream.read();
+                //writes to the output Stream
+                outputStream.write(streams);
+            }
+//            Blob blob = rs.getBlob(6);
+//            InputStream is = blob.getBinaryStream();
+//            FileOutputStream fos = new FileOutputStream("C:\\DSL-Downloads"+ "\\" + fileName);
+//            int b = 0;
+//            while ((b = is.read()) != -1)
+//            {
+//                fos.write(b); 
+//            }
+            //files.setFile(rs.getBlob(6));
+            
+            filesList.add(files);
+        }
+        c.close();
+        return filesList;
     }
     public static List<PayrollDetails> getSalaryClaim(int employeeID) throws ClassNotFoundException, SQLException {
         Connection c = connect();

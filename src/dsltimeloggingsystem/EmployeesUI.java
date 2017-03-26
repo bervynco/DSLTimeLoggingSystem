@@ -295,9 +295,9 @@ public class EmployeesUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         // TODO add your handling code here:
         this.setVisible(false);
-        NewAddEmployee add;
+        OldAddEmployee add;
         try {
-            add = new NewAddEmployee(this.sessionUser, this.employeePages);
+            add = new OldAddEmployee(this.sessionUser, this.employeePages);
             add.setTitle("DSL Time Logging | Add Employees");
             add.pack();
             add.setLocationRelativeTo(null);

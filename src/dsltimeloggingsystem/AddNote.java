@@ -26,6 +26,8 @@ public class AddNote extends javax.swing.JFrame {
      */
     private static User sessionUser = null;
     private static List<User> employees = new ArrayList<User>();
+    private static String location = null;
+     private static ArrayList<String> employeePages = new ArrayList<>();
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
@@ -35,8 +37,10 @@ public class AddNote extends javax.swing.JFrame {
         }
 
     }
-    public AddNote(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public AddNote(User user, String location, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         this.sessionUser = user;
+        this.employeePages = employeePages;
+        this.location = location;
         initComponents();
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Add Note");
         FillComboBox();
@@ -153,22 +157,42 @@ public class AddNote extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        try {
-            // TODO add your handling code here:
-            this.setVisible(false);
-            Menu menu = new Menu(this.sessionUser);
-            menu.setTitle("DSL Time Logging | Menu");
-            menu.pack();
-            menu.setLocationRelativeTo(null);
-            menu.setDefaultCloseOperation(0);
-            menu.setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+        this.setVisible(false);
+        if(location.equals("Employees")){
+            try {
+                EmployeesUI eUI = new EmployeesUI(this.sessionUser, employeePages);
+                eUI.setTitle("DSL Time Logging | Employees");
+                eUI.pack();
+                eUI.setLocationRelativeTo(null);
+                eUI.setDefaultCloseOperation(0);
+                eUI.setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        else if(location.equals("Main Menu")){
+            try {
+                // TODO add your handling code here:
+                Menu menu = new Menu(this.sessionUser);
+                menu.setTitle("DSL Time Logging | Menu");
+                menu.pack();
+                menu.setLocationRelativeTo(null);
+                menu.setDefaultCloseOperation(0);
+                menu.setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else;
+       
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNoteActionPerformed

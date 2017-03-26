@@ -26,12 +26,12 @@ import javax.swing.JOptionPane;
  *
  * @author bendrhick
  */
-public class DSLTimeLoggingSystem extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public DSLTimeLoggingSystem() {
+    public Main() {
         
         initComponents();
         lblStatus.setFont(new Font("Serif", Font.PLAIN, 26));
@@ -148,7 +148,7 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
             // TODO add your handling code here:
             m_collection = UareUGlobal.GetReaderCollection();
         } catch (UareUException ex) {
-            Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         m_reader = Selection.Select(m_collection);
@@ -173,7 +173,6 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
                     menu.setTitle("DSL Time Logging | Menu");
                     menu.pack();
                     menu.setLocationRelativeTo(null);
-                    menu.setDefaultCloseOperation(0);
                     menu.setVisible(true);
                 }
                 else{
@@ -187,13 +186,13 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
             }
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UareUException ex) {
-            Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btn_captureActionPerformed
@@ -205,7 +204,6 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
         al.setTitle("DSL Time Logging | Alternative Login");
         al.pack();
         al.setLocationRelativeTo(null);
-        al.setDefaultCloseOperation(0);
         al.setVisible(true);
     }//GEN-LAST:event_btnAlternativeLoginActionPerformed
 
@@ -226,21 +224,23 @@ public class DSLTimeLoggingSystem extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DSLTimeLoggingSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DSLTimeLoggingSystem login = new DSLTimeLoggingSystem();
+                Main login = new Main();
                 login.setTitle("DSL Time Logging | Login");
                 login.pack();
                 login.setLocationRelativeTo(null);
