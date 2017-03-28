@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -31,6 +32,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    private final JPanel panel = new JPanel();
     public Main() {
         
         initComponents();
@@ -162,7 +164,6 @@ public class Main extends javax.swing.JFrame {
         Capture.Run(m_reader, false);
         FingerPrint fingerPrint = new FingerPrint();
         byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
-        fingerPrint.setFingerPrintImage(null);
         try {
             User user = DB.loginFingerPrint(fingerPrintImage);
             if(user.getEmployeeID() != 0){
@@ -174,15 +175,15 @@ public class Main extends javax.swing.JFrame {
                     menu.pack();
                     menu.setLocationRelativeTo(null);
                     menu.setVisible(true);
+                    
+                    fingerPrint.setFingerPrintImage(null);
                 }
                 else{
-                    lblStatus.setForeground(Color.red);
-                    lblStatus.setText("Unauthorized!");
+                    JOptionPane.showMessageDialog(panel, "Unauthorized", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else{
-                lblStatus.setForeground(Color.red);
-                lblStatus.setText("Unauthorized!");
+                JOptionPane.showMessageDialog(panel, "Unauthorized", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (ClassNotFoundException ex) {

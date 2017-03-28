@@ -964,10 +964,10 @@ public class DB {
         }
     }
     
-    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction) throws SQLException, ClassNotFoundException{
+    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String password) throws SQLException, ClassNotFoundException{
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, address =?, telephoneNumber =?, mobileNumber = ?, rate = ?, timeIn = ?, timeOut = ?, modified =?, " +""
-                + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ?, taxDeduction =? WHERE employeeID = ?");
+                + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ?, taxDeduction =?, password = ? WHERE employeeID = ?");
         
         ps.setString(1, firstName);
         ps.setString(2, lastName);
@@ -986,8 +986,9 @@ public class DB {
         ps.setFloat(14, SSSDeduction);
         ps.setFloat(15, pagibigDeduction);
         ps.setFloat(16, philHealthDeduction);
-          ps.setFloat(17, taxDeduction);
+        ps.setFloat(17, taxDeduction);
         ps.setInt(18, employeeID);
+        ps.setString(19, password);
       
         int affectedRow = ps.executeUpdate();
         c.close();
@@ -1003,7 +1004,7 @@ public class DB {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, role, fingerPrint," +  
                 "SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction" + 
-                ", philHealthDeduction, pagibigDeduction, taxDeduction, pages from users where employeeID = ?");
+                ", philHealthDeduction, pagibigDeduction, taxDeduction, pages, password from users where employeeID = ?");
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
         User user = new User();
@@ -1028,6 +1029,7 @@ public class DB {
             user.setTaxDeduction(rs.getFloat(19));
             user.setFingerPrintImage(rs.getBytes(11));
             user.setPages(rs.getString(20));
+            user.setPassword(rs.getString(21));
         }
         c.close();
         return user;
@@ -1093,12 +1095,12 @@ public class DB {
         }
         return "Unique";
     }
-    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role, ArrayList<String> pageNames) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
+    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role, ArrayList<String> pageNames, String password) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("INSERT INTO users (firstName, lastName, employeeID, address, telephoneNumber," + 
                 " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
-                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages, password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
         //String status = determineDuplicateUser(fingerPrint);
         
@@ -1112,7 +1114,7 @@ public class DB {
             ps.setFloat(7, rate);
             ps.setString(8, timeIn);
             ps.setString(9, timeOut);
-            ps.setBytes(10, null);
+            ps.setBytes(10, fingerPrint);
             ps.setTimestamp(11, (Timestamp) getCurrentTimeStamp());
             ps.setString(12, SSSNumber);
             ps.setString(13, philHealthNumber);
@@ -1124,7 +1126,7 @@ public class DB {
             ps.setFloat(19, taxDeduction);
             ps.setString(20, role);
             ps.setString(21, pageNames.toString());
-
+            ps.setString(22, password);
 
             // execute insert SQL stetement
             int rows = ps.executeUpdate();

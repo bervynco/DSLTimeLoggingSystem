@@ -41,16 +41,19 @@ public class EditEmployee extends javax.swing.JFrame {
     private static ArrayList<String> employeePages = new ArrayList<>();
     private final JPanel panel = new JPanel();
     public void RestrictViews(ArrayList<String> employeePages){
-        btnEditEmployee.setVisible(false);
-        btnDeleteEmployee.setVisible(false);
-        for(int i = 0; i < employeePages.size(); i++){
-            if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnEditEmployee").find()){
-               btnEditEmployee.setVisible(true);
-            }
-            if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnDeleteEmployee").find()){
-               btnDeleteEmployee.setVisible(true);
+        if(!sessionUser.getRole().equals("Administrator")){
+            btnEditEmployee.setVisible(false);
+            btnDeleteEmployee.setVisible(false);
+            for(int i = 0; i < employeePages.size(); i++){
+                if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnEditEmployee").find()){
+                   btnEditEmployee.setVisible(true);
+                }
+                if(Pattern.compile(Pattern.quote(employeePages.get(i)), Pattern.CASE_INSENSITIVE).matcher("btnDeleteEmployee").find()){
+                   btnDeleteEmployee.setVisible(true);
+                }
             }
         }
+        
         
     }
     private static DefaultTableModel FillTableNotes(int employeeID) throws ClassNotFoundException, SQLException {
@@ -161,6 +164,8 @@ public class EditEmployee extends javax.swing.JFrame {
         btnDeleteEmployee = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         txtPagibigDeduction = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         btnAddNote = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -263,6 +268,11 @@ public class EditEmployee extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         btnDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDeleteEmployee.setText("Delete");
@@ -274,6 +284,9 @@ public class EditEmployee extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel16.setText("Pag-ibig Deduction:");
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel23.setText("Emergency Password:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -310,7 +323,7 @@ public class EditEmployee extends javax.swing.JFrame {
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6)
@@ -378,7 +391,11 @@ public class EditEmployee extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel21)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel23)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtPassword)))))))
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckboxAddEmployee)
@@ -468,7 +485,9 @@ public class EditEmployee extends javax.swing.JFrame {
                             .addComponent(jLabel19)
                             .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20)
-                            .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jCheckboxDeleteEmployee)
@@ -575,7 +594,7 @@ public class EditEmployee extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnAddNote)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -651,7 +670,7 @@ public class EditEmployee extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1050, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -754,6 +773,25 @@ public class EditEmployee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteEmployeeActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.setVisible(false);
+        try {
+            // TODO add your handling code here:
+            EmployeesUI eUI = new EmployeesUI(this.sessionUser, this.employeePages);
+            eUI.setTitle("DSL Time Logging | Employees");
+            eUI.pack();
+            eUI.setLocationRelativeTo(null);
+            eUI.setDefaultCloseOperation(0);
+            eUI.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -783,6 +821,7 @@ public class EditEmployee extends javax.swing.JFrame {
         txtPagibigDeduction.setText(Float.toString(user.getPagibigDeduction()));
         txtPhilHealthDeduction.setText(Float.toString(user.getPhilHealthDeduction()));
         txtTaxDeduction.setText(Float.toString(user.getTaxDeduction()));
+        txtPassword.setText(user.getPassword());
     }
     private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
@@ -819,12 +858,13 @@ public class EditEmployee extends javax.swing.JFrame {
                     String tinNumber = txtTinNumber.getText();
                     String telephoneNumber = txtTelephoneNumber.getText();
                     String mobileNumber = txtMobileNumber.getText();
+                    String password = String.valueOf(txtPassword.getPassword());
                     byte[] fingerPrintImage = user.getFingerPrintImage();
-                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0){
+                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0 || password.equals("")){
                         JOptionPane.showMessageDialog(panel, "Please complete fields before proceeding", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     else{
-                        status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction);
+                        status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, password);
                         if(status.equals("Successful")){
                             JOptionPane.showMessageDialog(null, "Edit Employee Successful");
                             this.setVisible(false);
@@ -915,6 +955,7 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -939,6 +980,7 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JTextField txtMobileNumber;
     private javax.swing.JTextField txtPagibigDeduction;
     private javax.swing.JTextField txtPagibigNumber;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhilHealth;
     private javax.swing.JTextField txtPhilHealthDeduction;
     private javax.swing.JTextField txtRate;

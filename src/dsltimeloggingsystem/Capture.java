@@ -89,6 +89,7 @@ public class Capture extends JPanel implements ActionListener {
                     FingerPrint fingerPrint = new FingerPrint();
                     
                     fingerPrint.setFingerPrintImage(fmd.getData());
+                    
                     m_image.showImage(evt.capture_result.image);
                 }
                 else if(Reader.CaptureQuality.CANCELED == evt.capture_result.quality){
