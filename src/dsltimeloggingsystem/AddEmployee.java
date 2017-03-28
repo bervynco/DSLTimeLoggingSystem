@@ -5,17 +5,42 @@
  */
 package dsltimeloggingsystem;
 
+import com.digitalpersona.uareu.Fmd;
+import com.digitalpersona.uareu.Reader;
+import com.digitalpersona.uareu.ReaderCollection;
+import com.digitalpersona.uareu.UareUException;
+import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author L R E
  */
-public class NewAddEmployee extends javax.swing.JFrame {
+public class AddEmployee extends javax.swing.JFrame {
 
     /**
-     * Creates new form NewAddEmployee
+     * Creates new form AddEmployee
      */
-    public NewAddEmployee() {
+    private ReaderCollection m_collection;
+    private Reader m_reader;
+    private Fmd fmd;
+    private static User sessionUser = null;
+    private static ArrayList<String> employeePages = new ArrayList<>();
+    private final JPanel panel = new JPanel();
+    public AddEmployee(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
+        this.setTitle("DSL Add Employee");
         initComponents();
+        this.sessionUser = user;
+        this.employeePages = employeePages;
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "New Employee");
     }
 
     /**
@@ -38,33 +63,33 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        txtFirstName = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JTextField();
+        txtTelephoneNumber = new javax.swing.JTextField();
+        txtAddress = new javax.swing.JTextField();
+        txtTimeIn = new javax.swing.JTextField();
+        txtSSSNumber = new javax.swing.JTextField();
+        txtTinNumber = new javax.swing.JTextField();
+        txtEmployeeID = new javax.swing.JTextField();
+        txtMobileNumber = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
+        txtTimeOut = new javax.swing.JTextField();
+        txtSSSDeduction = new javax.swing.JTextField();
+        txtPagibigNumber = new javax.swing.JTextField();
+        txtTaxDeduction = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
+        txtRate = new javax.swing.JTextField();
+        txtPhilHealth = new javax.swing.JTextField();
+        txtPhilHealthDeduction = new javax.swing.JTextField();
+        txtPagibigDeduction = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jTextField18 = new javax.swing.JTextField();
@@ -72,16 +97,16 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jTextField19 = new javax.swing.JTextField();
         jTextField20 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckboxEditEmployee = new javax.swing.JCheckBox();
+        jCheckboxDeleteEmployee = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jCheckboxAddEmployee = new javax.swing.JCheckBox();
+        jCheckBoxClaimSalary = new javax.swing.JCheckBox();
+        jCheckboxReports = new javax.swing.JCheckBox();
+        jCheckBoxPayroll = new javax.swing.JCheckBox();
+        jCheckBoxUpload = new javax.swing.JCheckBox();
+        btnAddEmployee = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,24 +143,6 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel11.setText("Tin No.:");
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
-
-        jTextField5.setText("jTextField5");
-
-        jTextField6.setText("jTextField6");
-
-        jTextField7.setText("jTextField7");
-
-        jTextField8.setText("jTextField8");
-
-        jTextField9.setText("jTextField9");
-
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel12.setText("Time Out:");
 
@@ -153,14 +160,6 @@ public class NewAddEmployee extends javax.swing.JFrame {
 
         jButton1.setText("Scan");
 
-        jTextField10.setText("jTextField10");
-
-        jTextField11.setText("jTextField11");
-
-        jTextField12.setText("jTextField12");
-
-        jTextField13.setText("jTextField13");
-
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel17.setText("Rate/Day:");
 
@@ -173,21 +172,11 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel20.setText("Pag-Ibig Deduction:");
 
-        jTextField14.setText("jTextField14");
-
-        jTextField15.setText("jTextField15");
-
-        jTextField16.setText("jTextField16");
-
-        jTextField17.setText("jTextField17");
-
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel21.setText("Access:");
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel22.setText("No. Of Memo:");
-
-        jTextField18.setText("jTextField18");
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel23.setText("No. Of Late:");
@@ -195,49 +184,55 @@ public class NewAddEmployee extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel24.setText("No. Of Absence:");
 
-        jTextField19.setText("jTextField19");
-
-        jTextField20.setText("jTextField20");
-
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox1.setText("Edit Employee");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        jCheckboxEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckboxEditEmployee.setText("Edit Employee");
+        jCheckboxEditEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                jCheckboxEditEmployeeActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox2.setText("Delete Employee");
+        jCheckboxDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckboxDeleteEmployee.setText("Delete Employee");
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Co-Admin", "Payroll", "Employee" }));
 
-        jCheckBox3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox3.setText("Add Employee");
+        jCheckboxAddEmployee.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckboxAddEmployee.setText("Add Employee");
 
-        jCheckBox4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox4.setText("Salary Claim");
+        jCheckBoxClaimSalary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckBoxClaimSalary.setText("Salary Claim");
 
-        jCheckBox5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox5.setText("Print Reports");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        jCheckboxReports.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckboxReports.setText("Reports");
+        jCheckboxReports.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+                jCheckboxReportsActionPerformed(evt);
             }
         });
 
-        jCheckBox6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox6.setText("Salary Overview");
+        jCheckBoxPayroll.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckBoxPayroll.setText("Salary Overview");
 
-        jCheckBox7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox7.setText("Upload Files");
+        jCheckBoxUpload.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCheckBoxUpload.setText("Upload Files");
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton2.setText("Add Employee");
+        btnAddEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnAddEmployee.setText("Add Employee");
+        btnAddEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEmployeeActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton3.setText("Cancel");
+        btnCancel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,15 +247,15 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jTextField1))
+                                    .addComponent(txtFirstName))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtTelephoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -270,11 +265,11 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMobileNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(107, 107, 107)
                                                 .addComponent(jLabel21)
                                                 .addGap(18, 18, 18))
@@ -282,13 +277,13 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                                 .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGap(120, 120, 120)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jCheckBox1)
-                                            .addComponent(jCheckBox3)
-                                            .addComponent(jCheckBox2)
-                                            .addComponent(jCheckBox5)
-                                            .addComponent(jCheckBox4)
-                                            .addComponent(jCheckBox6)
-                                            .addComponent(jCheckBox7)))))))
+                                            .addComponent(jCheckboxEditEmployee)
+                                            .addComponent(jCheckboxAddEmployee)
+                                            .addComponent(jCheckboxDeleteEmployee)
+                                            .addComponent(jCheckboxReports)
+                                            .addComponent(jCheckBoxClaimSalary)
+                                            .addComponent(jCheckBoxPayroll)
+                                            .addComponent(jCheckBoxUpload)))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(267, 267, 267)
                         .addComponent(jLabel1))
@@ -296,7 +291,7 @@ public class NewAddEmployee extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,15 +301,15 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addComponent(jLabel11)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jTextField7))
+                                            .addComponent(txtTinNumber))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addComponent(jLabel10)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jTextField6))
+                                            .addComponent(txtSSSNumber))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addComponent(jLabel9)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(txtTimeIn, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel16)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -328,25 +323,25 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel12)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtSSSDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel14)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField12))
+                                        .addComponent(txtPagibigNumber))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel15)
                                             .addComponent(jLabel23))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField13)
+                                            .addComponent(txtTaxDeduction)
                                             .addComponent(jTextField19)))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -355,26 +350,26 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel18)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtPhilHealth, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel17)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel19)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtPhilHealthDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel20)
                                             .addComponent(jLabel24))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField17)
+                                            .addComponent(txtPagibigDeduction)
                                             .addComponent(jTextField20)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -387,59 +382,59 @@ public class NewAddEmployee extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel21))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTelephoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMobileNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTimeIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox5))
+                            .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckboxReports))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSSSNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSSSDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel18)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox7))
+                            .addComponent(txtPhilHealth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxUpload))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTinNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPagibigNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel19)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPhilHealthDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(jLabel16)
                             .addComponent(jButton1)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTaxDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20)
-                            .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -452,78 +447,180 @@ public class NewAddEmployee extends javax.swing.JFrame {
                                 .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton2)))
+                            .addComponent(btnCancel)
+                            .addComponent(btnAddEmployee)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCheckBox3)
+                        .addComponent(jCheckboxAddEmployee)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox1)
+                        .addComponent(jCheckboxEditEmployee)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox2)
+                        .addComponent(jCheckboxDeleteEmployee)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox4)
+                        .addComponent(jCheckBoxClaimSalary)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox6)))
+                        .addComponent(jCheckBoxPayroll)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jCheckboxEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckboxEditEmployeeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_jCheckboxEditEmployeeActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void jCheckboxReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckboxReportsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_jCheckboxReportsActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        this.setVisible(false);
+        EmployeesUI eUI;
+        try {
+            eUI = new EmployeesUI(this.sessionUser,this.employeePages);
+            eUI.setTitle("DSL Time Logging | Employees");
+            eUI.pack();
+            eUI.setLocationRelativeTo(null);
+            eUI.setDefaultCloseOperation(0);
+            eUI.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+        // TODO add your handling code here:
+        ArrayList<String> pageNames = new ArrayList<>();
+        if(jCheckboxAddEmployee.isSelected()){
+            System.out.println("ADD EMPLOYEE" + jCheckboxAddEmployee.isSelected());
+            pageNames.add(jCheckboxAddEmployee.getText());
+        }
+        if(jCheckboxEditEmployee.isSelected()){
+            System.out.println("EDIT EMPLOYEE" + jCheckboxEditEmployee.isSelected());
+            pageNames.add(jCheckboxEditEmployee.getText());
+        }
+        if(jCheckboxDeleteEmployee.isSelected()){
+            System.out.println("DELETE EMPLOYEE" + jCheckboxDeleteEmployee.isSelected());
+            pageNames.add(jCheckboxDeleteEmployee.getText());
+        }
+        if(jCheckBoxPayroll.isSelected()){
+            System.out.println("PAYROLL" + jCheckBoxPayroll.isSelected());
+            pageNames.add("Payroll");
+        }
+        if(jCheckboxReports.isSelected()){
+            System.out.println("REPORTS" + jCheckboxReports.isSelected());
+            pageNames.add(jCheckboxReports.getText());
+        }
+        if(jCheckBoxUpload.isSelected()){
+            pageNames.add("Upload");
+        }
+        if(jCheckBoxClaimSalary.isSelected()){
+            pageNames.add("Claim Salary");
+        }
+        String status = "";
+        int employeeID = 0;
+        
+        float SSSDeduction = 0;
+        float pagibigDeduction = 0;
+        float philHealthDeduction = 0;
+        float rate = 0;
+        float taxDeduction = 0;
+        String role = sessionUser.getRole();
+        if(role.equals("Administrator")){
+            try{
+                employeeID = Integer.parseInt(txtEmployeeID.getText());
+
+                SSSDeduction = Float.parseFloat(txtSSSDeduction.getText());
+                pagibigDeduction = Float.parseFloat(txtPagibigDeduction.getText());
+                philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
+                taxDeduction = Float.parseFloat(txtTaxDeduction.getText());
+                rate = Float.parseFloat(txtRate.getText());
+            }catch(NumberFormatException e){
+            }
+            String address = txtAddress.getText();
+            String firstName = txtFirstName.getText();
+            String lastName = txtLastName.getText();
+            String timeIn = txtTimeIn.getText();
+            String timeOut = txtTimeOut.getText();
+            String SSSNumber = txtSSSNumber.getText();
+            String philHealthNumber = txtPhilHealth.getText();
+            String tinNumber = txtTinNumber.getText();
+            String telephoneNumber = txtTelephoneNumber.getText();
+            String mobileNumber = txtMobileNumber.getText();
+            String pagibigNumber = txtPagibigNumber.getText();
+            String accessRole = (String) jComboBox1.getSelectedItem();
+            
+            FingerPrint fingerPrint = new FingerPrint();
+            byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
+            DB db = new DB();
+            try {
+                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0){
+                    JOptionPane.showMessageDialog(null, "Please complete fields before proceeding");
+                }
+                else{
+                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames);
+                
+                    if(status.equals("Failed")){
+                        JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(status.equals("Duplicate")){
+                        JOptionPane.showMessageDialog(panel, "User is already existing in the database via his/her fingerprint", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(panel, "Add Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");
+                        this.setVisible(false);
+                        EmployeesUI eUI = new EmployeesUI(this.sessionUser, this.employeePages);
+                        eUI.setTitle("DSL Time Logging | Employees");
+                        eUI.pack();
+                        eUI.setLocationRelativeTo(null);
+                        eUI.setDefaultCloseOperation(0);
+                        eUI.setVisible(true);
+                    }
+               }
+                
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UareUException ex) {
+                Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(panel, "You are not authorized to make changes. Please contact administrator", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NewAddEmployee().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddEmployee;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
+    private javax.swing.JCheckBox jCheckBoxClaimSalary;
+    private javax.swing.JCheckBox jCheckBoxPayroll;
+    private javax.swing.JCheckBox jCheckBoxUpload;
+    private javax.swing.JCheckBox jCheckboxAddEmployee;
+    private javax.swing.JCheckBox jCheckboxDeleteEmployee;
+    private javax.swing.JCheckBox jCheckboxEditEmployee;
+    private javax.swing.JCheckBox jCheckboxReports;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -549,25 +646,25 @@ public class NewAddEmployee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtEmployeeID;
+    private javax.swing.JTextField txtFirstName;
+    private javax.swing.JTextField txtLastName;
+    private javax.swing.JTextField txtMobileNumber;
+    private javax.swing.JTextField txtPagibigDeduction;
+    private javax.swing.JTextField txtPagibigNumber;
+    private javax.swing.JTextField txtPhilHealth;
+    private javax.swing.JTextField txtPhilHealthDeduction;
+    private javax.swing.JTextField txtRate;
+    private javax.swing.JTextField txtSSSDeduction;
+    private javax.swing.JTextField txtSSSNumber;
+    private javax.swing.JTextField txtTaxDeduction;
+    private javax.swing.JTextField txtTelephoneNumber;
+    private javax.swing.JTextField txtTimeIn;
+    private javax.swing.JTextField txtTimeOut;
+    private javax.swing.JTextField txtTinNumber;
     // End of variables declaration//GEN-END:variables
 }

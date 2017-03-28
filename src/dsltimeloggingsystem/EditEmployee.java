@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -38,6 +39,7 @@ public class EditEmployee extends javax.swing.JFrame {
     private static User sessionUser = null;
     private static User user;
     private static ArrayList<String> employeePages = new ArrayList<>();
+    private final JPanel panel = new JPanel();
     public void RestrictViews(ArrayList<String> employeePages){
         btnEditEmployee.setVisible(false);
         btnDeleteEmployee.setVisible(false);
@@ -89,9 +91,7 @@ public class EditEmployee extends javax.swing.JFrame {
     public EditEmployee(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         
         initComponents();
-//        lblWarningMessage.setFont(new Font("Serif", Font.PLAIN, 30));
-//        lblWarningMessage.setHorizontalAlignment(JLabel.CENTER);
-//        lblWarningMessage.setForeground(Color.red);
+
         this.sessionUser = user;
         this.employeePages = employeePages;
         RestrictViews(this.employeePages);
@@ -116,35 +116,32 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        txtFirstName = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JTextField();
+        txtTelephoneNumber = new javax.swing.JTextField();
+        txtAddress = new javax.swing.JTextField();
+        txtTimeIn = new javax.swing.JTextField();
+        txtEmployeeID = new javax.swing.JTextField();
+        txtMobileNumber = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        txtSSSNumber = new javax.swing.JTextField();
+        txtTinNumber = new javax.swing.JTextField();
+        txtPagibigNumber = new javax.swing.JTextField();
+        txtTimeOut = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        txtSSSDeduction = new javax.swing.JTextField();
+        txtPhilHealthDeduction = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
+        txtRate = new javax.swing.JTextField();
+        txtTaxDeduction = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
+        txtPhilHealth = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jTextField18 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
@@ -152,16 +149,18 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jTextField20 = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
+        jCheckboxAddEmployee = new javax.swing.JCheckBox();
+        jCheckboxEditEmployee = new javax.swing.JCheckBox();
+        jCheckboxDeleteEmployee = new javax.swing.JCheckBox();
+        jCheckBoxPayroll = new javax.swing.JCheckBox();
+        jCheckBoxClaimSalary = new javax.swing.JCheckBox();
+        jCheckboxReports = new javax.swing.JCheckBox();
+        jCheckBoxUpload = new javax.swing.JCheckBox();
         btnEditEmployee = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         btnDeleteEmployee = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        txtPagibigDeduction = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnAddNote = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -191,25 +190,8 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel6.setText("Employee No.:");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel7.setText("Type:");
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel8.setText("Mobile No.:");
-
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
-
-        jTextField5.setText("jTextField5");
-
-        jTextField6.setText("jTextField6");
-
-        jTextField7.setText("jTextField7");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel9.setText("Time Out:");
@@ -226,84 +208,55 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel13.setText("Pag-Ibig No.:");
 
-        jTextField8.setText("jTextField8");
-
-        jTextField9.setText("jTextField9");
-
-        jTextField10.setText("jTextField10");
-
-        jTextField11.setText("jTextField11");
-
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel14.setText("SSS Deduction:");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel15.setText("PhilHealth Deduction:");
 
-        jTextField12.setText("jTextField12");
-
-        jTextField13.setText("jTextField13");
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel16.setText("Tax Deduction:");
-
-        jTextField14.setText("jTextField14");
-
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel17.setText("Tax Deduction:");
-
-        jTextField15.setText("jTextField15");
-
-        jTextField16.setText("jTextField16");
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel18.setText("PhilHealth No.:");
 
-        jTextField17.setText("jTextField17");
-
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel19.setText("No. Of Memo:");
-
-        jTextField18.setText("jTextField18");
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel20.setText("No. Of Late:");
 
-        jTextField19.setText("jTextField19");
-
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel21.setText("No. Of Absences");
-
-        jTextField20.setText("jTextField20");
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel22.setText("Access:");
 
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox1.setText("Add Employee");
+        jCheckboxAddEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckboxAddEmployee.setText("Add Employee");
 
-        jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox2.setText("Edit Employee");
+        jCheckboxEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckboxEditEmployee.setText("Edit Employee");
 
-        jCheckBox3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox3.setText("Delete Employee");
+        jCheckboxDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckboxDeleteEmployee.setText("Delete Employee");
 
-        jCheckBox4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox4.setText("Salary Overview");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxPayroll.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBoxPayroll.setText("Salary Overview");
+        jCheckBoxPayroll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
+                jCheckBoxPayrollActionPerformed(evt);
             }
         });
 
-        jCheckBox5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox5.setText("Salary Claim");
+        jCheckBoxClaimSalary.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBoxClaimSalary.setText("Salary Claim");
 
-        jCheckBox6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox6.setText("Reports");
+        jCheckboxReports.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckboxReports.setText("Reports");
 
-        jCheckBox7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox7.setText("Upload File");
+        jCheckBoxUpload.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBoxUpload.setText("Upload File");
 
         btnEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditEmployee.setText("Update");
@@ -313,6 +266,14 @@ public class EditEmployee extends javax.swing.JFrame {
 
         btnDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDeleteEmployee.setText("Delete");
+        btnDeleteEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteEmployeeActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel16.setText("Pag-ibig Deduction:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -321,107 +282,112 @@ public class EditEmployee extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8))
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(79, 79, 79)
-                        .addComponent(jLabel22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(27, 27, 27)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel14)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel20)
-                                                    .addComponent(jLabel16))
-                                                .addGap(4, 4, 4)))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jTextField12, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                                            .addComponent(jTextField13)
-                                            .addComponent(jTextField14, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.LEADING)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel17)
-                                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel21)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel12)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtPagibigNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField18)))
-                        .addGap(525, 525, 525)))
-                .addGap(18, 18, 18)
+                        .addGap(543, 543, 543))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtTelephoneNumber))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtMobileNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(79, 79, 79)
+                                .addComponent(jLabel22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtAddress)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtTinNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                            .addComponent(txtSSSNumber, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtTimeIn, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel9)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addGap(68, 68, 68)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(jLabel14)
+                                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(jLabel20)
+                                                                .addGap(25, 25, 25)))
+                                                        .addGap(18, 18, 18))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(jLabel16)
+                                                            .addComponent(jLabel15))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(txtSSSDeduction, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                                                    .addComponent(txtPhilHealthDeduction)
+                                                    .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.Alignment.LEADING))))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel10)
+                                                    .addComponent(jLabel17)
+                                                    .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(txtTaxDeduction)
+                                                    .addComponent(txtPhilHealth)
+                                                    .addComponent(txtRate, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel21)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox7))
+                    .addComponent(jCheckboxAddEmployee)
+                    .addComponent(jCheckboxEditEmployee)
+                    .addComponent(jCheckboxDeleteEmployee)
+                    .addComponent(jCheckBoxPayroll)
+                    .addComponent(jCheckBoxClaimSalary)
+                    .addComponent(jCheckboxReports)
+                    .addComponent(jCheckBoxUpload))
                 .addGap(45, 45, 45))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -441,62 +407,62 @@ public class EditEmployee extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22)
-                            .addComponent(jCheckBox1))
+                            .addComponent(jCheckboxAddEmployee))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jCheckBox2)))
+                        .addComponent(jCheckboxEditEmployee)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTelephoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMobileNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTimeIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSSSNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSSSDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTaxDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTinNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPhilHealthDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel18)
-                            .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPhilHealth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21)
-                            .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel13)
+                                .addComponent(txtPagibigNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel21)
+                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19)
@@ -505,15 +471,15 @@ public class EditEmployee extends javax.swing.JFrame {
                             .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jCheckBox3)
+                        .addComponent(jCheckboxDeleteEmployee)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox4)
+                        .addComponent(jCheckBoxPayroll)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox5)
+                        .addComponent(jCheckBoxClaimSalary)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox6)
+                        .addComponent(jCheckboxReports)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox7)))
+                        .addComponent(jCheckBoxUpload)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeleteEmployee)
@@ -719,9 +685,9 @@ public class EditEmployee extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+    private void jCheckBoxPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPayrollActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    }//GEN-LAST:event_jCheckBoxPayrollActionPerformed
 
     private void btnAddNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNoteActionPerformed
         try {
@@ -742,6 +708,52 @@ public class EditEmployee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddNoteActionPerformed
 
+    private void btnDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEmployeeActionPerformed
+        // TODO add your handling code here:
+        String role = "";
+        String status = "";
+        
+        role = sessionUser.getRole();
+        
+        if(role.equals("Administrator")){
+            try {
+                System.out.println(employeeID);
+                status = DB.deleteUser(employeeID);
+                if(status.equals("Successful")){
+                    JOptionPane.showMessageDialog(panel, "Delete Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
+                    EmployeesUI eUI;
+                    try {
+                        eUI = new EmployeesUI(this.sessionUser, this.employeePages);
+                        eUI.setTitle("DSL Time Logging | Employees");
+                        eUI.pack();
+                        eUI.setLocationRelativeTo(null);
+                        eUI.setDefaultCloseOperation(0);
+                        eUI.setVisible(true);
+                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Delete User");
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+                else{
+                    JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(panel, "You are not authorized to make changes. Please contact administrator", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteEmployeeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -752,105 +764,106 @@ public class EditEmployee extends javax.swing.JFrame {
         jTableNotes.setModel(modelNotes);
         DefaultTableModel modelFiles = this.FillTableFiles(this.employeeID);
         jTableFiles.setModel(modelFiles);
-//        txtEmployeeID.setText(Integer.toString(user.getEmployeeID()));
-//        txtFirstName.setText(user.getFirstName());
-//        txtLastName.setText(user.getLastName());
-//        txtMobileNumber.setText(user.getMobileNumber());
-//        txtTelephoneNumber.setText(user.getTelephoneNumber());
-//        txtAddress.setText(user.getAddress());
-//        txtRate.setText(Float.toString(user.getRate()));
-//        txtTimeIn.setText(user.getTimeIn());
-//        txtTimeOut.setText(user.getTimeOut());
-//        //getRole()
-//        txtSSSNumber.setText(user.getSSSNumber());
-//        txtPhilHealth.setText(user.getPhilHealthNumber());
-//        txtPagibigNumber.setText(user.getPagibigNumber());
-//        txtTinNumber.setText(user.getTinNumber());
-//        txtSSSDeduction.setText(Float.toString(user.getSSSDeduction()));
-//        txtPagibigDeduction.setText(Float.toString(user.getPagibigDeduction()));
-//        txtPhilHealthDeduction.setText(Float.toString(user.getPhilHealthDeduction()));
-//        txtTaxDeduction.setText(Float.toString(user.getTaxDeduction()));
+        
+        txtEmployeeID.setText(Integer.toString(user.getEmployeeID()));
+        txtFirstName.setText(user.getFirstName());
+        txtLastName.setText(user.getLastName());
+        txtMobileNumber.setText(user.getMobileNumber());
+        txtTelephoneNumber.setText(user.getTelephoneNumber());
+        txtAddress.setText(user.getAddress());
+        txtRate.setText(Float.toString(user.getRate()));
+        txtTimeIn.setText(user.getTimeIn());
+        txtTimeOut.setText(user.getTimeOut());
+        //getRole()
+        txtSSSNumber.setText(user.getSSSNumber());
+        txtPhilHealth.setText(user.getPhilHealthNumber());
+        txtPagibigNumber.setText(user.getPagibigNumber());
+        txtTinNumber.setText(user.getTinNumber());
+        txtSSSDeduction.setText(Float.toString(user.getSSSDeduction()));
+        txtPagibigDeduction.setText(Float.toString(user.getPagibigDeduction()));
+        txtPhilHealthDeduction.setText(Float.toString(user.getPhilHealthDeduction()));
+        txtTaxDeduction.setText(Float.toString(user.getTaxDeduction()));
     }
-//    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                
-//        // TODO add your handling code here:
-//        String role = sessionUser.getRole();
-//        String status = "";
-//        if(role.equals("Administrator")){
-//            try {
-//                int employeeID = 0;
-//        
-//                float SSSDeduction = 0;
-//                float pagibigDeduction = 0;
-//                float philHealthDeduction = 0;
-//                float rate = 0;
-//                float taxDeduction = 0;
-//                try{
-//                    employeeID = Integer.parseInt(txtEmployeeID.getText());
-//
-//                    SSSDeduction = Float.parseFloat(txtSSSDeduction.getText());
-//                    pagibigDeduction = Float.parseFloat(txtPagibigDeduction.getText());
-//                    philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
-//                    rate = Float.parseFloat(txtRate.getText());
-//                    taxDeduction = Float.parseFloat(txtTaxDeduction.getText());
-//                    }catch(NumberFormatException e){
-//                    }
-//                
-//                    String address = txtAddress.getText();
-//                    String firstName = txtFirstName.getText();
-//                    String lastName = txtLastName.getText();
-//                    String timeIn = txtTimeIn.getText();
-//                    String timeOut = txtTimeOut.getText();
-//                    String SSSNumber = txtSSSNumber.getText();
-//                    String philHealthNumber = txtPhilHealth.getText();
-//                    String pagibigNumber = txtPagibigNumber.getText();
-//                    String tinNumber = txtTinNumber.getText();
-//                    String telephoneNumber = txtTelephoneNumber.getText();
-//                    String mobileNumber = txtMobileNumber.getText();
-//                    byte[] fingerPrintImage = user.getFingerPrintImage();
-//                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0){
-//                        lblWarningMessage.setText("Please complete fields before proceeding");
-//                    }
-//                    else{
-//                        status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction);
-//                        if(status.equals("Successful")){
-//                            JOptionPane.showMessageDialog(null, "Edit Employee Successful");
-//                            this.setVisible(false);
-//                            EmployeesUI eUI;
-//                            try {
-//                                eUI = new EmployeesUI(this.sessionUser, this.employeePages);
-//                                eUI.setTitle("DSL Time Logging | Employees");
-//                                eUI.pack();
-//                                eUI.setLocationRelativeTo(null);
-//                                eUI.setDefaultCloseOperation(0);
-//                                eUI.setVisible(true);
-//                            } catch (ClassNotFoundException ex) {
-//                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//                            } catch (SQLException ex) {
-//                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//                            } catch (ParseException ex) {
-//                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//                                try {
-//                                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Update User");
-//                                } catch (ParseException ex1) {
-//                                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex1);
-//                                }
-//                            }
-//                        }
-//                        else{
-//                            lblWarningMessage.setText("Unexpected Error. Please Contact Administrator");
-//                        }
-//                    }
-//            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        else{
-//            lblWarningMessage.setText("You are not authorized to make changes. Please contact administrator");
-//        }
-//        
-//    }                                               
+    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        // TODO add your handling code here:
+        String role = sessionUser.getRole();
+        String status = "";
+        if(role.equals("Administrator")){
+            try {
+                int employeeID = 0;
+        
+                float SSSDeduction = 0;
+                float pagibigDeduction = 0;
+                float philHealthDeduction = 0;
+                float rate = 0;
+                float taxDeduction = 0;
+                try{
+                    employeeID = Integer.parseInt(txtEmployeeID.getText());
+
+                    SSSDeduction = Float.parseFloat(txtSSSDeduction.getText());
+                    pagibigDeduction = Float.parseFloat(txtPagibigDeduction.getText());
+                    philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
+                    rate = Float.parseFloat(txtRate.getText());
+                    taxDeduction = Float.parseFloat(txtTaxDeduction.getText());
+                    }catch(NumberFormatException e){
+                    }
+                
+                    String address = txtAddress.getText();
+                    String firstName = txtFirstName.getText();
+                    String lastName = txtLastName.getText();
+                    String timeIn = txtTimeIn.getText();
+                    String timeOut = txtTimeOut.getText();
+                    String SSSNumber = txtSSSNumber.getText();
+                    String philHealthNumber = txtPhilHealth.getText();
+                    String pagibigNumber = txtPagibigNumber.getText();
+                    String tinNumber = txtTinNumber.getText();
+                    String telephoneNumber = txtTelephoneNumber.getText();
+                    String mobileNumber = txtMobileNumber.getText();
+                    byte[] fingerPrintImage = user.getFingerPrintImage();
+                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0){
+                        JOptionPane.showMessageDialog(panel, "Please complete fields before proceeding", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction);
+                        if(status.equals("Successful")){
+                            JOptionPane.showMessageDialog(null, "Edit Employee Successful");
+                            this.setVisible(false);
+                            EmployeesUI eUI;
+                            try {
+                                eUI = new EmployeesUI(this.sessionUser, this.employeePages);
+                                eUI.setTitle("DSL Time Logging | Employees");
+                                eUI.pack();
+                                eUI.setLocationRelativeTo(null);
+                                eUI.setDefaultCloseOperation(0);
+                                eUI.setVisible(true);
+                            } catch (ClassNotFoundException ex) {
+                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ParseException ex) {
+                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                                try {
+                                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Update User");
+                                } catch (ParseException ex1) {
+                                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex1);
+                                }
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(panel, "You are not authorized to make changes. Please contact administrator", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }                                               
 //
 //    private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                               
 //        // TODO add your handling code here:
@@ -873,50 +886,6 @@ public class EditEmployee extends javax.swing.JFrame {
 //        
 //    }                                              
 //
-//    private void btnDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-//        String role = "";
-//        String status = "";
-//        
-//        role = sessionUser.getRole();
-//        
-//        if(role.equals("Administrator")){
-//            try {
-//                System.out.println(employeeID);
-//                status = DB.deleteUser(employeeID);
-//                if(status.equals("Successful")){
-//                    JOptionPane.showMessageDialog(null, "Delete Employee Successful");
-//                    this.setVisible(false);
-//                    EmployeesUI eUI;
-//                    try {
-//                        eUI = new EmployeesUI(this.sessionUser, this.employeePages);
-//                        eUI.setTitle("DSL Time Logging | Employees");
-//                        eUI.pack();
-//                        eUI.setLocationRelativeTo(null);
-//                        eUI.setDefaultCloseOperation(0);
-//                        eUI.setVisible(true);
-//                        DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Delete User");
-//                    } catch (ClassNotFoundException ex) {
-//                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (SQLException ex) {
-//                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (ParseException ex) {
-//                        Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                    
-//                }
-//                else{
-//                    lblWarningMessage.setText("Unexpected Error. Please Contact Administrator");
-//                }
-//            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        else{
-//            lblWarningMessage.setText("You are not authorized to make changes. Please contact administrator");
-//        }
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddNote;
@@ -924,13 +893,13 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JButton btnEditEmployee;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
+    private javax.swing.JCheckBox jCheckBoxClaimSalary;
+    private javax.swing.JCheckBox jCheckBoxPayroll;
+    private javax.swing.JCheckBox jCheckBoxUpload;
+    private javax.swing.JCheckBox jCheckboxAddEmployee;
+    private javax.swing.JCheckBox jCheckboxDeleteEmployee;
+    private javax.swing.JCheckBox jCheckboxEditEmployee;
+    private javax.swing.JCheckBox jCheckboxReports;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -950,7 +919,6 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -961,25 +929,25 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableFiles;
     private javax.swing.JTable jTableNotes;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtEmployeeID;
+    private javax.swing.JTextField txtFirstName;
+    private javax.swing.JTextField txtLastName;
+    private javax.swing.JTextField txtMobileNumber;
+    private javax.swing.JTextField txtPagibigDeduction;
+    private javax.swing.JTextField txtPagibigNumber;
+    private javax.swing.JTextField txtPhilHealth;
+    private javax.swing.JTextField txtPhilHealthDeduction;
+    private javax.swing.JTextField txtRate;
+    private javax.swing.JTextField txtSSSDeduction;
+    private javax.swing.JTextField txtSSSNumber;
+    private javax.swing.JTextField txtTaxDeduction;
+    private javax.swing.JTextField txtTelephoneNumber;
+    private javax.swing.JTextField txtTimeIn;
+    private javax.swing.JTextField txtTimeOut;
+    private javax.swing.JTextField txtTinNumber;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -22,6 +23,7 @@ public class AlternativeLogIn extends javax.swing.JFrame {
     /**
      * Creates new form AlternativeLogIn
      */
+    private final JPanel panel = new JPanel();
     public AlternativeLogIn() {
         initComponents();
     }
@@ -135,7 +137,7 @@ public class AlternativeLogIn extends javax.swing.JFrame {
             
             if(user.getEmployeeID() != 0){
                 if(user.getRole().equals("Administrator") || user.getRole().equals("Co-Administrator") || user.getRole().equals("Payroll")){
-                    JOptionPane.showMessageDialog(null, "Login Successful");
+                    JOptionPane.showMessageDialog(panel, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                     this.setVisible(false);
                     Menu menu = new Menu(user);
                     menu.setTitle("DSL Time Logging | Menu");
@@ -145,13 +147,11 @@ public class AlternativeLogIn extends javax.swing.JFrame {
                     menu.setVisible(true);
                 }
                 else{
-                    lblStatus.setForeground(Color.red);
-                    lblStatus.setText("Unauthorized!");
+                    JOptionPane.showMessageDialog(panel, "Unauthorized", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else{
-                lblStatus.setForeground(Color.red);
-                lblStatus.setText("Unauthorized!");
+                JOptionPane.showMessageDialog(panel, "Unauthorized", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AlternativeLogIn.class.getName()).log(Level.SEVERE, null, ex);

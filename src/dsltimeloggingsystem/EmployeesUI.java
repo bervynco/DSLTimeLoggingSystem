@@ -1,4 +1,5 @@
 package dsltimeloggingsystem;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -284,6 +285,8 @@ public class EmployeesUI extends javax.swing.JFrame {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -295,9 +298,9 @@ public class EmployeesUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         // TODO add your handling code here:
         this.setVisible(false);
-        OldAddEmployee add;
+        AddEmployee add;
         try {
-            add = new OldAddEmployee(this.sessionUser, this.employeePages);
+            add = new AddEmployee(this.sessionUser, this.employeePages);
             add.setTitle("DSL Time Logging | Add Employees");
             add.pack();
             add.setLocationRelativeTo(null);
