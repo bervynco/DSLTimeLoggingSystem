@@ -114,6 +114,37 @@ public class DB {
             return "Failed";
         }
     }
+    
+    public static Notes getNote(int noteID) throws ClassNotFoundException, SQLException{
+        Notes notes = new Notes();
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("SELECT noteID, employeeID, note from notes where noteID = ?");
+        ps.setInt(1, noteID);
+        
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            notes.setNoteID(rs.getInt(1));
+            notes.setEmployeeID(rs.getInt(2));
+            notes.setNote(rs.getString(3));
+        }
+        c.close();
+        return notes;
+    }
+    public static String updateNotes(int noteID, String notes) throws ClassNotFoundException, SQLException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("UPDATE notes set note = ? where noteID = ?");
+        ps.setString(1, notes);
+        ps.setInt(2, noteID);
+        int rows = ps.executeUpdate();
+        c.close();
+
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
+    }
     public static String setUploadFile(int employeeID, String fileType, File file) throws ClassNotFoundException, SQLException, FileNotFoundException{
         Connection c = connect();
         String filePath = file.getAbsolutePath();

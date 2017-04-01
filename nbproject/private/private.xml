@@ -4,20 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/AlternativeLogIn.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Enrollment.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/DB.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/AddEmployee.java</file>
             <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Main.java</file>
             <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/EmployeesUI.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/AddNote.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/NewAddEmployee.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/User.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/UploadDocuments.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/DB.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Notes.java</file>
+            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Capture.java</file>
             <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/EditEmployee.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Menu.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/OldAddEmployee.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/EmployeeList.java</file>
-            <file>file:/C:/Users/L%20R%20E/Documents/NetBeansProjects/DSLTimeLoggingSystem/src/dsltimeloggingsystem/Files.java</file>
         </group>
     </open-files>
 </project-private>

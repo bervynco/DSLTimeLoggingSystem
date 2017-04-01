@@ -62,13 +62,14 @@ public class EditEmployee extends javax.swing.JFrame {
         List<Notes> notes = new ArrayList<Notes>();
         notes = DB.getNotes(employeeID);
         
+        model.addColumn("Note ID");
         model.addColumn("Employee ID");
         model.addColumn("Name");
         model.addColumn("Notes");
 
         int notesCount = notes.size();
         for(int i = 0; i < notesCount; i++){
-            Object [] rowData = {notes.get(i).getEmployeeID(), notes.get(i).getFirstName() +" " + notes.get(i).getLastName(), notes.get(i).getNote()};
+            Object [] rowData = {notes.get(i).getNoteID(), notes.get(i).getEmployeeID(), notes.get(i).getFirstName() +" " + notes.get(i).getLastName(), notes.get(i).getNote()};
             model.addRow(rowData);
         }
        
@@ -80,11 +81,12 @@ public class EditEmployee extends javax.swing.JFrame {
         List<Files> files = new ArrayList<Files>();
         files = DB.getFiles(employeeID);
         
+        model.addColumn("Note ID");
         model.addColumn("Employee ID");
         model.addColumn("Name");
         model.addColumn("File Name");
         for(int i = 0; i < files.size(); i++){
-            Object [] rowData = {files.get(i).getEmployeeID(), files.get(i).getFirstName() +" " + files.get(i).getLastName(), files.get(i).getFileName()};
+            Object [] rowData = {files.get(i).getFileID(),files.get(i).getEmployeeID(), files.get(i).getFirstName() +" " + files.get(i).getLastName(), files.get(i).getFileName()};
             model.addRow(rowData);
         }
        
@@ -582,6 +584,11 @@ public class EditEmployee extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableNotes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableNotesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableNotes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -792,6 +799,30 @@ public class EditEmployee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jTableNotesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNotesMouseClicked
+        // TODO add your handling code here:
+        int row = jTableNotes.rowAtPoint(evt.getPoint());
+        int employeeID = (int) jTableNotes.getValueAt(row, 1);
+        int noteID = (int) jTableNotes.getValueAt(row,0);
+            
+        this.setVisible(false);
+        try {
+            ViewNotes viewNotes = new ViewNotes(this.sessionUser, this.employeePages, employeeID, noteID);
+            
+            viewNotes.setTitle("DSL Time Logging | View Notes");
+            viewNotes.pack();
+            viewNotes.setLocationRelativeTo(null);
+            viewNotes.setDefaultCloseOperation(0);
+            viewNotes.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTableNotesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -866,7 +897,7 @@ public class EditEmployee extends javax.swing.JFrame {
                     else{
                         status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, password);
                         if(status.equals("Successful")){
-                            JOptionPane.showMessageDialog(null, "Edit Employee Successful");
+                            JOptionPane.showMessageDialog(panel, "Edit Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             EmployeesUI eUI;
                             try {
