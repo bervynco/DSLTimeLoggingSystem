@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -26,6 +28,9 @@ public class UploadDocuments extends javax.swing.JFrame {
     private static User sessionUser = null;
     private static List<User> employees = new ArrayList<User>();
     private static File selectedFile;
+    private static String location = null;
+    private final JPanel panel = new JPanel();
+    private static ArrayList<String> employeePages = new ArrayList<>();
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
@@ -35,9 +40,11 @@ public class UploadDocuments extends javax.swing.JFrame {
         }
 
     }
-    public UploadDocuments(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public UploadDocuments(User user, String location, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         
         this.sessionUser = user;
+        this.employeePages = employeePages;
+        this.location = location;
         initComponents();
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Upload");
         FillComboBox();
@@ -176,24 +183,41 @@ public class UploadDocuments extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        try {
-            // TODO add your handling code here:
-            this.setVisible(false);
-            Menu menu = new Menu(this.sessionUser);
-            menu.setTitle("DSL Time Logging | Menu");
-            menu.pack();
-            menu.setLocationRelativeTo(null);
-            menu.setDefaultCloseOperation(0);
-            menu.setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+        this.setVisible(false);
+        if(location.equals("Employees")){
+            try {
+                EmployeesUI eUI = new EmployeesUI(this.sessionUser, employeePages);
+                eUI.setTitle("DSL Time Logging | Employees");
+                eUI.pack();
+                eUI.setLocationRelativeTo(null);
+                eUI.setDefaultCloseOperation(0);
+                eUI.setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
+        else if(location.equals("Main Menu")){
+            try {
+                // TODO add your handling code here:
+                Menu menu = new Menu(this.sessionUser);
+                menu.setTitle("DSL Time Logging | Menu");
+                menu.pack();
+                menu.setLocationRelativeTo(null);
+                menu.setDefaultCloseOperation(0);
+                menu.setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(ReasonforAbsent.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else;
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
@@ -206,18 +230,27 @@ public class UploadDocuments extends javax.swing.JFrame {
             String status = DB.setUploadFile(employeeID, type, selectedFile);
             if(status == "Successful"){
                 DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Upload Document");
+                JOptionPane.showMessageDialog(panel, "Notes update successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.setVisible(false);
-                Menu menu = new Menu(this.sessionUser);
-                menu.setTitle("DSL Time Logging | Menu");
-                menu.pack();
-                menu.setLocationRelativeTo(null);
-                menu.setDefaultCloseOperation(0);
-                menu.setVisible(true);
+                if(location == "Main menu"){
+                    Menu menu = new Menu(this.sessionUser);
+                    menu.setTitle("DSL Time Logging | Menu");
+                    menu.pack();
+                    menu.setLocationRelativeTo(null);
+                    menu.setDefaultCloseOperation(0);
+                    menu.setVisible(true);
+                }
+                else{
+                    EmployeesUI eUI = new EmployeesUI(this.sessionUser, employeePages);
+                    eUI.setTitle("DSL Time Logging | Employees");
+                    eUI.pack();
+                    eUI.setLocationRelativeTo(null);
+                    eUI.setDefaultCloseOperation(0);
+                    eUI.setVisible(true);
+                }
             }
             else{
-                lblNotice.setHorizontalAlignment(JLabel.CENTER);
-                lblNotice.setForeground(Color.red);
-                lblNotice.setText("Unexpected Upload Error. Contact System Administrator");
+                JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);

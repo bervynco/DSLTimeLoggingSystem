@@ -411,7 +411,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            UploadDocuments upload = new UploadDocuments(this.sessionUser);
+            UploadDocuments upload = new UploadDocuments(this.sessionUser, "Main Menu", this.employeePages);
             upload.setVisible(true);
             upload.setTitle("DSL Time Logging | System Logs");
             upload.pack();

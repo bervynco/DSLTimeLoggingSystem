@@ -174,7 +174,7 @@ public class EditEmployee extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableNotes = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        btnUploadFile = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableFiles = new javax.swing.JTable();
 
@@ -617,7 +617,12 @@ public class EditEmployee extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Notes", jPanel2);
 
-        jButton4.setText("Upload");
+        btnUploadFile.setText("Upload");
+        btnUploadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadFileActionPerformed(evt);
+            }
+        });
 
         jTableFiles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -676,7 +681,7 @@ public class EditEmployee extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(btnUploadFile)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1050, Short.MAX_VALUE)))
         );
@@ -684,7 +689,7 @@ public class EditEmployee extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4)
+                .addComponent(btnUploadFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -823,6 +828,26 @@ public class EditEmployee extends javax.swing.JFrame {
             Logger.getLogger(EmployeesUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTableNotesMouseClicked
+
+    private void btnUploadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadFileActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            UploadDocuments upload = new UploadDocuments(this.sessionUser, "Employees", this.employeePages);
+            upload.setTitle("DSL Time Logging | Upload File");
+            upload.pack();
+            upload.setLocationRelativeTo(null);
+            upload.setDefaultCloseOperation(0);
+            upload.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnUploadFileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -963,8 +988,8 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JButton btnAddNote;
     private javax.swing.JButton btnDeleteEmployee;
     private javax.swing.JButton btnEditEmployee;
+    private javax.swing.JButton btnUploadFile;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBoxClaimSalary;
     private javax.swing.JCheckBox jCheckBoxPayroll;
     private javax.swing.JCheckBox jCheckBoxUpload;

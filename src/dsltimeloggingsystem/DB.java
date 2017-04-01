@@ -150,7 +150,7 @@ public class DB {
         String filePath = file.getAbsolutePath();
         FileInputStream fis = new FileInputStream(new File(filePath));
 
-        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, fileName, uploadFile, uploadDate) VALUES (?,?,?,?)");
+        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, fileName, uploadFile, uploadDate) VALUES (?,?,?,?,?)");
         ps.setInt(1, employeeID);
         ps.setString(2, fileType);
         ps.setString(3, file.getName());

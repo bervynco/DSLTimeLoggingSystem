@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,7 +29,8 @@ public class AddNote extends javax.swing.JFrame {
     private static User sessionUser = null;
     private static List<User> employees = new ArrayList<User>();
     private static String location = null;
-     private static ArrayList<String> employeePages = new ArrayList<>();
+    private static ArrayList<String> employeePages = new ArrayList<>();
+    private final JPanel panel = new JPanel();
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
@@ -203,19 +206,28 @@ public class AddNote extends javax.swing.JFrame {
             int employeeID = DB.getEmployeeIDFromName(name);
             String status = DB.addNote(employeeID, note);
             if(status == "Successful"){
-                DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add Note");
                 this.setVisible(false);
-                Menu menu = new Menu(this.sessionUser);
-                menu.setTitle("DSL Time Logging | Menu");
-                menu.pack();
-                menu.setLocationRelativeTo(null);
-                menu.setDefaultCloseOperation(0);
-                menu.setVisible(true);
+                JOptionPane.showMessageDialog(panel, "Notes update successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add Note");
+                if(location == "Main menu"){
+                    Menu menu = new Menu(this.sessionUser);
+                    menu.setTitle("DSL Time Logging | Menu");
+                    menu.pack();
+                    menu.setLocationRelativeTo(null);
+                    menu.setDefaultCloseOperation(0);
+                    menu.setVisible(true);
+                }
+                else{
+                    EmployeesUI eUI = new EmployeesUI(this.sessionUser, employeePages);
+                    eUI.setTitle("DSL Time Logging | Employees");
+                    eUI.pack();
+                    eUI.setLocationRelativeTo(null);
+                    eUI.setDefaultCloseOperation(0);
+                    eUI.setVisible(true);
+                }
             }
             else{
-                lblNotice.setHorizontalAlignment(JLabel.CENTER);
-                lblNotice.setForeground(Color.red);
-                lblNotice.setText("Unexpected Upload Error. Contact System Administrator");
+                JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
