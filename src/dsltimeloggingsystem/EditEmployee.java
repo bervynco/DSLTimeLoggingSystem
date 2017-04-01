@@ -66,10 +66,10 @@ public class EditEmployee extends javax.swing.JFrame {
         model.addColumn("Employee ID");
         model.addColumn("Name");
         model.addColumn("Notes");
-
+        model.addColumn("Note Date");
         int notesCount = notes.size();
         for(int i = 0; i < notesCount; i++){
-            Object [] rowData = {notes.get(i).getNoteID(), notes.get(i).getEmployeeID(), notes.get(i).getFirstName() +" " + notes.get(i).getLastName(), notes.get(i).getNote()};
+            Object [] rowData = {notes.get(i).getNoteID(), notes.get(i).getEmployeeID(), notes.get(i).getFirstName() +" " + notes.get(i).getLastName(), notes.get(i).getNote(), notes.get(i).getNoteDate()};
             model.addRow(rowData);
         }
        
@@ -85,8 +85,9 @@ public class EditEmployee extends javax.swing.JFrame {
         model.addColumn("Employee ID");
         model.addColumn("Name");
         model.addColumn("File Name");
+        model.addColumn("File Date");
         for(int i = 0; i < files.size(); i++){
-            Object [] rowData = {files.get(i).getFileID(),files.get(i).getEmployeeID(), files.get(i).getFirstName() +" " + files.get(i).getLastName(), files.get(i).getFileName()};
+            Object [] rowData = {files.get(i).getFileID(),files.get(i).getEmployeeID(), files.get(i).getFirstName() +" " + files.get(i).getLastName(), files.get(i).getFileName(), files.get(i).getUploadDate()};
             model.addRow(rowData);
         }
        

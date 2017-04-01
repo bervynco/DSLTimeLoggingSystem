@@ -5,6 +5,8 @@
  */
 package dsltimeloggingsystem;
 
+import java.util.Date;
+
 /**
  *
  * @author L R E
@@ -15,7 +17,7 @@ public class Notes {
     private String firstName;
     private String lastName;
     private String note;
-
+    private Date noteDate;
     public int getNoteID() {
         return noteID;
     }
@@ -54,6 +56,14 @@ public class Notes {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Date getNoteDate() {
+        return noteDate;
+    }
+
+    public void setNoteDate(Date noteDate) {
+        this.noteDate = noteDate;
     }
     
     

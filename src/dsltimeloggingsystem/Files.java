@@ -6,6 +6,7 @@
 package dsltimeloggingsystem;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Files {
     private String lastName;
     private String fileName;
     private File file;
-
+    private Date uploadDate;
     public int getFileID() {
         return fileID;
     }
@@ -66,6 +67,14 @@ public class Files {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
     }
     
     
