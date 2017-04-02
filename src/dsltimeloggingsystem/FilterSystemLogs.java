@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,6 +34,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     private static User sessionUser = null;
     private static List<UserLogs> logs = null;
     private static ArrayList<String> employeePages = new ArrayList<String>();
+     private final JPanel panel = new JPanel();
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
@@ -72,22 +75,23 @@ public class FilterSystemLogs extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         lblNotice = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtStartDate = new javax.swing.JTextField();
         label2 = new java.awt.Label();
-        txtEndDate = new javax.swing.JTextField();
         btnFilter = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lblDateInputNotice = new javax.swing.JLabel();
-        lblWarning = new javax.swing.JLabel();
+        txtStartDate = new com.github.lgooddatepicker.components.DatePicker();
+        txtEndDate = new com.github.lgooddatepicker.components.DatePicker();
 
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Filter System Logs");
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Select Employee:");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
@@ -98,6 +102,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
         label2.setText("to");
 
         btnFilter.setText("Filter");
+        btnFilter.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFilterActionPerformed(evt);
@@ -105,6 +110,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -119,31 +125,31 @@ public class FilterSystemLogs extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblNotice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblDateInputNotice, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(22, 22, 22)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnFilter)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCancel)
-                            .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(lblDateInputNotice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblWarning, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(22, 22, 22)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(73, 73, 73)
+                                .addComponent(btnCancel)
+                                .addGap(92, 92, 92)
+                                .addComponent(btnFilter)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,20 +163,18 @@ public class FilterSystemLogs extends javax.swing.JFrame {
                 .addComponent(lblNotice)
                 .addGap(18, 18, 18)
                 .addComponent(lblDateInputNotice)
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblWarning, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
-                .addGap(14, 14, 14)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addComponent(txtEndDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnFilter))
-                .addContainerGap())
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,8 +183,10 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         boolean error = false;
         int employeeID = 0;
-        String startDate = txtStartDate.getText();
-        String endDate = txtEndDate.getText();
+//        String startDate = txtStartDate.getText();
+//        String endDate = txtEndDate.getText();
+        String startDate = txtStartDate.getDateStringOrEmptyString();
+        String endDate = txtEndDate.getDateStringOrEmptyString();
         String name = (String) jComboBox1.getSelectedItem();
         try {
             Calendar cal = Calendar.getInstance();
@@ -196,9 +202,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
             error = true;
         }
         if(error == true){
-            lblWarning.setText("Date not parseable. Please use the recommended format");
-            lblWarning.setHorizontalAlignment(JLabel.CENTER);
-            lblWarning.setForeground(Color.red);
+            JOptionPane.showMessageDialog(panel, "Date Not parseable", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else{
             try {
@@ -263,8 +267,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     private javax.swing.JLabel lblDateInputNotice;
     private javax.swing.JLabel lblNotice;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblWarning;
-    private javax.swing.JTextField txtEndDate;
-    private javax.swing.JTextField txtStartDate;
+    private com.github.lgooddatepicker.components.DatePicker txtEndDate;
+    private com.github.lgooddatepicker.components.DatePicker txtStartDate;
     // End of variables declaration//GEN-END:variables
 }

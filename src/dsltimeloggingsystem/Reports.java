@@ -207,8 +207,6 @@ public class Reports extends javax.swing.JFrame {
                 if(name.equals("All")){
                     try {
                         users = DB.getUsers();
-                        System.out.println(startDate);
-                        System.out.println(endDate);
                         generate.generateReport(startDate, endDate, reportType, users, 0);
                     } catch (SQLException ex) {
                         Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
