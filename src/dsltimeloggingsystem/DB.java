@@ -47,9 +47,9 @@ public class DB {
 //    private static String url = "jdbc:mysql://" + host + ":" + port + "/dsl";
 //    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
     
-    private static String user = "root";
+    private static String user = "dsl";
     private static String pass = "password";
-    private static String host = "localhost";
+    private static String host = "192.168.254.105";
     private static String port = "3306";
     private static String url = "jdbc:mysql://" + host + ":" + port + "/dsl";
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
@@ -998,10 +998,14 @@ public class DB {
         }
     }
     
-    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String password) throws SQLException, ClassNotFoundException{
+    public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber,
+            float rate, String timeIn, String timeOut, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber,
+            float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction,
+            String password, int noLates, int noMemos, int noAbsences) throws SQLException, ClassNotFoundException{
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, address =?, telephoneNumber =?, mobileNumber = ?, rate = ?, timeIn = ?, timeOut = ?, modified =?, " +""
-                + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ?, taxDeduction =?, password = ? WHERE employeeID = ?");
+                + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ?, taxDeduction =?, password = ?,"+
+                " noLates = ?, noMemos = ?, noAbsences = ? WHERE employeeID = ?");
         
         ps.setString(1, firstName);
         ps.setString(2, lastName);
@@ -1011,7 +1015,6 @@ public class DB {
         ps.setFloat(6, rate);
         ps.setString(7, timeIn);
         ps.setString(8, timeOut);
-       
         ps.setTimestamp(9, (Timestamp) getCurrentTimeStamp());
         ps.setString(10, SSSNumber);
         ps.setString(11, philHealthNumber);
@@ -1021,9 +1024,11 @@ public class DB {
         ps.setFloat(15, pagibigDeduction);
         ps.setFloat(16, philHealthDeduction);
         ps.setFloat(17, taxDeduction);
-        ps.setInt(18, employeeID);
-        ps.setString(19, password);
-      
+        ps.setString(18, password);
+        ps.setInt(19, noLates);
+        ps.setInt(20, noMemos);
+        ps.setInt(21, noAbsences);
+        ps.setInt(22, employeeID);
         int affectedRow = ps.executeUpdate();
         c.close();
         if(affectedRow > 0){
@@ -1038,7 +1043,7 @@ public class DB {
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, role, fingerPrint," +  
                 "SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction" + 
-                ", philHealthDeduction, pagibigDeduction, taxDeduction, pages, password from users where employeeID = ?");
+                ", philHealthDeduction, pagibigDeduction, taxDeduction, pages, password, noLates, noMemos, noAbsences from users where employeeID = ?");
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
         User user = new User();
@@ -1064,6 +1069,9 @@ public class DB {
             user.setFingerPrintImage(rs.getBytes(11));
             user.setPages(rs.getString(20));
             user.setPassword(rs.getString(21));
+            user.setNoLates(rs.getInt(22));
+            user.setNoMemos(rs.getInt(23));
+            user.setNoAbsences(rs.getInt(24));
         }
         c.close();
         return user;
@@ -1073,7 +1081,8 @@ public class DB {
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("Select employeeID, firstName, lastName, address, telephoneNumber, mobileNumber, rate, timeIn," + 
-                " timeOut, role, fingerPrint, SSSNumber, philHealthNumber, pagibigNumber, SSSDeduction, philHealthDeduction, pagibigDeduction, tinNumber, taxDeduction, pages from users");
+                " timeOut, role, fingerPrint, SSSNumber, philHealthNumber, pagibigNumber, SSSDeduction, philHealthDeduction, pagibigDeduction,"+
+                " tinNumber, taxDeduction, pages, noLates, noMemos, noAbsences from users");
         ResultSet rs = ps.executeQuery();
         
         while (rs.next()) {
@@ -1097,6 +1106,9 @@ public class DB {
                 user.setTinNumber(rs.getString("tinNumber"));
                 user.setTaxDeduction(rs.getFloat("taxDeduction"));
                 user.setPages(rs.getString("pages"));
+                user.setNoLates(rs.getInt("noLates"));
+                user.setNoMemos(rs.getInt("noMemos"));
+                user.setNoAbsences(rs.getInt("noAbsences"));
                 employees.add(user);
         }
         c.close();
@@ -1129,12 +1141,15 @@ public class DB {
         }
         return "Unique";
     }
-    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role, ArrayList<String> pageNames, String password) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
+    public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, 
+            String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, 
+            float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role, ArrayList<String> pageNames, String password, int noLates, int noMemos, 
+            int noAbsences) throws ClassNotFoundException, SQLException, FileNotFoundException, UareUException{
         Connection c = connect();
         
         PreparedStatement ps = c.prepareStatement("INSERT INTO users (firstName, lastName, employeeID, address, telephoneNumber," + 
                 " mobileNumber, rate, timeIn, timeOut, fingerPrint, modified, SSSNumber, philHealthNumber, tinNumber, pagibigNumber," + 
-                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages, password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages, password, noLates, noMemos, noAbsences) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
         //String status = determineDuplicateUser(fingerPrint);
         
@@ -1161,7 +1176,9 @@ public class DB {
             ps.setString(20, role);
             ps.setString(21, pageNames.toString());
             ps.setString(22, password);
-
+            ps.setInt(23, noLates);
+            ps.setInt(24, noMemos);
+            ps.setInt(25, noAbsences);
             // execute insert SQL stetement
             int rows = ps.executeUpdate();
             c.close();
@@ -1182,7 +1199,8 @@ public class DB {
         User user = new User();
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID as 'EmployeeID', firstName as 'FirstName', lastName as 'LastName'," + 
-                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint, password, pages from users");
+                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role,"+
+                " fingerPrint, password, pages, noLates, noMemos, noAbsences from users");
         
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -1199,7 +1217,6 @@ public class DB {
             int target_falsematch_rate = Engine.PROBABILITY_ONE / 100000; //target rate is 0.00001
             
             if(falsematch_rate < target_falsematch_rate){
-                System.out.println(rs.getInt(1));
                 user.setEmployeeID(rs.getInt(1));
                 user.setFirstName(rs.getString(2));
                 user.setLastName(rs.getString(3));
@@ -1210,9 +1227,13 @@ public class DB {
                 user.setTimeIn(rs.getString(8));
                 user.setTimeOut(rs.getString(9));
                 role = rs.getString(10);
-                user.setPassword(rs.getString(11));
-                user.setPages(rs.getString(12));
                 user.setRole(role);
+                user.setFingerPrintImage(rs.getBytes(11));
+                user.setPassword(rs.getString(12));
+                user.setPages(rs.getString(13));
+                user.setNoLates(rs.getInt(14));
+                user.setNoMemos(rs.getInt(15));
+                user.setNoAbsences(rs.getInt(16));
             }
             
         }
@@ -1224,7 +1245,8 @@ public class DB {
         User user = new User();
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("Select employeeID as 'EmployeeID', firstName as 'FirstName', lastName as 'LastName'," + 
-                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint, password, pages from users" + 
+                " address as 'Address', telephoneNumber as 'TelephoneNumber', mobileNumber as 'MobileNumber', rate, timeIn, timeOut, role, fingerPrint,"+
+                " password, pages, noLates, noMemos, noAbsences from users" + 
                 " where employeeID = ? and password = ?");
         
         ps.setInt(1, employeeID);
@@ -1246,6 +1268,9 @@ public class DB {
                 user.setFingerPrintImage(rs.getBytes(11));
                 user.setPassword(rs.getString(12));
                 user.setPages(rs.getString(13));
+                user.setNoLates(rs.getInt(14));
+                user.setNoMemos(rs.getInt(15));
+                user.setNoAbsences(rs.getInt(16));
         }
         c.close();
         return user;

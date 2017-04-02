@@ -93,11 +93,11 @@ public class AddEmployee extends javax.swing.JFrame {
         txtPagibigDeduction = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jTextField18 = new javax.swing.JTextField();
+        txtMemos = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
+        txtLates = new javax.swing.JTextField();
+        txtAbsences = new javax.swing.JTextField();
         jCheckboxEditEmployee = new javax.swing.JCheckBox();
         jCheckboxDeleteEmployee = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -276,7 +276,7 @@ public class AddEmployee extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel22)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtMemos, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(25, 25, 25)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
@@ -298,7 +298,7 @@ public class AddEmployee extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtTaxDeduction)
-                                            .addComponent(jTextField19))))
+                                            .addComponent(txtLates))))
                                 .addGap(36, 36, 36))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,7 +323,7 @@ public class AddEmployee extends javax.swing.JFrame {
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtPagibigDeduction)
-                                        .addComponent(jTextField20))))
+                                        .addComponent(txtAbsences))))
                             .addComponent(btnAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -468,12 +468,12 @@ public class AddEmployee extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel22)
-                                .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtMemos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel23)
                                 .addComponent(jLabel24)
-                                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtLates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtAbsences, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCancel)
@@ -557,6 +557,9 @@ public class AddEmployee extends javax.swing.JFrame {
         float philHealthDeduction = 0;
         float rate = 0;
         float taxDeduction = 0;
+        int noLates = 0;
+        int noMemos = 0;
+        int noAbsences = 0;
         String role = sessionUser.getRole();
         if(role.equals("Administrator")){
             try{
@@ -566,6 +569,9 @@ public class AddEmployee extends javax.swing.JFrame {
                 philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
                 taxDeduction = Float.parseFloat(txtTaxDeduction.getText());
                 rate = Float.parseFloat(txtRate.getText());
+                noLates = Integer.parseInt(txtLates.getText());
+                noMemos = Integer.parseInt(txtMemos.getText());
+                noAbsences = Integer.parseInt(txtAbsences.getText());
             }catch(NumberFormatException e){
             }
             String address = txtAddress.getText();
@@ -585,11 +591,14 @@ public class AddEmployee extends javax.swing.JFrame {
             byte[] fingerPrintImage = fingerPrint.getFingerPrintImage();
             DB db = new DB();
             try {
-                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0 || password.equals("")){
+                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || 
+                        timeOut.equals("") ||  accessRole.equals("") || employeeID == 0 || rate == 0 || password.equals("")){
                     JOptionPane.showMessageDialog(panel, "Please complete fields before proceeding", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, accessRole, pageNames, password);
+                    status = db.signUp(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, 
+                            fingerPrintImage, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, 
+                            taxDeduction, accessRole, pageNames, password, noLates, noMemos, noAbsences);
                 
                     if(status.equals("Failed")){
                         JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
@@ -685,13 +694,13 @@ public class AddEmployee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField txtAbsences;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtEmployeeID;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
+    private javax.swing.JTextField txtLates;
+    private javax.swing.JTextField txtMemos;
     private javax.swing.JTextField txtMobileNumber;
     private javax.swing.JTextField txtPagibigDeduction;
     private javax.swing.JTextField txtPagibigNumber;

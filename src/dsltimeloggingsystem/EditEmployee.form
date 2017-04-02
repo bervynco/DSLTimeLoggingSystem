@@ -71,7 +71,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jTextField18" max="32767" attributes="0"/>
+                                      <Component id="txtMemos" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="543" max="-2" attributes="0"/>
@@ -160,7 +160,7 @@
                                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                           <Component id="txtSSSDeduction" pref="94" max="32767" attributes="0"/>
                                                           <Component id="txtPhilHealthDeduction" max="32767" attributes="0"/>
-                                                          <Component id="jTextField19" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="txtLates" alignment="0" max="32767" attributes="0"/>
                                                           <Component id="txtPagibigDeduction" alignment="0" max="32767" attributes="0"/>
                                                       </Group>
                                                   </Group>
@@ -183,7 +183,7 @@
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jTextField20" min="-2" pref="75" max="-2" attributes="0"/>
+                                                      <Component id="txtAbsences" min="-2" pref="75" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
@@ -293,16 +293,16 @@
                                       <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtPagibigNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField20" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtAbsences" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtPagibigDeduction" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtMemos" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField19" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtLates" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -500,7 +500,7 @@
                 <Property name="text" type="java.lang.String" value="No. Of Memo:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField18">
+            <Component class="javax.swing.JTextField" name="txtMemos">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel20">
               <Properties>
@@ -510,7 +510,7 @@
                 <Property name="text" type="java.lang.String" value="No. Of Late:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField19">
+            <Component class="javax.swing.JTextField" name="txtLates">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel21">
               <Properties>
@@ -520,7 +520,7 @@
                 <Property name="text" type="java.lang.String" value="No. Of Absences"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField20">
+            <Component class="javax.swing.JTextField" name="txtAbsences">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel22">
               <Properties>
@@ -596,6 +596,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Update"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditEmployeeActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton3">
               <Properties>

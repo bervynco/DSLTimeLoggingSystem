@@ -149,11 +149,11 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         txtPhilHealth = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jTextField18 = new javax.swing.JTextField();
+        txtMemos = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
+        txtLates = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jTextField20 = new javax.swing.JTextField();
+        txtAbsences = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jCheckboxAddEmployee = new javax.swing.JCheckBox();
         jCheckboxEditEmployee = new javax.swing.JCheckBox();
@@ -268,6 +268,11 @@ public class EditEmployee extends javax.swing.JFrame {
 
         btnEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditEmployee.setText("Update");
+        btnEditEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditEmployeeActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton3.setText("Back");
@@ -308,7 +313,7 @@ public class EditEmployee extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField18)))
+                                .addComponent(txtMemos)))
                         .addGap(543, 543, 543))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,7 +382,7 @@ public class EditEmployee extends javax.swing.JFrame {
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                     .addComponent(txtSSSDeduction, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                                                     .addComponent(txtPhilHealthDeduction)
-                                                    .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtLates, javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.Alignment.LEADING))))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,7 +399,7 @@ public class EditEmployee extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel21)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtAbsences, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel23)
                                                 .addGap(18, 18, 18)
@@ -481,14 +486,14 @@ public class EditEmployee extends javax.swing.JFrame {
                                 .addComponent(jLabel13)
                                 .addComponent(txtPagibigNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel21)
-                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtAbsences, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19)
-                            .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMemos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20)
-                            .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel23)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -849,6 +854,96 @@ public class EditEmployee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUploadFileActionPerformed
 
+    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditEmployeeActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        String role = sessionUser.getRole();
+        String status = "";
+        if(role.equals("Administrator")){
+            try {
+                int employeeID = 0;
+        
+                float SSSDeduction = 0;
+                float pagibigDeduction = 0;
+                float philHealthDeduction = 0;
+                float rate = 0;
+                float taxDeduction = 0;
+                int noLates = 0;
+                int noMemos = 0;
+                int noAbsences = 0;
+                try{
+                    employeeID = Integer.parseInt(txtEmployeeID.getText());
+
+                    SSSDeduction = Float.parseFloat(txtSSSDeduction.getText());
+                    pagibigDeduction = Float.parseFloat(txtPagibigDeduction.getText());
+                    philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
+                    rate = Float.parseFloat(txtRate.getText());
+                    taxDeduction = Float.parseFloat(txtTaxDeduction.getText());
+                    noLates = Integer.parseInt(txtLates.getText());
+                    noMemos = Integer.parseInt(txtMemos.getText());
+                    noAbsences = Integer.parseInt(txtAbsences.getText());
+                }catch(NumberFormatException e){
+                }
+
+                String address = txtAddress.getText();
+                String firstName = txtFirstName.getText();
+                String lastName = txtLastName.getText();
+                String timeIn = txtTimeIn.getText();
+                String timeOut = txtTimeOut.getText();
+                String SSSNumber = txtSSSNumber.getText();
+                String philHealthNumber = txtPhilHealth.getText();
+                String pagibigNumber = txtPagibigNumber.getText();
+                String tinNumber = txtTinNumber.getText();
+                String telephoneNumber = txtTelephoneNumber.getText();
+                String mobileNumber = txtMobileNumber.getText();
+                String password = String.valueOf(txtPassword.getPassword());
+                byte[] fingerPrintImage = user.getFingerPrintImage();
+                if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0 || password.equals("")){
+                    JOptionPane.showMessageDialog(panel, "Please complete fields before proceeding", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, 
+                            philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction,
+                            password, noLates, noMemos, noAbsences);
+                    if(status.equals("Successful")){
+                        JOptionPane.showMessageDialog(panel, "Edit Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        this.setVisible(false);
+                        EmployeesUI eUI;
+                        try {
+                            eUI = new EmployeesUI(this.sessionUser, this.employeePages);
+                            eUI.setTitle("DSL Time Logging | Employees");
+                            eUI.pack();
+                            eUI.setLocationRelativeTo(null);
+                            eUI.setDefaultCloseOperation(0);
+                            eUI.setVisible(true);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                            try {
+                                DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Update User");
+                            } catch (ParseException ex1) {
+                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex1);
+                            }
+                        }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(panel, "You are not authorized to make changes. Please contact administrator", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditEmployeeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -879,88 +974,14 @@ public class EditEmployee extends javax.swing.JFrame {
         txtPhilHealthDeduction.setText(Float.toString(user.getPhilHealthDeduction()));
         txtTaxDeduction.setText(Float.toString(user.getTaxDeduction()));
         txtPassword.setText(user.getPassword());
+        txtMemos.setText(Integer.toString(user.getNoMemos()));
+        txtLates.setText(Integer.toString(user.getNoLates()));
+        txtAbsences.setText(Integer.toString(user.getNoAbsences()));
     }
-    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-        String role = sessionUser.getRole();
-        String status = "";
-        if(role.equals("Administrator")){
-            try {
-                int employeeID = 0;
-        
-                float SSSDeduction = 0;
-                float pagibigDeduction = 0;
-                float philHealthDeduction = 0;
-                float rate = 0;
-                float taxDeduction = 0;
-                try{
-                    employeeID = Integer.parseInt(txtEmployeeID.getText());
-
-                    SSSDeduction = Float.parseFloat(txtSSSDeduction.getText());
-                    pagibigDeduction = Float.parseFloat(txtPagibigDeduction.getText());
-                    philHealthDeduction = Float.parseFloat(txtPhilHealthDeduction.getText());
-                    rate = Float.parseFloat(txtRate.getText());
-                    taxDeduction = Float.parseFloat(txtTaxDeduction.getText());
-                    }catch(NumberFormatException e){
-                    }
-                
-                    String address = txtAddress.getText();
-                    String firstName = txtFirstName.getText();
-                    String lastName = txtLastName.getText();
-                    String timeIn = txtTimeIn.getText();
-                    String timeOut = txtTimeOut.getText();
-                    String SSSNumber = txtSSSNumber.getText();
-                    String philHealthNumber = txtPhilHealth.getText();
-                    String pagibigNumber = txtPagibigNumber.getText();
-                    String tinNumber = txtTinNumber.getText();
-                    String telephoneNumber = txtTelephoneNumber.getText();
-                    String mobileNumber = txtMobileNumber.getText();
-                    String password = String.valueOf(txtPassword.getPassword());
-                    byte[] fingerPrintImage = user.getFingerPrintImage();
-                    if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0 || password.equals("")){
-                        JOptionPane.showMessageDialog(panel, "Please complete fields before proceeding", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else{
-                        status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, password);
-                        if(status.equals("Successful")){
-                            JOptionPane.showMessageDialog(panel, "Edit Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            EmployeesUI eUI;
-                            try {
-                                eUI = new EmployeesUI(this.sessionUser, this.employeePages);
-                                eUI.setTitle("DSL Time Logging | Employees");
-                                eUI.pack();
-                                eUI.setLocationRelativeTo(null);
-                                eUI.setDefaultCloseOperation(0);
-                                eUI.setVisible(true);
-                            } catch (ClassNotFoundException ex) {
-                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (SQLException ex) {
-                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ParseException ex) {
-                                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-                                try {
-                                    DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Update User");
-                                } catch (ParseException ex1) {
-                                    Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex1);
-                                }
-                            }
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(panel, "You are not authorized to make changes. Please contact administrator", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
-    }                                               
+//    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                
+//        
+//        
+//    }                                               
 //
 //    private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                               
 //        // TODO add your handling code here:
@@ -1027,13 +1048,13 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableFiles;
     private javax.swing.JTable jTableNotes;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField txtAbsences;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtEmployeeID;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
+    private javax.swing.JTextField txtLates;
+    private javax.swing.JTextField txtMemos;
     private javax.swing.JTextField txtMobileNumber;
     private javax.swing.JTextField txtPagibigDeduction;
     private javax.swing.JTextField txtPagibigNumber;

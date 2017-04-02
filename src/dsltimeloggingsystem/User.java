@@ -33,6 +33,9 @@ public class User {
     private float taxDeduction;
     private static byte[] fingerPrintImage;
     private String pages;
+    private int noLates;
+    private int noMemos;
+    private int noAbsences;
     
     public int getEmployeeID() {
         return employeeID;
@@ -200,6 +203,30 @@ public class User {
 
     public void setPages(String pages) {
         this.pages = pages;
+    }
+
+    public int getNoLates() {
+        return noLates;
+    }
+
+    public void setNoLates(int noLates) {
+        this.noLates = noLates;
+    }
+
+    public int getNoMemos() {
+        return noMemos;
+    }
+
+    public void setNoMemos(int noMemos) {
+        this.noMemos = noMemos;
+    }
+
+    public int getNoAbsences() {
+        return noAbsences;
+    }
+
+    public void setNoAbsences(int noAbsences) {
+        this.noAbsences = noAbsences;
     }
     
     
