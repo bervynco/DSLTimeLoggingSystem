@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,13 +30,10 @@ public class Holiday extends javax.swing.JFrame {
      * Creates new form Holiday
      */
     private static User sessionUser = null;
+    private final JPanel panel = new JPanel();
     public Holiday(User user) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
-        lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
-        lblNotice.setHorizontalAlignment(JLabel.CENTER);
-        lblStatus.setHorizontalAlignment(JLabel.CENTER);
-        lblStatus.setForeground(Color.red);
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Holiday Page");
     }
 
@@ -49,14 +48,14 @@ public class Holiday extends javax.swing.JFrame {
 
         label1 = new java.awt.Label();
         label2 = new java.awt.Label();
-        txtHoliday = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        lblNotice = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
+        holidayDate = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        label1.setAlignment(java.awt.Label.CENTER);
         label1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         label1.setText("Holdiay Date");
 
@@ -64,6 +63,7 @@ public class Holiday extends javax.swing.JFrame {
         label2.setText("Date:");
 
         btnSave.setText("Save");
+        btnSave.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -71,63 +71,53 @@ public class Holiday extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
-        lblNotice.setText("for date, use this format yyyy-mm-dd");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnSave)
-                                        .addGap(39, 39, 39)
-                                        .addComponent(btnCancel))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtHoliday, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(102, 102, 102))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(112, 112, 112)
-                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 78, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNotice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(label1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(holidayDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(btnCancel)
+                                .addGap(48, 48, 48)
+                                .addComponent(btnSave)))
+                        .addGap(0, 38, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNotice)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtHoliday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(holidayDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
-                    .addComponent(btnCancel))
+                    .addComponent(btnCancel)
+                    .addComponent(btnSave))
                 .addGap(30, 30, 30))
         );
 
@@ -137,7 +127,7 @@ public class Holiday extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         Calendar cal = Calendar.getInstance();
-        String holiday = txtHoliday.getText();
+        String holiday = holidayDate.getDateStringOrEmptyString();
         boolean error = false;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
@@ -151,10 +141,11 @@ public class Holiday extends javax.swing.JFrame {
                 String status = DB.setHoliday(this.sessionUser.getEmployeeID(), date);
                 
                 if(status != "Successful"){
-                    lblStatus.setText("Error. Please contact system administrator");
+                    JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
                     DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add New Holiday");
+                    JOptionPane.showMessageDialog(panel, "Add Holiday Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
                     this.setVisible(false);
                     SalaryCondition condition = new SalaryCondition(this.sessionUser);
                     condition.setTitle("DSL Time Logging | Salary Condition");
@@ -178,7 +169,7 @@ public class Holiday extends javax.swing.JFrame {
         }
         
         if(error == true){
-            lblStatus.setText("Wrong Date format");
+            JOptionPane.showMessageDialog(panel, "Date Not parseable", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -208,10 +199,9 @@ public class Holiday extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
+    private com.github.lgooddatepicker.components.DatePicker holidayDate;
     private java.awt.Label label1;
     private java.awt.Label label2;
-    private javax.swing.JLabel lblNotice;
     private javax.swing.JLabel lblStatus;
-    private javax.swing.JTextField txtHoliday;
     // End of variables declaration//GEN-END:variables
 }

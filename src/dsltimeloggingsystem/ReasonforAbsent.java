@@ -70,7 +70,9 @@ public class ReasonforAbsent extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setText("Date:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        label1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         label1.setText("Reason for Absent:");
 
         label3.setAlignment(java.awt.Label.CENTER);
@@ -99,6 +101,7 @@ public class ReasonforAbsent extends javax.swing.JFrame {
         jScrollPane2.setViewportView(txtAreaReason);
 
         jLabel3.setText("Employee");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
