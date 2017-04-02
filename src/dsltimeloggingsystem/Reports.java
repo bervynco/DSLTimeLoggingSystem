@@ -87,7 +87,7 @@ public class Reports extends javax.swing.JFrame {
         label2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         label2.setText("to");
 
-        btnExport.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnExport.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnExport.setText("Export");
         btnExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +95,7 @@ public class Reports extends javax.swing.JFrame {
             }
         });
 
-        btnCancel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnCancel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
