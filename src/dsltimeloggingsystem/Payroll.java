@@ -10,10 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Payroll extends javax.swing.JFrame {
     private static User sessionUser = null;
-    /**
-     * Creates new form Payroll
-     */
-    
+    private static ArrayList<String> employeePages = new ArrayList<>();
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = new DefaultTableModel();
         int day = 0;
@@ -47,9 +44,10 @@ public class Payroll extends javax.swing.JFrame {
 //        new jTable1.setModel(model);
     }
     
-    public Payroll(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public Payroll(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Payroll");
         DefaultTableModel model = this.FillTable();
         
@@ -146,7 +144,7 @@ public class Payroll extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionUser);
+            menu = new Menu(this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

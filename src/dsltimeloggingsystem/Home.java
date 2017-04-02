@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Home extends javax.swing.JFrame {
     private static User sessionUser = null;
+    private static ArrayList<String> employeePages = new ArrayList<String>();
     /**
      * Creates new form frame1
      */
@@ -54,12 +55,13 @@ public class Home extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    public Home(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public Home(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = this.FillTable();
        
         initComponents();
         jTable1.setModel(model);
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Home Page");
     }
     
@@ -202,7 +204,7 @@ public class Home extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionUser);
+            menu = new Menu(this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

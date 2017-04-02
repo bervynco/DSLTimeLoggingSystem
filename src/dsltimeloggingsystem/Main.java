@@ -170,6 +170,7 @@ public class Main extends javax.swing.JFrame {
                 if(user.getRole().equals("Administrator") || user.getRole().equals("Assistant Administrator") || user.getRole().equals("Payroll")){
                     JOptionPane.showMessageDialog(null, "Login Successful");
                     this.setVisible(false);
+                    //ArrayList = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(", ");
                     Menu menu = new Menu(user);
                     menu.setTitle("DSL Time Logging | Menu");
                     menu.pack();

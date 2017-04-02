@@ -75,6 +75,15 @@ public class Menu extends javax.swing.JFrame {
     public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
+        //System.out.println("Menu " + employeeID);
+        this.filterView(user.getEmployeeID(), sessionUser);
+        DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Menu");
+    }
+    public Menu(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException{
+        initComponents();
+        this.sessionUser = user;
+        this.employeePages = employeePages;
         //System.out.println("Menu " + employeeID);
         this.filterView(user.getEmployeeID(), sessionUser);
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Menu");
@@ -271,7 +280,7 @@ public class Menu extends javax.swing.JFrame {
         this.setVisible(false);
         Payroll payroll;
         try {
-            payroll = new Payroll(this.sessionUser);
+            payroll = new Payroll(this.sessionUser, employeePages);
             payroll.setTitle("DSL Time Logging | Payroll");
             payroll.pack();
             payroll.setLocationRelativeTo(null);
@@ -292,7 +301,7 @@ public class Menu extends javax.swing.JFrame {
         this.setVisible(false);
         Home home;
         try {
-            home = new Home(this.sessionUser);
+            home = new Home(this.sessionUser, employeePages);
             home.setTitle("DSL Time Logging | Home");
             home.pack();
             home.setLocationRelativeTo(null);
@@ -331,7 +340,7 @@ public class Menu extends javax.swing.JFrame {
         this.setVisible(false);
         try {
             // TODO add your handling code here:
-            EmployeeList list = new EmployeeList(this.sessionUser);
+            EmployeeList list = new EmployeeList(this.sessionUser, employeePages);
             list.setTitle("DSL Time Logging | List of Employees");
             list.pack();
             list.setLocationRelativeTo(null);
@@ -350,7 +359,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser, employeePages);
             condition.setTitle("DSL Time Logging | Salary Condition");
             condition.pack();
             condition.setLocationRelativeTo(null);
@@ -370,7 +379,7 @@ public class Menu extends javax.swing.JFrame {
         Reports report;
         this.setVisible(false);
         try {
-            report = new Reports(this.sessionUser);
+            report = new Reports(this.sessionUser, employeePages);
             report.setTitle("DSL Time Logging | Generate Report");
             report.pack();
             report.setLocationRelativeTo(null);
@@ -392,7 +401,7 @@ public class Menu extends javax.swing.JFrame {
             // TODO add your handling code here:
             SystemLogs systemLogs;
             this.setVisible(false);
-            systemLogs = new SystemLogs(this.sessionUser);
+            systemLogs = new SystemLogs(this.sessionUser, employeePages);
             systemLogs.setVisible(true);
             systemLogs.setTitle("DSL Time Logging | System Logs");
             systemLogs.pack();

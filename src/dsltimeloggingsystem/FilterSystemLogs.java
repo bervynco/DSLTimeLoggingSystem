@@ -31,6 +31,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
     private static List<User> employees = new ArrayList<User>();
     private static User sessionUser = null;
     private static List<UserLogs> logs = null;
+    private static ArrayList<String> employeePages = new ArrayList<String>();
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
@@ -42,8 +43,9 @@ public class FilterSystemLogs extends javax.swing.JFrame {
 
     }
     
-    public FilterSystemLogs(User user) throws SQLException, ClassNotFoundException, ParseException {
+    public FilterSystemLogs(User user, ArrayList<String> employeePages) throws SQLException, ClassNotFoundException, ParseException {
         this.sessionUser = user;
+        this.employeePages = employeePages;
         initComponents();
         FillComboBox();
         lblTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -206,7 +208,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
                 logs = DB.getSystemLogs(employeeID, startDate, endDate, "filter");
                 SystemLogs systemLogs;
                 this.setVisible(false);
-                systemLogs = new SystemLogs(this.sessionUser);
+                systemLogs = new SystemLogs(this.sessionUser, this.employeePages);
                 systemLogs.setVisible(true);
                 systemLogs.setTitle("DSL Time Logging | System Logs");
                 systemLogs.pack();
@@ -230,7 +232,7 @@ public class FilterSystemLogs extends javax.swing.JFrame {
             // TODO add your handling code here:
             SystemLogs systemLogs;
             this.setVisible(false);
-            systemLogs = new SystemLogs(this.sessionUser);
+            systemLogs = new SystemLogs(this.sessionUser, this.employeePages);
             systemLogs.setVisible(true);
             systemLogs.setTitle("DSL Time Logging | System Logs");
             systemLogs.pack();

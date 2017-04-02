@@ -36,8 +36,9 @@ public class Reports extends javax.swing.JFrame {
         }
 
     }
-    public Reports(User user) throws SQLException, ClassNotFoundException, ParseException{
+    public Reports(User user, ArrayList<String> employeePages) throws SQLException, ClassNotFoundException, ParseException{
         this.sessionUser = user;
+        this.employeePages = employeePages;
         initComponents();
         FillComboBox();
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Reports");
@@ -242,7 +243,7 @@ public class Reports extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
-            Menu menu = new Menu( this.sessionUser);
+            Menu menu = new Menu( this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

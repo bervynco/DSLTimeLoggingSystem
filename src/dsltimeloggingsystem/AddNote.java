@@ -180,7 +180,7 @@ public class AddNote extends javax.swing.JFrame {
         else if(location.equals("Main Menu")){
             try {
                 // TODO add your handling code here:
-                Menu menu = new Menu(this.sessionUser);
+                Menu menu = new Menu(this.sessionUser, this.employeePages);
                 menu.setTitle("DSL Time Logging | Menu");
                 menu.pack();
                 menu.setLocationRelativeTo(null);
@@ -210,7 +210,7 @@ public class AddNote extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(panel, "Notes update successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add Note");
                 if(location == "Main menu"){
-                    Menu menu = new Menu(this.sessionUser);
+                    Menu menu = new Menu(this.sessionUser, this.employeePages);
                     menu.setTitle("DSL Time Logging | Menu");
                     menu.pack();
                     menu.setLocationRelativeTo(null);

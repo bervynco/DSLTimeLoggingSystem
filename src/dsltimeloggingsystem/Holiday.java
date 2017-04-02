@@ -6,6 +6,7 @@ import static java.awt.font.TextAttribute.FONT;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -31,9 +32,11 @@ public class Holiday extends javax.swing.JFrame {
      */
     private static User sessionUser = null;
     private final JPanel panel = new JPanel();
-    public Holiday(User user) throws ClassNotFoundException, SQLException, ParseException {
+    private static ArrayList<String> employeePages = new ArrayList<String>();
+    public Holiday(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Holiday Page");
     }
 
@@ -147,7 +150,7 @@ public class Holiday extends javax.swing.JFrame {
                     DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Add New Holiday");
                     JOptionPane.showMessageDialog(panel, "Add Holiday Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
                     this.setVisible(false);
-                    SalaryCondition condition = new SalaryCondition(this.sessionUser);
+                    SalaryCondition condition = new SalaryCondition(this.sessionUser, this.employeePages);
                     condition.setTitle("DSL Time Logging | Salary Condition");
                     condition.pack();
                     condition.setLocationRelativeTo(null);
@@ -177,7 +180,7 @@ public class Holiday extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser, this.employeePages);
             condition.setTitle("DSL Time Logging | Salary Condition");
             condition.pack();
             condition.setLocationRelativeTo(null);

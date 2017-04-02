@@ -2,15 +2,18 @@ package dsltimeloggingsystem;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SalaryCondition extends javax.swing.JFrame {
 
     private static User sessionUser = null;
-    public SalaryCondition(User user) throws ClassNotFoundException, SQLException, ParseException {
+    private static ArrayList<String> employeePages = new ArrayList<String>();
+    public SalaryCondition(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Salary Condition View");
     }
 
@@ -110,7 +113,7 @@ public class SalaryCondition extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionUser);
+            menu = new Menu(this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);
@@ -129,7 +132,7 @@ public class SalaryCondition extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            Loan loan = new Loan(this.sessionUser);
+            Loan loan = new Loan(this.sessionUser, this.employeePages);
             loan.setTitle("DSL Time Logging | Menu");
             loan.pack();
             loan.setLocationRelativeTo(null);
@@ -148,7 +151,7 @@ public class SalaryCondition extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            ReasonforAbsent rfa = new ReasonforAbsent(this.sessionUser);
+            ReasonforAbsent rfa = new ReasonforAbsent(this.sessionUser, this.employeePages);
             rfa.setTitle("DSL Time Logging | Reason for Absent");
             rfa.pack();
             rfa.setLocationRelativeTo(null);
@@ -167,7 +170,7 @@ public class SalaryCondition extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            Allowance allowance = new Allowance(this.sessionUser);
+            Allowance allowance = new Allowance(this.sessionUser, this.employeePages);
             allowance.setTitle("DSL Time Logging | Salary Merit");
             allowance.pack();
             allowance.setLocationRelativeTo(null);
@@ -186,7 +189,7 @@ public class SalaryCondition extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            Holiday holiday = new Holiday(this.sessionUser);
+            Holiday holiday = new Holiday(this.sessionUser, this.employeePages);
             holiday.setTitle("DSL Time Logging | Add Holiday");
             holiday.pack();
             holiday.setLocationRelativeTo(null);

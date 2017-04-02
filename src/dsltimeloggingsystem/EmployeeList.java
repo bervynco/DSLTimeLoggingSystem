@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EmployeeList extends javax.swing.JFrame {
     private static User sessionUser = null;
+    private static ArrayList<String> employeePages = new ArrayList<>();
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
@@ -43,11 +44,12 @@ public class EmployeeList extends javax.swing.JFrame {
         return model;
 //        new jTable1.setModel(model);
     }
-    public EmployeeList(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public EmployeeList(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         DefaultTableModel model = EmployeeList.FillTable();
         initComponents();
         jTable2.setModel(model);
         this.sessionUser = user;
+        this.employeePages = employeePages;
         lblNotice.setFont(new Font(lblNotice.getFont().getName(),Font.ITALIC,lblNotice.getFont().getSize()));
         lblNotice.setHorizontalAlignment(JLabel.CENTER);
         DB.setUserLogStatus(sessionUser.getEmployeeID(),"Page Visit", "Employee List");
@@ -159,7 +161,7 @@ public class EmployeeList extends javax.swing.JFrame {
             int employeeID = (int) jTable2.getValueAt(row, 0);
             String name = (String) jTable2.getValueAt(row, 1);
             this.setVisible(false);
-            SalaryClaim salary = new SalaryClaim(this.sessionUser);
+            SalaryClaim salary = new SalaryClaim(this.sessionUser, this.employeePages);
             salary.fillFields(employeeID, name);
             salary.setTitle("DSL Time Logging | Salary Claim");
             salary.pack();
@@ -179,7 +181,7 @@ public class EmployeeList extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
-            Menu menu = new Menu( this.sessionUser);
+            Menu menu = new Menu(this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ public class SalaryClaim extends javax.swing.JFrame {
     private static User sessionUser = null;
     PayrollDetails payrollDetails = new PayrollDetails();
     private static int employeeID = 0;
-    
+    private static ArrayList<String> employeePages = new ArrayList<String>();
     public void fillFields(int employeeID, String name) throws ClassNotFoundException, SQLException{
         System.out.println(employeeID);
         List<PayrollDetails> details = DB.getSalaryClaim(employeeID);
@@ -107,9 +108,10 @@ public class SalaryClaim extends javax.swing.JFrame {
         }
     }
     
-    public SalaryClaim(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public SalaryClaim(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Salary Claim");
     }
 
@@ -419,7 +421,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         EmployeeList list;
         try {
             this.setVisible(false);
-            list = new EmployeeList(this.sessionUser);
+            list = new EmployeeList(this.sessionUser, this.employeePages);
             list.setTitle("DSL Time Logging | List of Emoloyees");
             list.pack();
             list.setLocationRelativeTo(null);

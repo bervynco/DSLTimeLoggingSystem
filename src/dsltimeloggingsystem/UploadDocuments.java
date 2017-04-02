@@ -203,7 +203,7 @@ public class UploadDocuments extends javax.swing.JFrame {
         else if(location.equals("Main Menu")){
             try {
                 // TODO add your handling code here:
-                Menu menu = new Menu(this.sessionUser);
+                Menu menu = new Menu(this.sessionUser, this.employeePages);
                 menu.setTitle("DSL Time Logging | Menu");
                 menu.pack();
                 menu.setLocationRelativeTo(null);
@@ -233,7 +233,7 @@ public class UploadDocuments extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(panel, "Notes update successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.setVisible(false);
                 if(location == "Main menu"){
-                    Menu menu = new Menu(this.sessionUser);
+                    Menu menu = new Menu(this.sessionUser, this.employeePages);
                     menu.setTitle("DSL Time Logging | Menu");
                     menu.pack();
                     menu.setLocationRelativeTo(null);

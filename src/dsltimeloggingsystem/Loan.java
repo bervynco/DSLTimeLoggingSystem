@@ -17,7 +17,7 @@ public class Loan extends javax.swing.JFrame {
      */
     private static User sessionUser = null;
     private static List<User> employees = new ArrayList<User>();
-    
+    private static ArrayList<String> employeePages = new ArrayList<String>();
     public void FillComboBox() throws SQLException, ClassNotFoundException{
         employees = DB.getUsers();
         String [] employeeNames = null;
@@ -27,9 +27,10 @@ public class Loan extends javax.swing.JFrame {
         }
 
     }
-    public Loan(User user) throws ClassNotFoundException, SQLException, ParseException {
+    public Loan(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
         lblStatus.setHorizontalAlignment(JLabel.CENTER);
         lblStatus.setForeground(Color.red);
         FillComboBox();
@@ -157,7 +158,7 @@ public class Loan extends javax.swing.JFrame {
                 if(status.equals("Successful")){
                     JOptionPane.showMessageDialog(null, "Add Loan Successful");
                     this.setVisible(false);
-                    SalaryCondition condition = new SalaryCondition(this.sessionUser);
+                    SalaryCondition condition = new SalaryCondition(this.sessionUser, this.employeePages);
                     condition.setTitle("DSL Time Logging | Salary Condition");
                     condition.pack();
                     condition.setLocationRelativeTo(null);
@@ -189,7 +190,7 @@ public class Loan extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             this.setVisible(false);
-            SalaryCondition condition = new SalaryCondition(this.sessionUser);
+            SalaryCondition condition = new SalaryCondition(this.sessionUser, this.employeePages);
             condition.setTitle("DSL Time Logging | Salary Condition");
             condition.pack();
             condition.setLocationRelativeTo(null);

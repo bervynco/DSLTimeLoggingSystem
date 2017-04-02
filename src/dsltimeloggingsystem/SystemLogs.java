@@ -25,10 +25,12 @@ public class SystemLogs extends javax.swing.JFrame {
      */
     private static User sessionUser = null;
     private static int temp = 0;
-    public SystemLogs(User user) throws ClassNotFoundException, SQLException, ParseException {
+    private static ArrayList<String> employeePages = new ArrayList<String>();
+    public SystemLogs(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
         List<UserLogs> userlogs = null;
         initComponents();
         this.sessionUser = user;
+        this.employeePages = employeePages;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "System Logs");
         DefaultTableModel model = SystemLogs.FillTable();
         jTable1.setModel(model);
@@ -131,7 +133,7 @@ public class SystemLogs extends javax.swing.JFrame {
         this.setVisible(false);
         Menu menu;
         try {
-            menu = new Menu(this.sessionUser);
+            menu = new Menu(this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);
@@ -151,7 +153,7 @@ public class SystemLogs extends javax.swing.JFrame {
             // TODO add your handling code here:
             FilterSystemLogs filter;
             this.setVisible(false);
-            filter = new FilterSystemLogs(this.sessionUser);
+            filter = new FilterSystemLogs(this.sessionUser, this.employeePages);
             filter.setTitle("DSL Time Logging | Filter System Logs");
             filter.pack();
             filter.setLocationRelativeTo(null);

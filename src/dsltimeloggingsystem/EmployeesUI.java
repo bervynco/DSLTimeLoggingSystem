@@ -247,7 +247,7 @@ public class EmployeesUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
-            Menu menu = new Menu(this.sessionUser);
+            Menu menu = new Menu(this.sessionUser, this.employeePages);
             menu.setTitle("DSL Time Logging | Menu");
             menu.pack();
             menu.setLocationRelativeTo(null);
