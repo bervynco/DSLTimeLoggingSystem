@@ -898,13 +898,44 @@ public class EditEmployee extends javax.swing.JFrame {
                 String mobileNumber = txtMobileNumber.getText();
                 String password = String.valueOf(txtPassword.getPassword());
                 byte[] fingerPrintImage = user.getFingerPrintImage();
+                
+                ArrayList<String> pageNames = new ArrayList<>();
+                if(jCheckboxAddEmployee.isSelected()){
+                    System.out.println("ADD EMPLOYEE" + jCheckboxAddEmployee.isSelected());
+                    pageNames.add(jCheckboxAddEmployee.getText());
+                }
+                if(jCheckboxEditEmployee.isSelected()){
+                    System.out.println("EDIT EMPLOYEE" + jCheckboxEditEmployee.isSelected());
+                    pageNames.add(jCheckboxEditEmployee.getText());
+                }
+                if(jCheckboxDeleteEmployee.isSelected()){
+                    System.out.println("DELETE EMPLOYEE" + jCheckboxDeleteEmployee.isSelected());
+                    pageNames.add(jCheckboxDeleteEmployee.getText());
+                }
+                if(jCheckBoxPayroll.isSelected()){
+                    System.out.println("PAYROLL" + jCheckBoxPayroll.isSelected());
+                    pageNames.add("Payroll");
+                }
+                if(jCheckboxReports.isSelected()){
+                    System.out.println("REPORTS" + jCheckboxReports.isSelected());
+                    pageNames.add(jCheckboxReports.getText());
+                }
+                if(jCheckBoxUpload.isSelected()){
+                    pageNames.add("Upload");
+                }
+                if(jCheckBoxClaimSalary.isSelected()){
+                    pageNames.add("Claim Salary");
+                }
+                
+                
+                
                 if(fingerPrintImage == null || address.equals("") || firstName.equals("") || lastName.equals("") || timeIn.equals("") || timeOut.equals("") || role.equals("") || employeeID == 0 || rate == 0 || password.equals("")){
                     JOptionPane.showMessageDialog(panel, "Please complete fields before proceeding", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
                     status = DB.updateUser(firstName, lastName, employeeID, address, telephoneNumber, mobileNumber, rate, timeIn, timeOut, SSSNumber, 
                             philHealthNumber, tinNumber, pagibigNumber, SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction,
-                            password, noLates, noMemos, noAbsences);
+                            password, noLates, noMemos, noAbsences, pageNames);
                     if(status.equals("Successful")){
                         JOptionPane.showMessageDialog(panel, "Edit Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                         this.setVisible(false);
@@ -977,11 +1008,36 @@ public class EditEmployee extends javax.swing.JFrame {
         txtMemos.setText(Integer.toString(user.getNoMemos()));
         txtLates.setText(Integer.toString(user.getNoLates()));
         txtAbsences.setText(Integer.toString(user.getNoAbsences()));
+        
+        
+        String[] pages = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(", ");
+        for(int i = 0; i < pages.length; i++){
+            System.out.println(pages[i]);
+            if(pages[i].equals("Add Employee")){
+                jCheckboxAddEmployee.setSelected(true);
+            }
+            else if(pages[i].equals("Edit Employee")){
+                jCheckboxEditEmployee.setSelected(true);
+            }
+            else if(pages[i].equals("Delete Employee")){
+                jCheckboxDeleteEmployee.setSelected(true);
+            }
+            else if(pages[i].equals("Claim Salary")){
+                jCheckBoxClaimSalary.setSelected(true);
+            }
+            else if(pages[i].equals("Reports")){
+                jCheckboxReports.setSelected(true);
+            }
+            else if(pages[i].equals("Payroll")){
+                jCheckBoxPayroll.setSelected(true);
+            }
+            else if(pages[i].equals("Upload")){
+                jCheckBoxUpload.setSelected(true);
+            }
+            else;
+        }
     }
-//    private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {                                                
-//        
-//        
-//    }                                               
+//                                                
 //
 //    private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                               
 //        // TODO add your handling code here:

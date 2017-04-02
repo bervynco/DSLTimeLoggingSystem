@@ -1001,11 +1001,11 @@ public class DB {
     public static String updateUser(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber,
             float rate, String timeIn, String timeOut, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber,
             float SSSDeduction, float pagibigDeduction, float philHealthDeduction, float taxDeduction,
-            String password, int noLates, int noMemos, int noAbsences) throws SQLException, ClassNotFoundException{
+            String password, int noLates, int noMemos, int noAbsences, ArrayList<String> pageNames) throws SQLException, ClassNotFoundException{
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, address =?, telephoneNumber =?, mobileNumber = ?, rate = ?, timeIn = ?, timeOut = ?, modified =?, " +""
                 + " SSSNumber = ?, philHealthNumber =?, tinNumber = ?, pagibigNumber = ?, SSSDeduction = ?, pagibigDeduction = ?, philHealthDeduction = ?, taxDeduction =?, password = ?,"+
-                " noLates = ?, noMemos = ?, noAbsences = ? WHERE employeeID = ?");
+                " noLates = ?, noMemos = ?, noAbsences = ?, pages = ? WHERE employeeID = ?");
         
         ps.setString(1, firstName);
         ps.setString(2, lastName);
@@ -1028,7 +1028,8 @@ public class DB {
         ps.setInt(19, noLates);
         ps.setInt(20, noMemos);
         ps.setInt(21, noAbsences);
-        ps.setInt(22, employeeID);
+        ps.setString(22, pageNames.toString());
+        ps.setInt(23, employeeID);
         int affectedRow = ps.executeUpdate();
         c.close();
         if(affectedRow > 0){

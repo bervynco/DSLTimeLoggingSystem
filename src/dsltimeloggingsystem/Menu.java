@@ -74,7 +74,8 @@ public class Menu extends javax.swing.JFrame {
     }
     public Menu(User user) throws ClassNotFoundException, SQLException, ParseException{
         initComponents();
-        this.sessionUser = user;
+        //this.sessionUser = user;
+        this.sessionUser = DB.getUserDetails(user.getEmployeeID());
         this.employeePages = employeePages;
         //System.out.println("Menu " + employeeID);
         this.filterView(user.getEmployeeID(), sessionUser);
