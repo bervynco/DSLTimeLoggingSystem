@@ -8,6 +8,7 @@ package dsltimeloggingsystem;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import org.apache.commons.io.*;
 /**
  *
  * @author L R E
@@ -226,11 +227,17 @@ public class UploadDocuments extends javax.swing.JFrame {
             String name = (String) jComboboxEmployee.getSelectedItem();
             String type = (String) jComboboxType.getSelectedItem();
             int employeeID = DB.getEmployeeIDFromName(name);
-            System.out.println(selectedFile.getAbsolutePath());
-            String status = DB.setUploadFile(employeeID, type, selectedFile);
+            File source = new File(selectedFile.getAbsolutePath());
+            String filePath = "C:\\DSL-Saved Files\\"+employeeID+"\\";
+            File dest = new File(filePath);
+            try {
+                FileUtils.copyFileToDirectory(source, dest);
+            
+            String fileLocation = filePath + selectedFile.getName();
+            String status = DB.setUploadFile(employeeID, type, fileLocation);
             if(status == "Successful"){
                 DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Upload Document");
-                JOptionPane.showMessageDialog(panel, "Notes update successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(panel, "File upload successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.setVisible(false);
                 if(location == "Main menu"){
                     Menu menu = new Menu(this.sessionUser, this.employeePages);
@@ -252,13 +259,14 @@ public class UploadDocuments extends javax.swing.JFrame {
             else{
                 JOptionPane.showMessageDialog(panel, "System Error. Please contact Administrator", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }catch (IOException e) {
+                e.printStackTrace();
+        }   catch (ParseException ex) {
+                Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
             Logger.getLogger(UploadDocuments.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnUploadActionPerformed

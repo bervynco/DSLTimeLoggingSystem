@@ -40,16 +40,16 @@ import java.util.List;
  * @author L R E
  */
 public class DB {
-//    private static String user = "root";
+//    private static String user = "dsl";
 //    private static String pass = "DslDatabase";
 //    private static String host = "localhost";
 //    private static String port = "3306";
 //    private static String url = "jdbc:mysql://" + host + ":" + port + "/dsl";
 //    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
     
-    private static String user = "dsl";
+    private static String user = "root";
     private static String pass = "password";
-    private static String host = "192.168.254.105";
+    private static String host = "localhost";
     private static String port = "3306";
     private static String url = "jdbc:mysql://" + host + ":" + port + "/dsl";
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
@@ -145,17 +145,14 @@ public class DB {
             return "Failed";
         }
     }
-    public static String setUploadFile(int employeeID, String fileType, File file) throws ClassNotFoundException, SQLException, FileNotFoundException{
+    public static String setUploadFile(int employeeID, String fileType, String fileLocation) throws ClassNotFoundException, SQLException, FileNotFoundException{
         Connection c = connect();
-        String filePath = file.getAbsolutePath();
-        FileInputStream fis = new FileInputStream(new File(filePath));
-
-        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, fileName, uploadFile, uploadDate) VALUES (?,?,?,?,?)");
+        
+        PreparedStatement ps = c.prepareStatement("INSERT INTO uploads (employeeID, uploadType, filePath, uploadDate) VALUES (?,?,?,?)");
         ps.setInt(1, employeeID);
         ps.setString(2, fileType);
-        ps.setString(3, file.getName());
-        ps.setBinaryStream(4, fis);
-        ps.setTimestamp(5, getCurrentTimeStamp());
+        ps.setString(3, fileLocation);
+        ps.setTimestamp(4, getCurrentTimeStamp());
         int rows = ps.executeUpdate();
         c.close();
 
