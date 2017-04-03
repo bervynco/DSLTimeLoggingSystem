@@ -81,7 +81,7 @@ public class EditEmployee extends javax.swing.JFrame {
         List<Files> files = new ArrayList<Files>();
         files = DB.getFiles(employeeID);
         
-        model.addColumn("Note ID");
+        model.addColumn("File ID");
         model.addColumn("Employee ID");
         model.addColumn("Name");
         model.addColumn("File Name");
@@ -1010,32 +1010,36 @@ public class EditEmployee extends javax.swing.JFrame {
         txtAbsences.setText(Integer.toString(user.getNoAbsences()));
         
         
-        String[] pages = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(", ");
-        for(int i = 0; i < pages.length; i++){
-            System.out.println(pages[i]);
-            if(pages[i].equals("Add Employee")){
-                jCheckboxAddEmployee.setSelected(true);
+        if(user.getPages() != null){
+            String[] pages = user.getPages().replaceFirst("^\\[", "").replaceFirst("\\]$", "").split(", ");
+        
+            for(int i = 0; i < pages.length; i++){
+                System.out.println(pages[i]);
+                if(pages[i].equals("Add Employee")){
+                    jCheckboxAddEmployee.setSelected(true);
+                }
+                else if(pages[i].equals("Edit Employee")){
+                    jCheckboxEditEmployee.setSelected(true);
+                }
+                else if(pages[i].equals("Delete Employee")){
+                    jCheckboxDeleteEmployee.setSelected(true);
+                }
+                else if(pages[i].equals("Claim Salary")){
+                    jCheckBoxClaimSalary.setSelected(true);
+                }
+                else if(pages[i].equals("Reports")){
+                    jCheckboxReports.setSelected(true);
+                }
+                else if(pages[i].equals("Payroll")){
+                    jCheckBoxPayroll.setSelected(true);
+                }
+                else if(pages[i].equals("Upload")){
+                    jCheckBoxUpload.setSelected(true);
+                }
+                else;
             }
-            else if(pages[i].equals("Edit Employee")){
-                jCheckboxEditEmployee.setSelected(true);
-            }
-            else if(pages[i].equals("Delete Employee")){
-                jCheckboxDeleteEmployee.setSelected(true);
-            }
-            else if(pages[i].equals("Claim Salary")){
-                jCheckBoxClaimSalary.setSelected(true);
-            }
-            else if(pages[i].equals("Reports")){
-                jCheckboxReports.setSelected(true);
-            }
-            else if(pages[i].equals("Payroll")){
-                jCheckBoxPayroll.setSelected(true);
-            }
-            else if(pages[i].equals("Upload")){
-                jCheckBoxUpload.setSelected(true);
-            }
-            else;
         }
+        
     }
 //                                                
 //

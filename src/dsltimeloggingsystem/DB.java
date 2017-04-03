@@ -1059,6 +1059,7 @@ public class DB {
             user.setTimeIn(rs.getString(8));
             user.setTimeOut(rs.getString(9));
             user.setRole(rs.getString(10));
+            user.setFingerPrintImage(rs.getBytes(11));
             user.setSSSNumber(rs.getString(12));
             user.setPhilHealthNumber(rs.getString(13));
             user.setTinNumber(rs.getString(14));
@@ -1067,7 +1068,6 @@ public class DB {
             user.setPhilHealthDeduction(rs.getFloat(17));
             user.setPagibigDeduction(rs.getFloat(18));
             user.setTaxDeduction(rs.getFloat(19));
-            user.setFingerPrintImage(rs.getBytes(11));
             user.setPages(rs.getString(20));
             user.setPassword(rs.getString(21));
             user.setNoLates(rs.getInt(22));

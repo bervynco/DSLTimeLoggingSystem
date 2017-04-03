@@ -47,7 +47,6 @@ public class EmployeesUI extends javax.swing.JFrame {
         
         userCount = employees.size();
         for(int i = 0; i < employees.size(); i++){
-            System.out.println(employees.get(i).getTinNumber());
             Object [] rowData = {employees.get(i).getEmployeeID(), employees.get(i).getFirstName() +" " + employees.get(i).getLastName(), employees.get(i).getTimeIn(), employees.get(i).getTimeOut(), 
                 employees.get(i).getRate(), employees.get(i).getAddress(), employees.get(i).getMobileNumber(), employees.get(i).getSSSNumber(), employees.get(i).getPhilHealthNumber()
                 ,employees.get(i).getPagibigNumber(), employees.get(i).getTinNumber(), employees.get(i).getRole()};
