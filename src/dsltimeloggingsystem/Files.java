@@ -18,7 +18,7 @@ public class Files {
     private String firstName;
     private String lastName;
     private String fileName;
-    private File file;
+    private String filePath;
     private Date uploadDate;
     public int getFileID() {
         return fileID;
@@ -60,13 +60,12 @@ public class Files {
         this.fileName = fileName;
     }
 
-    
-    public File getFile() {
-        return file;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public Date getUploadDate() {

@@ -191,7 +191,7 @@ public class DB {
         String fileName = null;
         List<Files> filesList = new ArrayList<Files>();
         Connection c = connect();
-        PreparedStatement ps = c.prepareStatement("Select a.uploadID, a.employeeID, b.firstName, b.lastName, a.fileName, a.uploadFile, a.uploadDate from " +
+        PreparedStatement ps = c.prepareStatement("Select a.uploadID, a.employeeID, b.firstName, b.lastName, a.filePath, a.uploadDate from " +
                 "uploads a, users b where a.employeeID = ? and a.employeeID = b.employeeID;");
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
@@ -202,28 +202,8 @@ public class DB {
             files.setEmployeeID(rs.getInt(2));
             files.setFirstName(rs.getString(3));
             files.setLastName(rs.getString(4));
-            
-            fileName = rs.getString(5);
-            files.setFileName(fileName);
-            InputStream stream = rs.getBinaryStream(6);
-            files.setUploadDate(rs.getDate(7));
-            OutputStream outputStream = new FileOutputStream("C:\\DSL-Downloads"+ "\\" + fileName);
-            int streams;
-            while ((stream.read()) != -1) {
-                streams = stream.read();
-                //writes to the output Stream
-                outputStream.write(streams);
-            }
-//            Blob blob = rs.getBlob(6);
-//            InputStream is = blob.getBinaryStream();
-//            FileOutputStream fos = new FileOutputStream("C:\\DSL-Downloads"+ "\\" + fileName);
-//            int b = 0;
-//            while ((b = is.read()) != -1)
-//            {
-//                fos.write(b); 
-//            }
-            //files.setFile(rs.getBlob(6));
-            
+            files.setFilePath(rs.getString(5));
+            files.setUploadDate(rs.getDate(6));
             filesList.add(files);
         }
         c.close();

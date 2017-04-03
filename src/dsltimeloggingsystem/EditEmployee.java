@@ -676,6 +676,11 @@ public class EditEmployee extends javax.swing.JFrame {
                 "Date", "File", "Type", "Uploader"
             }
         ));
+        jTableFiles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableFilesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableFiles);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -975,6 +980,13 @@ public class EditEmployee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditEmployeeActionPerformed
 
+    private void jTableFilesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFilesMouseClicked
+        // TODO add your handling code here:
+        int row = jTableFiles.rowAtPoint(evt.getPoint());
+        int employeeID = (int) jTableNotes.getValueAt(row, 1);
+        JOptionPane.showMessageDialog(panel, "File is in C:/DSL-Saved Files/" + employeeID+"/" , "Information", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jTableFilesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1041,29 +1053,6 @@ public class EditEmployee extends javax.swing.JFrame {
         }
         
     }
-//                                                
-//
-//    private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                               
-//        // TODO add your handling code here:
-//        EmployeesUI eUI;
-//        try {
-//            this.setVisible(false);
-//            eUI = new EmployeesUI(this.sessionUser, this.employeePages);
-//            eUI.setTitle("DSL Time Logging | Employees");
-//            eUI.pack();
-//            eUI.setLocationRelativeTo(null);
-//            eUI.setDefaultCloseOperation(0);
-//            eUI.setVisible(true);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ParseException ex) {
-//            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//    }                                              
-//
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddNote;
