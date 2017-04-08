@@ -98,6 +98,18 @@ public class DB {
         return sq;
     }
     
+    public static void insertUserLogFromExcel(int employeeID, String date, String timeIn, String timeOut, String duration) throws ClassNotFoundException, SQLException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("INSERT INTO time_logs (employeeID, date, timeIn, timeOut, duration) VALUES (?,?,?,?,?)");
+        ps.setInt(1, employeeID);
+        ps.setString(2, date);
+        ps.setString(3, timeIn);
+        ps.setString(4, timeOut);
+        ps.setString(5, duration);
+        ps.executeUpdate();
+        
+        c.close();
+    }
     public static String addNote(int employeeID, String note) throws ClassNotFoundException, SQLException{
         Connection c = connect();
         PreparedStatement ps = c.prepareStatement("INSERT INTO notes (employeeID, note, noteDate) VALUES (?,?,?)");

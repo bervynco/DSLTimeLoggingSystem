@@ -23,6 +23,8 @@ public class SalaryClaim extends javax.swing.JFrame {
     private static User sessionUser = null;
     PayrollDetails payrollDetails = new PayrollDetails();
     private static int employeeID = 0;
+    private static String dateStart = null;
+    private static String dateEnd = null;
     private static ArrayList<String> employeePages = new ArrayList<String>();
     public void fillFields(int employeeID, String name) throws ClassNotFoundException, SQLException{
         System.out.println(employeeID);
@@ -108,10 +110,12 @@ public class SalaryClaim extends javax.swing.JFrame {
         }
     }
     
-    public SalaryClaim(User user, ArrayList<String> employeePages) throws ClassNotFoundException, SQLException, ParseException {
+    public SalaryClaim(User user, ArrayList<String> employeePages, String dateStart, String dateEnd) throws ClassNotFoundException, SQLException, ParseException {
         initComponents();
         this.sessionUser = user;
         this.employeePages = employeePages;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Salary Claim");
     }
 
@@ -400,9 +404,14 @@ public class SalaryClaim extends javax.swing.JFrame {
             
             if(status.equals("Successful")){
                 JOptionPane.showMessageDialog(null, "Salary Claim completed. Click the back button to claim other salary. ");
-//                lblStatus.setText("Successful. Please press the back button to claim other salary");
-//                lblStatus.setHorizontalAlignment(JLabel.CENTER);
-//                lblStatus.setForeground(new Color(0,100,0));
+                this.setVisible(false);
+                EmployeeList list;
+                list = new EmployeeList(this.sessionUser, this.employeePages, this.dateStart, this.dateEnd);
+                list.setTitle("DSL Time Logging | List of Emoloyees");
+                list.pack();
+                list.setLocationRelativeTo(null);
+                list.setDefaultCloseOperation(0);
+                list.setVisible(true);
             }
             else{
                 lblStatus.setText("Error. Please Contact System Administrator");
@@ -413,6 +422,8 @@ public class SalaryClaim extends javax.swing.JFrame {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -421,7 +432,7 @@ public class SalaryClaim extends javax.swing.JFrame {
         EmployeeList list;
         try {
             this.setVisible(false);
-            list = new EmployeeList(this.sessionUser, this.employeePages);
+            list = new EmployeeList(this.sessionUser, this.employeePages, this.dateStart, this.dateEnd);
             list.setTitle("DSL Time Logging | List of Emoloyees");
             list.pack();
             list.setLocationRelativeTo(null);
