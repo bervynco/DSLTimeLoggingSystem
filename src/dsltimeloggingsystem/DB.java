@@ -98,11 +98,13 @@ public class DB {
         return sq;
     }
     
-    public static void insertUserLogFromExcel(int employeeID, String date, String timeIn, String timeOut, String duration) throws ClassNotFoundException, SQLException{
+    public static void insertUserLogFromExcel(int employeeID, String logDate, String timeIn, String timeOut, String duration) throws ClassNotFoundException, SQLException, ParseException{
         Connection c = connect();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = formatter.parse(logDate);
         PreparedStatement ps = c.prepareStatement("INSERT INTO time_logs (employeeID, date, timeIn, timeOut, duration) VALUES (?,?,?,?,?)");
         ps.setInt(1, employeeID);
-        ps.setString(2, date);
+        ps.setDate(2, new java.sql.Date(convertDate(date)));
         ps.setString(3, timeIn);
         ps.setString(4, timeOut);
         ps.setString(5, duration);
@@ -907,45 +909,26 @@ public class DB {
         return totalBonus;
     }
     
-    public static int getLogs(int employeeID) throws ClassNotFoundException, SQLException{
+    public static int getLogs(int employeeID, String dateStart, String dateEnd) throws ClassNotFoundException, SQLException, ParseException{
         Connection c = connect();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new java.sql.Date(getCurrentCalendar()));
-        
-        int month = cal.get(Calendar.MONTH) + 1;
-        System.out.println("MONTH" + month);
-        int day = cal.get(Calendar.DATE);
-        int year = cal.get(Calendar.YEAR);
-        int dayStart = 0;
-        int dayEnd = 0;
-        if(day >= 1 && day <=15){
-            dayStart = 1;
-            dayEnd = 15;
-        }
-        else{
-            dayStart = 16;
-            dayEnd = 30;
-        }
-        if(month == 0){
-            month = 12;
-        }
-        
         int total = 0;
-        // THIS STATEMENT SHOULD RENDER 8 hours
-        PreparedStatement ps = c.prepareStatement("SELECT employeeID, timeIn, timeOut, logDate, TIMESTAMPDIFF(HOUR, timeIn, timeOut) AS 'Duration'," + 
-                "(select count(case when TIMESTAMPDIFF(HOUR, timeIn, timeOut) > 8 then 1 else null end)) as 'NormalWorkingDay' FROM logs " + 
-                "WHERE employeeID = ? and month(logDate) = ? and (day(logDate) >= ? and day(logDate) <= ? ) and year(logDate) = ?");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //Wed Nov 30 00:00:00 CST 2016
+        Date startDate = formatter.parse(dateStart);
+        String parsedStartDate = outputFormatter.format(startDate);
         
-        ps.setInt(1, employeeID);
-        ps.setInt(2, month);
-        ps.setInt(3, dayStart);
-        ps.setInt(4, dayEnd);
-        ps.setInt(5, year);
-        ResultSet rs = ps.executeQuery();
-        
-        while(rs.next()){
-            total = rs.getInt(6);
-        }
+        Date endDate = formatter.parse(dateEnd);
+        String parsedEndDate = outputFormatter.format(endDate);
+
+        PreparedStatement ps = c.prepareStatement("SELECT count(case when (duration != '') then 1 else null end)"+
+                " FROM dsl.time_logs where employeeID = ? and date BETWEEN '" + parsedStartDate +"' AND '"+ parsedEndDate +"';");
+         ps.setInt(1, employeeID);
+         ResultSet rs = ps.executeQuery();
+         while(rs.next()){
+             total = rs.getInt(1);
+         }
+
         
         c.close();
         return total;

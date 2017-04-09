@@ -26,7 +26,7 @@ public class SalaryClaim extends javax.swing.JFrame {
     private static String dateStart = null;
     private static String dateEnd = null;
     private static ArrayList<String> employeePages = new ArrayList<String>();
-    public void fillFields(int employeeID, String name) throws ClassNotFoundException, SQLException{
+    public void fillFields(int employeeID, String name) throws ClassNotFoundException, SQLException, ParseException{
         System.out.println(employeeID);
         List<PayrollDetails> details = DB.getSalaryClaim(employeeID);
         if(details.size() == 0){
@@ -36,7 +36,7 @@ public class SalaryClaim extends javax.swing.JFrame {
             totalBonus = DB.getBonus(employeeID);
             totalCashAdvance = DB.getAllowance(employeeID);
             totalLoan = DB.getLoan(employeeID);
-            totalRegularWorkingHours = DB.getLogs(employeeID);
+            totalRegularWorkingHours = DB.getLogs(employeeID, this.dateStart, this.dateEnd);
             txtRate.setText(Float.toString(user.getRate()));
             txtSSSDeduction.setText(Float.toString(user.getSSSDeduction()));
             txtPagibigDeduction.setText(Float.toString(user.getPagibigDeduction()));
