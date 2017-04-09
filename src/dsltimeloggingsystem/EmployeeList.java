@@ -267,21 +267,21 @@ public class EmployeeList extends javax.swing.JFrame {
         File selectedFile = null;
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
+            try {
+                selectedFile = fileChooser.getSelectedFile();
+                ExcelParser parser = new ExcelParser(this.sessionUser, this.employeePages);
+                parser.parseExcel(selectedFile);
+            } catch (IOException ex) {
+                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        try {
-            // TODO add your handling code here:
-            ExcelParser parser = new ExcelParser(this.sessionUser, this.employeePages);
-            parser.parseExcel(selectedFile);
-        } catch (IOException ex) {
-            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
         
         
     }//GEN-LAST:event_btnUploadActionPerformed
