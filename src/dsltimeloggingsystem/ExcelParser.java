@@ -31,8 +31,8 @@ public class ExcelParser {
         this.employeePages = employeePages;
     }
     public void parseExcel(File selectedFile) throws FileNotFoundException, IOException, ParseException, ClassNotFoundException, SQLException{
-        String excelFilePath = "C:\\Users\\L R E\\Desktop\\attn1.xlsx";
-        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+        // String excelFilePath = "C:\\Users\\L R E\\Desktop\\attn1.xlsx";
+        FileInputStream inputStream = new FileInputStream(selectedFile);
         
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);

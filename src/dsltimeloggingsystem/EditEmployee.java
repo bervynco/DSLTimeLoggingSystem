@@ -87,7 +87,7 @@ public class EditEmployee extends javax.swing.JFrame {
         model.addColumn("File Name");
         model.addColumn("File Date");
         for(int i = 0; i < files.size(); i++){
-            Object [] rowData = {files.get(i).getFileID(),files.get(i).getEmployeeID(), files.get(i).getFirstName() +" " + files.get(i).getLastName(), files.get(i).getFileName(), files.get(i).getUploadDate()};
+            Object [] rowData = {files.get(i).getFileID(),files.get(i).getEmployeeID(), files.get(i).getFirstName() +" " + files.get(i).getLastName(), files.get(i).getFilePath(), files.get(i).getUploadDate()};
             model.addRow(rowData);
         }
        
