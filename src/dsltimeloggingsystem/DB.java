@@ -98,18 +98,35 @@ public class DB {
         return sq;
     }
     
+    public static boolean checkIfDuplicateExcelImport(int employeeID, Date date) throws ClassNotFoundException, SQLException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("SELECT date, employeeID from time_logs where date = ? and employeeID = ? ");
+        ps.setDate(1, new java.sql.Date(convertDate(date)));
+        ps.setInt(2, employeeID);
+         
+        ResultSet rs = ps.executeQuery();
+        
+        return rs.first();
+         
+    }
     public static void insertUserLogFromExcel(int employeeID, String logDate, String timeIn, String timeOut, String duration) throws ClassNotFoundException, SQLException, ParseException{
         Connection c = connect();
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date date = formatter.parse(logDate);
-        PreparedStatement ps = c.prepareStatement("INSERT INTO time_logs (employeeID, date, timeIn, timeOut, duration) VALUES (?,?,?,?,?)");
-        ps.setInt(1, employeeID);
-        ps.setDate(2, new java.sql.Date(convertDate(date)));
-        ps.setString(3, timeIn);
-        ps.setString(4, timeOut);
-        ps.setString(5, duration);
-        ps.executeUpdate();
         
+        boolean status = checkIfDuplicateExcelImport(employeeID, date);
+        
+        if(status){
+        }
+        else{
+            PreparedStatement ps = c.prepareStatement("INSERT INTO time_logs (employeeID, date, timeIn, timeOut, duration) VALUES (?,?,?,?,?)");
+            ps.setInt(1, employeeID);
+            ps.setDate(2, new java.sql.Date(convertDate(date)));
+            ps.setString(3, timeIn);
+            ps.setString(4, timeOut);
+            ps.setString(5, duration);
+            ps.executeUpdate();
+        }
         c.close();
     }
     public static String addNote(int employeeID, String note) throws ClassNotFoundException, SQLException{
