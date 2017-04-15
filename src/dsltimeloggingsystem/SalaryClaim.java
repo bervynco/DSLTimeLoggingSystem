@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -116,6 +117,9 @@ public class SalaryClaim extends javax.swing.JFrame {
         this.employeePages = employeePages;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
+        
+        System.out.println(this.dateStart);
+        System.out.println(this.dateEnd);
         DB.setUserLogStatus(user.getEmployeeID(),"Page Visit", "Salary Claim");
     }
 
@@ -388,6 +392,7 @@ public class SalaryClaim extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        
         try {
             float rate = payrollDetails.getRate();
             float sssDeduction = payrollDetails.getSssDeduction();
@@ -403,15 +408,15 @@ public class SalaryClaim extends javax.swing.JFrame {
             String status = DB.setSalaryClaim(employeeID, rate, sssDeduction, pagibigDeduction, philHealthDeduction, bonus, cashAdvance, loan, days, overTime, totalSalary, taxDeduction);
             
             if(status.equals("Successful")){
-                JOptionPane.showMessageDialog(null, "Salary Claim completed. Click the back button to claim other salary. ");
                 this.setVisible(false);
-                EmployeeList list;
-                list = new EmployeeList(this.sessionUser, this.employeePages, this.dateStart, this.dateEnd);
-                list.setTitle("DSL Time Logging | List of Emoloyees");
-                list.pack();
-                list.setLocationRelativeTo(null);
-                list.setDefaultCloseOperation(0);
-                list.setVisible(true);
+                Signature signature = new Signature(this.sessionUser, this.employeePages, this.dateStart, this.dateEnd);
+//                EmployeeList list;
+//                list = new EmployeeList(this.sessionUser, this.employeePages, this.dateStart, this.dateEnd);
+//                list.setTitle("DSL Time Logging | List of Emoloyees");
+//                list.pack();
+//                list.setLocationRelativeTo(null);
+//                list.setDefaultCloseOperation(0);
+//                list.setVisible(true);
             }
             else{
                 lblStatus.setText("Error. Please Contact System Administrator");
@@ -421,8 +426,6 @@ public class SalaryClaim extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
             Logger.getLogger(SalaryClaim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed

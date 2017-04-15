@@ -929,7 +929,7 @@ public class DB {
     public static int getLogs(int employeeID, String dateStart, String dateEnd) throws ClassNotFoundException, SQLException, ParseException{
         Connection c = connect();
         int total = 0;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
         SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //Wed Nov 30 00:00:00 CST 2016
         Date startDate = formatter.parse(dateStart);
