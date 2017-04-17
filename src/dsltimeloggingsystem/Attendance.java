@@ -22,6 +22,10 @@ public class Attendance {
     private Timestamp timeOut;
     private Timestamp timeInDate;
     private Timestamp timeOutDate;
+    
+    private String timeInDateString;
+    private String timeOutDateString;
+    
     private int duration;
 
     public int getEmployeeID() {
@@ -104,6 +108,22 @@ public class Attendance {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public String getTimeInDateString() {
+        return timeInDateString;
+    }
+
+    public void setTimeInDateString(String timeInDateString) {
+        this.timeInDateString = timeInDateString;
+    }
+
+    public String getTimeOutDateString() {
+        return timeOutDateString;
+    }
+
+    public void setTimeOutDateString(String timeOutDateString) {
+        this.timeOutDateString = timeOutDateString;
     }
 
     

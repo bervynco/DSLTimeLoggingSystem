@@ -462,8 +462,8 @@ public class DB {
         endDay = cal2.get(Calendar.DATE);
         endYear = cal2.get(Calendar.YEAR);
 
-        PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.logDate, a.timeIn,"+
-                " a.timeOut from logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and a.logDate BETWEEN '" + startDate + "' AND '" + endDate + "'");
+        PreparedStatement ps = c.prepareStatement("SELECT a.employeeID, concat(b.firstName, ' ', b.lastName) as 'Name', a.date, a.timeIn,"+
+                " a.timeOut from time_logs a, users b where b.employeeID = a.employeeID and a.employeeID = ? and date BETWEEN '" + startDate + "' AND '" + endDate + "'");
 
         ps.setInt(1, employeeID);
         ResultSet rs = ps.executeQuery();
@@ -472,8 +472,8 @@ public class DB {
             ul.setEmployeeID(rs.getInt(1));
             ul.setEmployeeName(rs.getString(2));
             ul.setLogDate(rs.getTimestamp(3));
-            ul.setTimeInDate(rs.getTimestamp(4));
-            ul.setTimeOutDate(rs.getTimestamp(5));
+            ul.setTimeInDateString(rs.getString(4));
+            ul.setTimeOutDateString(rs.getString(5));
 
             attendanceList.add(ul);
         }

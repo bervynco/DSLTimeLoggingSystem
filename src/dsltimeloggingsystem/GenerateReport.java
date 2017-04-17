@@ -154,6 +154,7 @@ public class GenerateReport {
                 headerTwo.add(new Paragraph("Absence", subFont));
 
                 attendance = DB.getReportAttendance(startDate, endDate, user.get(i).getEmployeeID());
+                
                 absence = DB.getAbsentDate(startDate, endDate, user.get(i).getEmployeeID());
                 
                 if(attendance.size() > 0){
@@ -162,8 +163,19 @@ public class GenerateReport {
                     subCatPart.add( Chunk.NEWLINE );
                     for(int k = 0; k < attendance.size(); k++){
                         tableAttendance.addCell(attendance.get(k).getLogDate().toString());
-                        tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
-                        tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                        if(attendance.get(k).getTimeInDateString()== null){
+                            tableAttendance.addCell("");
+                        }
+                        else{
+                            tableAttendance.addCell(attendance.get(k).getTimeInDateString());
+                        }
+                        if(attendance.get(k).getTimeOutDateString() == null){
+                            tableAttendance.addCell("");
+                        }
+                        else{
+                            tableAttendance.addCell(attendance.get(k).getTimeOutDateString());
+                        }
+                        
                     }
                     subCatPart.add(tableAttendance);
                 }
@@ -234,8 +246,19 @@ public class GenerateReport {
                 subCatPart.add( Chunk.NEWLINE );
                 for(int k = 0; k < attendance.size(); k++){
                     tableAttendance.addCell(attendance.get(k).getLogDate().toString());
-                    tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
-                    tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                    if(attendance.get(k).getTimeInDateString()== null){
+                        tableAttendance.addCell("");
+                    }
+                    else{
+                        tableAttendance.addCell(attendance.get(k).getTimeInDateString());
+                    }
+                    if(attendance.get(k).getTimeOutDateString() == null){
+                        tableAttendance.addCell("");
+                    }
+                    else{
+                        tableAttendance.addCell(attendance.get(k).getTimeOutDateString());
+                    }
+
                 }
                 subCatPart.add(tableAttendance);
             }
@@ -339,6 +362,7 @@ public class GenerateReport {
                 Paragraph headerOne = new Paragraph();
                 headerOne.setAlignment(Element.ALIGN_CENTER);
                 headerOne.add(new Paragraph("Payroll Details", subFont));
+                
                 payrollDetails = DB.getReportSalaryClaim(startDate, endDate, user.get(i).getEmployeeID());
                 
                 if( payrollDetails.size() > 0){
@@ -613,12 +637,24 @@ public class GenerateReport {
                 }
                 subCatPart.add( Chunk.NEWLINE );
                 if(attendance.size() > 0){
-                    subCatPart.add(headerTwo);
+                    subCatPart.add( Chunk.NEWLINE );
+                    subCatPart.add(headerOne);
                     subCatPart.add( Chunk.NEWLINE );
                     for(int k = 0; k < attendance.size(); k++){
                         tableAttendance.addCell(attendance.get(k).getLogDate().toString());
-                        tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
-                        tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                        if(attendance.get(k).getTimeInDateString()== null){
+                            tableAttendance.addCell("");
+                        }
+                        else{
+                            tableAttendance.addCell(attendance.get(k).getTimeInDateString());
+                        }
+                        if(attendance.get(k).getTimeOutDateString() == null){
+                            tableAttendance.addCell("");
+                        }
+                        else{
+                            tableAttendance.addCell(attendance.get(k).getTimeOutDateString());
+                        }
+                        
                     }
                     subCatPart.add(tableAttendance);
                 }
@@ -768,12 +804,23 @@ public class GenerateReport {
             }
             if(attendance.size() > 0){
                 subCatPart.add( Chunk.NEWLINE );
-                subCatPart.add(headerTwo);
+                subCatPart.add(headerOne);
                 subCatPart.add( Chunk.NEWLINE );
                 for(int k = 0; k < attendance.size(); k++){
                     tableAttendance.addCell(attendance.get(k).getLogDate().toString());
-                    tableAttendance.addCell(attendance.get(k).getTimeInDate().toString());
-                    tableAttendance.addCell(attendance.get(k).getTimeOutDate().toString());
+                    if(attendance.get(k).getTimeInDateString()== null){
+                        tableAttendance.addCell("");
+                    }
+                    else{
+                        tableAttendance.addCell(attendance.get(k).getTimeInDateString());
+                    }
+                    if(attendance.get(k).getTimeOutDateString() == null){
+                        tableAttendance.addCell("");
+                    }
+                    else{
+                        tableAttendance.addCell(attendance.get(k).getTimeOutDateString());
+                    }
+
                 }
                 subCatPart.add(tableAttendance);
             }
