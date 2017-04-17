@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 public class EmployeeList extends javax.swing.JFrame {
@@ -23,6 +25,7 @@ public class EmployeeList extends javax.swing.JFrame {
     private ArrayList<String> employeePages = new ArrayList<>();
     private String dateStart = null;
     private String dateEnd = null;
+    private final JPanel panel = new JPanel();
     private static DefaultTableModel FillTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = new DefaultTableModel();
         
@@ -208,21 +211,22 @@ public class EmployeeList extends javax.swing.JFrame {
             int row = jTable2.rowAtPoint(evt.getPoint());
             int employeeID = (int) jTable2.getValueAt(row, 0);
             String name = (String) jTable2.getValueAt(row, 1);
-            //String dateStart = startDate.getDateStringOrEmptyString();
             String dateStart = startDate.getText();
-            //String dateEnd = endDate.getDateStringOrEmptyString();
             String dateEnd = endDate.getText();
-            System.out.println("TABLE CLICKED");
-            System.out.println(dateStart);
-            System.out.println(dateEnd);
-            this.setVisible(false);
-            SalaryClaim salary = new SalaryClaim(this.sessionUser, this.employeePages, dateStart, dateEnd);
-            salary.fillFields(employeeID, name);
-            salary.setTitle("DSL Time Logging | Salary Claim");
-            salary.pack();
-            salary.setLocationRelativeTo(null);
-            salary.setDefaultCloseOperation(0);
-            salary.setVisible(true);
+            
+            if(dateStart.equals("") || dateEnd.equals("")){
+                JOptionPane.showMessageDialog(panel, "Input salary claim start date and end date", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                this.setVisible(false);
+                SalaryClaim salary = new SalaryClaim(this.sessionUser, this.employeePages, dateStart, dateEnd);
+                salary.fillFields(employeeID, name);
+                salary.setTitle("DSL Time Logging | Salary Claim");
+                salary.pack();
+                salary.setLocationRelativeTo(null);
+                salary.setDefaultCloseOperation(0);
+                salary.setVisible(true);
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
