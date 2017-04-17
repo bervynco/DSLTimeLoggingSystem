@@ -127,7 +127,6 @@ public class EditEmployee extends javax.swing.JFrame {
         txtLastName = new javax.swing.JTextField();
         txtTelephoneNumber = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
-        txtTimeIn = new javax.swing.JTextField();
         txtEmployeeID = new javax.swing.JTextField();
         txtMobileNumber = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -138,7 +137,6 @@ public class EditEmployee extends javax.swing.JFrame {
         txtSSSNumber = new javax.swing.JTextField();
         txtTinNumber = new javax.swing.JTextField();
         txtPagibigNumber = new javax.swing.JTextField();
-        txtTimeOut = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         txtSSSDeduction = new javax.swing.JTextField();
@@ -169,6 +167,8 @@ public class EditEmployee extends javax.swing.JFrame {
         txtPagibigDeduction = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        txtTimeIn = new com.github.lgooddatepicker.components.TimePicker();
+        txtTimeOut = new com.github.lgooddatepicker.components.TimePicker();
         jPanel2 = new javax.swing.JPanel();
         btnAddNote = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -180,121 +180,121 @@ public class EditEmployee extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel1.setText("First Name:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel2.setText("Last Name:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel3.setText("Telephone No.:");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel4.setText("Home Address:");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel5.setText("Time In:");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel6.setText("Employee No.:");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel8.setText("Mobile No.:");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel9.setText("Time Out:");
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel10.setText("Rate/Day:");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel11.setText("SSS No.:");
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel12.setText("Tin No.:");
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel13.setText("Pag-Ibig No.:");
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel14.setText("SSS Deduction:");
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel15.setText("PhilHealth Deduction:");
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel17.setText("Tax Deduction:");
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel18.setText("PhilHealth No.:");
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel19.setText("No. Of Memo:");
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel20.setText("No. Of Late:");
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel21.setText("No. Of Absences");
+        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel22.setText("Access:");
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        jCheckboxAddEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckboxAddEmployee.setText("Add Employee");
+        jCheckboxAddEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jCheckboxEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckboxEditEmployee.setText("Edit Employee");
+        jCheckboxEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jCheckboxDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckboxDeleteEmployee.setText("Delete Employee");
+        jCheckboxDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jCheckBoxPayroll.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckBoxPayroll.setText("Salary Overview");
+        jCheckBoxPayroll.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckBoxPayroll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxPayrollActionPerformed(evt);
             }
         });
 
-        jCheckBoxClaimSalary.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckBoxClaimSalary.setText("Salary Claim");
+        jCheckBoxClaimSalary.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jCheckboxReports.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckboxReports.setText("Reports");
+        jCheckboxReports.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jCheckBoxUpload.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jCheckBoxUpload.setText("Upload File");
+        jCheckBoxUpload.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        btnEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditEmployee.setText("Update");
+        btnEditEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditEmployeeActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton3.setText("Back");
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        btnDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDeleteEmployee.setText("Delete");
+        btnDeleteEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDeleteEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteEmployeeActionPerformed(evt);
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel16.setText("Pag-ibig Deduction:");
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel23.setText("Emergency Password:");
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -331,7 +331,7 @@ public class EditEmployee extends javax.swing.JFrame {
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6)
@@ -356,35 +356,34 @@ public class EditEmployee extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(txtTinNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                                             .addComponent(txtSSSNumber, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtTimeIn, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(txtTimeIn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addGap(68, 68, 68)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jLabel14)
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                            .addComponent(jLabel20)
+                                                            .addGap(25, 25, 25)))
+                                                    .addGap(18, 18, 18))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jLabel16)
+                                                        .addComponent(jLabel15))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jLabel9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGap(68, 68, 68)
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addComponent(jLabel14)
-                                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jLabel20)
-                                                                .addGap(25, 25, 25)))
-                                                        .addGap(18, 18, 18))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addComponent(jLabel16)
-                                                            .addComponent(jLabel15))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(txtSSSDeduction, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                                                    .addComponent(txtPhilHealthDeduction)
-                                                    .addComponent(txtLates, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.Alignment.LEADING))))
-                                        .addGap(18, 18, 18)
+                                                .addGap(30, 30, 30)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtSSSDeduction, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                                            .addComponent(txtPhilHealthDeduction)
+                                            .addComponent(txtLates, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtPagibigDeduction, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtTimeOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(27, 27, 27)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -458,11 +457,11 @@ public class EditEmployee extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtTimeIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
-                            .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTimeIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -507,7 +506,7 @@ public class EditEmployee extends javax.swing.JFrame {
                         .addComponent(jCheckboxReports)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBoxUpload)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeleteEmployee)
                     .addComponent(btnEditEmployee)
@@ -1115,8 +1114,8 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JTextField txtSSSNumber;
     private javax.swing.JTextField txtTaxDeduction;
     private javax.swing.JTextField txtTelephoneNumber;
-    private javax.swing.JTextField txtTimeIn;
-    private javax.swing.JTextField txtTimeOut;
+    private com.github.lgooddatepicker.components.TimePicker txtTimeIn;
+    private com.github.lgooddatepicker.components.TimePicker txtTimeOut;
     private javax.swing.JTextField txtTinNumber;
     // End of variables declaration//GEN-END:variables
 }
