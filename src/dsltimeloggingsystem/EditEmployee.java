@@ -201,6 +201,8 @@ public class EditEmployee extends javax.swing.JFrame {
         jLabel8.setText("Mobile No.:");
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
+        txtEmployeeID.setEditable(false);
+
         jLabel9.setText("Time Out:");
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
