@@ -610,6 +610,9 @@ public class AddEmployee extends javax.swing.JFrame {
                     else if(status.equals("Duplicate")){
                         JOptionPane.showMessageDialog(panel, "User is already existing in the database via his/her fingerprint", "Error", JOptionPane.ERROR_MESSAGE);
                     }
+                    else if(status.equals("Duplicate ID")){
+                        JOptionPane.showMessageDialog(panel, "Existing employee ID", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     else{
                         JOptionPane.showMessageDialog(panel, "Add Employee Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                         DB.setUserLogStatus(sessionUser.getEmployeeID(),"Save", "Save New Employee");

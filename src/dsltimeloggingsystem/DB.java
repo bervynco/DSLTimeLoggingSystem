@@ -1131,6 +1131,16 @@ public class DB {
         }
         return "Unique";
     }
+    
+    public static boolean determineDuplicateEmployeeID(int employeeID) throws ClassNotFoundException, SQLException{
+        Connection c = connect();
+        PreparedStatement ps = c.prepareStatement("Select * from users where employeeID = ? ");
+        ps.setInt(1, employeeID);
+        ResultSet rs = ps.executeQuery();
+        
+        
+        return rs.first();
+    }
     public static String signUp(String firstName, String lastName, int employeeID, String address, String telephoneNumber, String mobileNumber, float rate, 
             String timeIn, String timeOut, byte[] fingerPrint, String SSSNumber, String philHealthNumber, String tinNumber, String pagibigNumber, float SSSDeduction, 
             float pagibigDeduction, float philHealthDeduction, float taxDeduction, String role, ArrayList<String> pageNames, String password, int noLates, int noMemos, 
@@ -1142,46 +1152,53 @@ public class DB {
                 "SSSDeduction, pagibigDeduction, philHealthDeduction, taxDeduction, role, pages, password, noLates, noMemos, noAbsences) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
         //String status = determineDuplicateUser(fingerPrint);
-        
-        //if(status.equals("Unique")){
-            ps.setString(1, firstName);
-            ps.setString(2, lastName);
-            ps.setInt(3, employeeID);
-            ps.setString(4, address);
-            ps.setString(5, telephoneNumber);
-            ps.setString(6, mobileNumber);
-            ps.setFloat(7, rate);
-            ps.setString(8, timeIn);
-            ps.setString(9, timeOut);
-            ps.setBytes(10, fingerPrint);
-            ps.setTimestamp(11, (Timestamp) getCurrentTimeStamp());
-            ps.setString(12, SSSNumber);
-            ps.setString(13, philHealthNumber);
-            ps.setString(14, tinNumber);
-            ps.setString(15, pagibigNumber);
-            ps.setFloat(16, SSSDeduction);
-            ps.setFloat(17, pagibigDeduction);
-            ps.setFloat(18, philHealthDeduction);
-            ps.setFloat(19, taxDeduction);
-            ps.setString(20, role);
-            ps.setString(21, pageNames.toString());
-            ps.setString(22, password);
-            ps.setInt(23, noLates);
-            ps.setInt(24, noMemos);
-            ps.setInt(25, noAbsences);
-            // execute insert SQL stetement
-            int rows = ps.executeUpdate();
-            c.close();
-
-            if(rows > 0){
-                return "Successful";
+        boolean employeeIDExist = determineDuplicateEmployeeID(employeeID);
+//        if(status.equals("Unique")){
+            if(!employeeIDExist){
+                ps.setString(1, firstName);
+                ps.setString(2, lastName);
+                ps.setInt(3, employeeID);
+                ps.setString(4, address);
+                ps.setString(5, telephoneNumber);
+                ps.setString(6, mobileNumber);
+                ps.setFloat(7, rate);
+                ps.setString(8, timeIn);
+                ps.setString(9, timeOut);
+                ps.setBytes(10, fingerPrint);
+                ps.setTimestamp(11, (Timestamp) getCurrentTimeStamp());
+                ps.setString(12, SSSNumber);
+                ps.setString(13, philHealthNumber);
+                ps.setString(14, tinNumber);
+                ps.setString(15, pagibigNumber);
+                ps.setFloat(16, SSSDeduction);
+                ps.setFloat(17, pagibigDeduction);
+                ps.setFloat(18, philHealthDeduction);
+                ps.setFloat(19, taxDeduction);
+                ps.setString(20, role);
+                ps.setString(21, pageNames.toString());
+                ps.setString(22, password);
+                ps.setInt(23, noLates);
+                ps.setInt(24, noMemos);
+                ps.setInt(25, noAbsences);
             }
             else{
-                return "Failed";
+                return "Duplicate ID";
             }
-//        }else{
-//            return "Duplicate";  
+            
 //        }
+//        else{
+//            return "Duplicate";
+//        }
+        // execute insert SQL stetement
+        int rows = ps.executeUpdate();
+        c.close();
+
+        if(rows > 0){
+            return "Successful";
+        }
+        else{
+            return "Failed";
+        }
     }
     
     public static User loginFingerPrint(byte[] fingerPrintImage) throws ClassNotFoundException, SQLException, UareUException, ParseException{
